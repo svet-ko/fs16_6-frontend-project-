@@ -1,4 +1,4 @@
-import { PayloadAction, createAsyncThunk, createSlice, isRejectedWithValue } from "@reduxjs/toolkit"
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios, { AxiosError, AxiosResponse } from "axios"
 
 import Product from "../../types/Product"
@@ -33,33 +33,33 @@ export const fetchAllProductsAsync = createAsyncThunk(
 
 export const updateProduct = createAsyncThunk(
   'updateProduct',
-  async ({id, update}: UpdationOfProductRequest) => {
+  async ({id, update}: UpdationOfProductRequest, { rejectWithValue }) => {
     try {
       const response = await axios.put<any, AxiosResponse<Product>>(`${BASE_URL}/products/${id}`, update);
       return response.data;
     } catch (err) {
       const error = err as AxiosError;
-      return error.message;
+      return rejectWithValue(error.message);
     }
   }
 )
 
 export const createProduct = createAsyncThunk(
   'createProduct',
-  async (product: ProductToCreate) => {
+  async (product: ProductToCreate, { rejectWithValue }) => {
     try {
-      const response = await axios.post<any, AxiosResponse<Product>>(`${BASE_URL}/products/`, product);
+      const response = await axios.post<Product>(`${BASE_URL}/products/`, product);
       return response.data;
     } catch (err) {
       const error = err as AxiosError;
-      return error.message;
+      return rejectWithValue(error.message);
     }
   }
 )
 
 export const deleteProduct = createAsyncThunk(
   'deleteProduct',
-  async (productId: number) => {
+  async (productId: number, { rejectWithValue }) => {
     try {
       const response = await axios.delete<AxiosResponse<boolean>>(`${BASE_URL}/products/${productId}`);
       if (response.data) {
@@ -69,7 +69,7 @@ export const deleteProduct = createAsyncThunk(
       }
     } catch (err) {
       const error = err as AxiosError;
-      return error.message;
+      return rejectWithValue(error.message);
     }
   }
 )
@@ -90,7 +90,7 @@ const productsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchAllProductsAsync.fulfilled, (state, action) => { //data, which func in the first parameter returns is put as a payload of an action of the second callback func
-      console.log('fulfilled');
+      //console.log('fulfilled');
       if (typeof action.payload !== 'string') {
         return {
           ...state,
@@ -101,7 +101,7 @@ const productsSlice = createSlice({
     })
 
     builder.addCase(fetchAllProductsAsync.pending, (state, action) => {
-      console.log('pending');
+      //console.log('pending');
       return {
         ...state,
         loading: true
@@ -109,95 +109,65 @@ const productsSlice = createSlice({
     })
 
     builder.addCase(fetchAllProductsAsync.rejected, (state, action) => {
-      console.log('rejected');
-      if (typeof action.payload === 'string') {
-        return {
-          ...state,
-          error: action.payload,
-          loading: false
-        }
+      //console.log('rejected');
+      return {
+        ...state,
+        error: action.payload as string,
+        loading: false
       }
     })
 
     builder.addCase(updateProduct.fulfilled, (state, action) => {
-      if (typeof action.payload !== 'string') {
-        const id = action.payload.id;
-        const foundIndex = state.products.findIndex(product => product.id === id)
-        if (foundIndex !== -1) {
-          state.products[foundIndex] = action.payload;
-        }
+      const id = action.payload.id;
+      const foundIndex = state.products.findIndex(product => product.id === id)
+      if (foundIndex !== -1) {
+        state.products[foundIndex] = action.payload;
       }
     })
 
     builder.addCase(updateProduct.pending, (state, action) => {
-      return {
-        ...state,
-        loading: true
-      }
+      //console.log('pending');
+      state.loading = true;
     })
 
     builder.addCase(updateProduct.rejected, (state, action) => {
-      if (typeof action.payload === 'string') {
-        return {
-          ...state,
-          error: action.payload,
-          loading: false
-        }
-      }
+      //console.log('rejected');
+      state.error = action.payload as string;
+      state.loading = false;
     })
 
     builder.addCase(createProduct.fulfilled, (state, action) => {
-      console.log(action.payload);
-      if (typeof action.payload !== 'string') {
-        state.products.push(action.payload);
-      }
+      state.products.push(action.payload);
       state.loading = false;
     })
 
     builder.addCase(createProduct.pending, (state, action) => {
-      console.log('pending');
-      return {
-        ...state,
-        loading: true
-      }
+      //console.log('pending');
+      state.loading = true;
     })
 
     builder.addCase(createProduct.rejected, (state, action) => {
-      console.log('rejected');
-      if (typeof action.payload === 'string') {
-        return {
-          ...state,
-          error: action.payload,
-          loading: false
-        }
-      }
+      //console.log('rejected');
+      state.error = action.payload as string;
+      state.loading = false;
     })
 
     builder.addCase(deleteProduct.fulfilled, (state, action) => {
-      if (typeof action.payload === 'number') {
-        const foundIndex = state.products.findIndex(p => p.id === action.payload);
-        state.products.splice(foundIndex, 1);
-        state.loading = false;
-      }
+      const foundIndex = state.products.findIndex(p => p.id === action.payload);
+      state.products.splice(foundIndex, 1);
+      state.loading = false;
     })
 
     builder.addCase(deleteProduct.pending, (state, action) => {
-      return {
-        ...state,
-        loading: true
-      }
+      //console.log('pending');
+      state.loading = true;
     })
 
     builder.addCase(deleteProduct.rejected, (state, action) => {
-      if (typeof action.payload === 'string') {
-        return {
-          ...state,
-          error: action.payload,
-          loading: false
-        }
-      }
+      //console.log('rejected');
+      state.error = action.payload as string;
+      state.loading = false;
     })
-
   }
 })
 

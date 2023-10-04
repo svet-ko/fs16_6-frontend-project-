@@ -1,96 +1,96 @@
 import Product from "../../types/Product";
 
-const products: Product[] = [
+const productsData: Product[] = [
   {
-    id: 501,
-    title: "New Product",
-    price: 101,
-    description: "This is a new product.",
+    id: 1,
+    title: "yuuu",
+    price: 105,
+    description: "A very powerful computer",
     images: [
-      "https://example.com/new-product.jpg"
+      "https://i.imgur.com/PK1WFTJ.jpeg"
     ],
-    creationAt: "2023-10-03T12:42:51.000Z",
-    updatedAt: "2023-10-03T12:42:51.000Z",
+    creationAt: "2023-10-04T10:07:52.000Z",
+    updatedAt: "2023-10-04T10:17:07.000Z",
     category: {
-      id: 19,
-      name: "New Category",
-      image: "https://placeimg.com/640/480/any",
-      creationAt: "2023-10-03T05:40:35.000Z",
-      updatedAt: "2023-10-03T05:40:35.000Z"
+      id: 16,
+      name: "Electronics",
+      image: "https://i.imgur.com/F1XLwX4.jpeg",
+      creationAt: "2023-10-04T03:53:27.000Z",
+      updatedAt: "2023-10-04T03:53:27.000Z"
     }
   },
   {
-    id: 502,
-    title: "New Product",
+    id: 2,
+    title: "Computer 3",
+    price: 1000,
+    description: "A very powerful computer",
+    images: [
+      "https://i.imgur.com/4XE4KwK.jpeg"
+    ],
+    creationAt: "2023-10-04T10:07:53.000Z",
+    updatedAt: "2023-10-04T10:07:53.000Z",
+    category: {
+      id: 16,
+      name: "Electronics",
+      image: "https://i.imgur.com/F1XLwX4.jpeg",
+      creationAt: "2023-10-04T03:53:27.000Z",
+      updatedAt: "2023-10-04T03:53:27.000Z"
+    }
+  },
+  {
+    id: 3,
+    title: "Cool Hoody",
+    price: 60,
+    description: "Cool hoodie for your good boy",
+    images: [
+      "https://i.imgur.com/p8AjjXS.jpeg"
+    ],
+    creationAt: "2023-10-04T10:07:53.000Z",
+    updatedAt: "2023-10-04T10:07:53.000Z",
+    category: {
+      id: 17,
+      name: "Clothes",
+      image: "https://i.imgur.com/xYO6uDv.jpeg",
+      creationAt: "2023-10-04T03:53:27.000Z",
+      updatedAt: "2023-10-04T03:53:27.000Z"
+    }
+  },
+  {
+    id: 4,
+    title: "Warm Hoody",
     price: 10,
-    description: "This is a new product.",
+    description: "A warm hoodie to keep your dog warm and cozy!",
     images: [
-      "https://example.com/new-product.jpg"
+      "https://i.imgur.com/LlMBmIX.jpeg"
     ],
-    creationAt: "2023-10-03T12:43:14.000Z",
-    updatedAt: "2023-10-03T12:43:14.000Z",
+    creationAt: "2023-10-04T10:07:54.000Z",
+    updatedAt: "2023-10-04T10:07:54.000Z",
     category: {
-      id: 19,
-      name: "New Category",
-      image: "https://placeimg.com/640/480/any",
-      creationAt: "2023-10-03T05:40:35.000Z",
-      updatedAt: "2023-10-03T05:40:35.000Z"
+      id: 17,
+      name: "Clothes",
+      image: "https://i.imgur.com/xYO6uDv.jpeg",
+      creationAt: "2023-10-04T03:53:27.000Z",
+      updatedAt: "2023-10-04T03:53:27.000Z"
     }
   },
   {
-    id: 503,
-    title: "New Product",
-    price: 8,
-    description: "This is a new product.",
+    id: 5,
+    title: "Computer 1",
+    price: 1000,
+    description: "A very powerful computer",
     images: [
-      "https://example.com/new-product.jpg"
+      "https://i.imgur.com/zjLVS8N.jpeg"
     ],
-    creationAt: "2023-10-03T12:43:51.000Z",
-    updatedAt: "2023-10-03T12:43:51.000Z",
+    creationAt: "2023-10-04T10:07:56.000Z",
+    updatedAt: "2023-10-04T10:07:56.000Z",
     category: {
-      id: 19,
-      name: "New Category",
-      image: "https://placeimg.com/640/480/any",
-      creationAt: "2023-10-03T05:40:35.000Z",
-      updatedAt: "2023-10-03T05:40:35.000Z"
-    }
-  },
-  {
-    id: 504,
-    title: "New Product",
-    price: 5,
-    description: "This is a new product.",
-    images: [
-      "https://example.com/new-product.jpg"
-    ],
-    creationAt: "2023-10-03T12:45:10.000Z",
-    updatedAt: "2023-10-03T12:45:10.000Z",
-    category: {
-      id: 19,
-      name: "New Category",
-      image: "https://placeimg.com/640/480/any",
-      creationAt: "2023-10-03T05:40:35.000Z",
-      updatedAt: "2023-10-03T05:40:35.000Z"
-    }
-  },
-  {
-    id: 505,
-    title: "New Product",
-    price: 18,
-    description: "This is a new product.",
-    images: [
-      "https://example.com/new-product.jpg"
-    ],
-    creationAt: "2023-10-03T12:45:32.000Z",
-    updatedAt: "2023-10-03T12:45:32.000Z",
-    category: {
-      id: 19,
-      name: "New Category",
-      image: "https://placeimg.com/640/480/any",
-      creationAt: "2023-10-03T05:40:35.000Z",
-      updatedAt: "2023-10-03T05:40:35.000Z"
+      id: 16,
+      name: "Electronics",
+      image: "https://i.imgur.com/F1XLwX4.jpeg",
+      creationAt: "2023-10-04T03:53:27.000Z",
+      updatedAt: "2023-10-04T03:53:27.000Z"
     }
   }
-];
+]
 
-export default products;
+export default productsData;
