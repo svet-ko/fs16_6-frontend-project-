@@ -14,6 +14,7 @@ import {
 
 import productReducer from "../redux/slices/productsSlice";
 import { setupListeners } from "@reduxjs/toolkit/dist/query/react";
+import cartReducer from "./slices/cartSlice";
 
 const persistConfig: PersistConfig<any> = {
   key: 'root',
@@ -24,7 +25,7 @@ const persistConfig: PersistConfig<any> = {
 const rootReducer = combineReducers({
   productReducer,
   //usersReducer,
-  //cartReducer
+  cartReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
