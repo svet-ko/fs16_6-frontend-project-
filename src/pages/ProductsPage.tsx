@@ -5,8 +5,6 @@ import { createProduct, fetchAllProductsAsync, sortByPrice } from '../redux/slic
 import { addToCart, removeFromCart } from '../redux/slices/cartSlice'
 import useAppSelector from '../hooks/useAppSelector'
 import useAppDispatch from '../hooks/useDispatch'
-//import { getFiltered } from '../redux/selectors/getFiltered'
-//import { addToCart } from '../redux/reducers/cartReducer'
 import Product from '../types/Product'
 import { unwrapResult } from '@reduxjs/toolkit'
 import { getFiltered } from '../redux/selectors/getFiltered'

@@ -1,6 +1,6 @@
 import Category from "../../types/Category";
 
-const categories: Category[] = [
+const categoriesData: Category[] = [
   {
     id: 15,
     name: "Books",
@@ -52,4 +52,4 @@ const categories: Category[] = [
   }
 ]
 
-export default categories;
+export default categoriesData;

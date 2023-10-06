@@ -3,7 +3,7 @@ import { setupServer } from 'msw/node'
 import productsData from '../data/productsData'
 import ProductToCreate from '../../types/ProductToCreate';
 import Product from '../../types/Product';
-import categories from '../data/categories';
+import categoriesData from '../data/categoriesData';
 import { BASE_URL } from '../../config/api';
 
 export const handlers = [
@@ -22,7 +22,7 @@ export const handlers = [
 
   rest.post(`${BASE_URL}/products`, async (req, res, ctx) => {
     const input: ProductToCreate = await req.json();
-    const category = categories.find(category => category.id === input.categoryId);
+    const category = categoriesData.find(category => category.id === input.categoryId);
     if (category) {
       const newProduct: Product = {
         id: productsData.length + 1,
@@ -81,6 +81,6 @@ export const handlers = [
   })
 ];
 
-const server = setupServer(...handlers);
+const productsServer = setupServer(...handlers);
 
-export default server;
+export default productsServer;

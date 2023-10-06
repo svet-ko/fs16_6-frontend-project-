@@ -1,7 +1,13 @@
+export type Role = 'customer'|'admin';
 interface User {
-  id: string,
+  id: number,
+  email: string,
+  password: string,
   name: string,
-  isAdmin: boolean
+  role: Role,
+  avatar: string,
+  creationAt?: string,
+  updatedAt?: string
 }
 
 export default User;

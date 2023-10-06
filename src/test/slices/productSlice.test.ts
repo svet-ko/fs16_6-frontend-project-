@@ -1,7 +1,7 @@
 import productsReducer, { ProductsReducerState, createProduct, deleteProduct, fetchAllProductsAsync, initialState, sortByPrice, updateProduct } from "../../redux/slices/productsSlice"
 import productsData from "../data/productsData"
 import { createStore } from "../../redux/store"
-import server from "../shared/server"
+import productsServer from "../shared/productsServer"
 import ProductToCreate from "../../types/ProductToCreate"
 import UpdationOfProductRequest from "../../types/UpdationOfProductRequest"
 
@@ -12,13 +12,13 @@ beforeEach(() => {
 })
 
 // Enable API mocking before tests.
-beforeAll(() => server.listen())
+beforeAll(() => productsServer.listen())
 
 // Reset any runtime request handlers we may add during the tests.
-afterEach(() => server.resetHandlers())
+afterEach(() => productsServer.resetHandlers())
 
 // Disable API mocking after the tests are done.
-afterAll(() => server.close())
+afterAll(() => productsServer.close())
 
 describe('Testing action in productReducer', () => {
   test("Should sort products by price desc", () => {

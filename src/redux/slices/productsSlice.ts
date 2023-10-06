@@ -20,13 +20,13 @@ export const initialState: ProductsReducerState = {
 
 export const fetchAllProductsAsync = createAsyncThunk(
   'fetchAllProductsAsync',
-  async ({limit, offset}: PaginationQuery) => {
+  async ({limit, offset}: PaginationQuery, { rejectWithValue }) => {
     try {
       const response = await axios.get<any, AxiosResponse<Product[]>>(`${BASE_URL}/products?offset=${offset}&limit=${limit}`);
       return response.data;
     } catch (err) {
       const error = err as AxiosError;
-      return error.message;
+      return rejectWithValue(error.message);
     }
   }
 )
