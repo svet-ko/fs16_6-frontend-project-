@@ -61,19 +61,19 @@ export const handlers = [
           ...input
         }))
       } else {
-          ctx.status(400)
-          return res(ctx.json(
-              {
-                  message: [
-                      "price must be a positive number",
-                      "images must contain at least 1 elements",
-                      "each value in images must be a URL address",
-                      "images must be an array"
-                  ],
-                  error: "Bad Request",
-                  statusCode: 400
-              }
-          ))
+        ctx.status(400)
+        return res(ctx.json(
+          {
+            message: [
+              "price must be a positive number",
+              "images must contain at least 1 elements",
+              "each value in images must be a URL address",
+              "images must be an array"
+            ],
+            error: "Bad Request",
+            statusCode: 400
+          }
+        ))
       }
     } catch (e) {
       console.log("Error happened in PUT request")

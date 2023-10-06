@@ -1,4 +1,6 @@
-const usersData = [
+import User from "../../types/User";
+
+const usersData: User[] = [
   {
     id: 1,
     email: "john@mail.com",

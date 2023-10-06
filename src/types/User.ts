@@ -1,4 +1,5 @@
 export type Role = 'customer'|'admin';
+
 interface User {
   id: number,
   email: string,

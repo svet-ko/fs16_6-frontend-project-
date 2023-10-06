@@ -4,15 +4,16 @@ import axios, { AxiosError } from "axios"
 import { BASE_URL } from "../../config/api"
 import User from "../../types/User"
 import UserCredentials from "../../types/UserCredentials"
+import UserToCreate from "../../types/UserToCreate"
 
-interface UserReducerState {
+export interface UserReducerState {
   users: User[],
   currentUser?: User,
   loading: boolean,
   error?: string
 }
 
-const initialState: UserReducerState = {
+export const initialState: UserReducerState = {
   users: [],
   loading: false,
 }
@@ -37,8 +38,8 @@ export const loginUserAsync = createAsyncThunk<User, UserCredentials, { rejectVa
       const result = await axios.post(`${BASE_URL}/auth/login`, cred);
       const { access_token } = result.data;
       const authenticatedProfile = await dispatch(authenticateUser(access_token));
-      if (typeof authenticatedProfile === 'string' || !authenticatedProfile.payload) { //second parameter means undefined
-        throw Error('User was not authenticated')
+      if (typeof authenticatedProfile.payload === 'string' || typeof authenticatedProfile.payload === 'undefined') { //second parameter means undefined
+        throw Error('User was not authenticated');
       } else {
         return authenticatedProfile.payload as User;
       }
@@ -66,12 +67,25 @@ export const authenticateUser = createAsyncThunk<User, string, { rejectValue: st
   }
 )
 
+export const registerUserAsync = createAsyncThunk<User, UserToCreate, { rejectValue: string }>(
+  'registerUser',
+  async (newUser, { rejectWithValue, dispatch }) => {
+    try {
+      const response = await axios.post(`${BASE_URL}/users`, newUser);
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError;
+      return rejectWithValue(error.message)
+    }
+  }
+)
+
 const usersSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
-    addUser: (state, action) => {
-      state.users.push(action.payload)
+    logoutUser: (state) => {
+      state.currentUser = undefined;
     }
   },
   extraReducers: (builder) => {
@@ -98,8 +112,21 @@ const usersSlice = createSlice({
       state.error = action.payload;
       state.loading = false;
     })
+
+    builder.addCase(registerUserAsync.fulfilled, (state, action) => {
+      state.users.push(action.payload);
+      state.loading = false;
+    })
+
+    builder.addCase(registerUserAsync.rejected, (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
+    })
   }
 })
 
-const usersReducer = usersSlice.reducer
-export default usersReducer
+const usersReducer = usersSlice.reducer;
+
+export const { logoutUser } = usersSlice.actions;
+
+export default usersReducer;
