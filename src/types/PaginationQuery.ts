@@ -1,6 +1,6 @@
 interface PaginationQuery {
-    offset: number,
-    limit: number
+    title?: string,
+    categoryId?: number
 }
 
 export default PaginationQuery;

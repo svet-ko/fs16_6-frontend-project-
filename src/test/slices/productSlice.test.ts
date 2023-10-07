@@ -41,10 +41,10 @@ describe('Testing action in productReducer', () => {
 })
 
 describe("Test async thunk actions in productsReducer", () => {
-  test("Should fetch all products with pagination", async () => {
-      await store.dispatch(fetchAllProductsAsync({ limit: 20, offset: 0 }))
-      const productPerPage = store.getState().productReducer.products.length;
-      expect(productPerPage).toBe(20)
+  test("Should fetch all products", async () => {
+      await store.dispatch(fetchAllProductsAsync({}))
+      const products = store.getState().productReducer.products.length;
+      expect(products).toBeGreaterThan(0)
   })
 
   test("Should delete an existing product", async () => {

@@ -20,9 +20,13 @@ export const initialState: ProductsReducerState = {
 
 export const fetchAllProductsAsync = createAsyncThunk(
   'fetchAllProductsAsync',
-  async ({limit, offset}: PaginationQuery, { rejectWithValue }) => {
+  async (fetchParams: PaginationQuery, { rejectWithValue }) => {
     try {
-      const response = await axios.get<any, AxiosResponse<Product[]>>(`${BASE_URL}/products?offset=${offset}&limit=${limit}`);
+      const response = await axios.get<any, AxiosResponse<Product[]>>(`${BASE_URL}/products`, {
+        params: {
+          ...fetchParams,
+        }
+      });
       return response.data;
     } catch (err) {
       const error = err as AxiosError;
@@ -80,7 +84,7 @@ const productsSlice = createSlice({
   reducers: { //collection of actions to be used in the reducer of this slice
     //contains key-value pairs where key is a name of the method (action) and value is a function point to the algorithm of how to proceed with an action
 
-    sortByPrice: (state, action:  PayloadAction<'asc' | 'desc'>) => {
+    sortByPrice: (state, action:  PayloadAction<string>) => {
       if (action.payload === 'asc') {
         state.products.sort((a,b) => a.price - b.price)
       } else {
