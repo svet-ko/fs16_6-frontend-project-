@@ -19,6 +19,7 @@ import { addToCart, removeAllItemsOfProductFromCart, removeAllProductsFromCart, 
 import Product from '../types/Product';
 import { Link } from 'react-router-dom';
 import countAmountOfItemsByProperty from '../selectors/countAmountOfItemsByProperty';
+import SnackBarCompletion from '../components/SnackBar';
 
 const Cart = () => {
   const dispatch = useAppDispatch();
@@ -63,12 +64,20 @@ const Cart = () => {
       {!cart.length && (
         <>
           <Typography variant="h5" gutterBottom>Your cart is empty! Let's find something for you!</Typography>
-          <Button component={Link} to="/" variant="contained" aria-label="move-to-products" size="large">Continue shopping!</Button>
+          <Button component={Link} to="/products" variant="contained" aria-label="move-to-products" size="large">Continue shopping!</Button>
         </>
       )}
 
       {!!cart.length && (
         <>
+          <Typography gutterBottom>
+            Total price of your order: {productsInCartAmount}€
+          </Typography>
+          <SnackBarCompletion
+            buttonText="Complete purchase by one click"
+            message="Purchase completed successfully"
+            buttonSize='large'
+          />
           <TableContainer component={Paper} sx={{mb: '1em'}}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
@@ -117,12 +126,9 @@ const Cart = () => {
               </TableBody>
             </Table>
         </TableContainer>
-        <Button onClick={() => onRemoveAllProducts()} variant="contained" aria-label="delete" size="large" sx={{mb: '1em'}}>
+        <Button onClick={() => onRemoveAllProducts()} variant="outlined" aria-label="delete-all-products" size="large">
           Remove all items from the cart
         </Button>
-        <Typography>
-          Total amount of your order: {productsInCartAmount}€
-        </Typography>
       </>
     )}
   </Container>

@@ -4,6 +4,7 @@ import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } f
 import Product from '../types/Product';
 import useAppDispatch from '../hooks/useDispatch';
 import { addToCart } from '../redux/slices/cartSlice';
+import SnackBarCompletion from './SnackBar';
 
 type ProductCardProps = {
   product : Product
@@ -11,6 +12,7 @@ type ProductCardProps = {
 
 const ProductCard = ({ product }: ProductCardProps) => {
   const dispatch = useAppDispatch();
+
   const onAddToCart = (payload: Product) => {
     dispatch(addToCart(payload))
   }
@@ -40,7 +42,13 @@ const ProductCard = ({ product }: ProductCardProps) => {
             {product.price}€
           </Typography>
         <CardActions sx={{ display: 'flex', justifyContent: 'center', marginBottom: '.5em'}}>
-          <Button variant="contained" size="medium" onClick={() => onAddToCart(product)}>Add to Cart</Button>
+          {/*<Button variant="contained" size="medium" onClick={() => onAddToCart(product)}>Add to Cart</Button>*/}
+          <SnackBarCompletion
+            buttonText='Add to Cart'
+            message='Product added to cart successfully'
+            buttonSize='medium'
+            handleButtonClick={() => onAddToCart(product)}
+          />
         </CardActions>
       </Card>
     </Grid>
