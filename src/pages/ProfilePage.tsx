@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import useAppSelector from '../hooks/useAppSelector'
-import useAppDispatch from '../hooks/useDispatch';
-import { loginUserAsync } from '../redux/slices/userSlice';
 
 const ProfilePage = () => {
   const currentUser = useAppSelector(state => state.usersReducer.currentUser);
+  console.log(currentUser);
 
   return (
     <div>

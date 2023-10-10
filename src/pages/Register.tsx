@@ -20,6 +20,7 @@ import { checkInputValidity } from '../selectors/checkInputValidity';
 import { registerUserAsync } from '../redux/slices/userSlice';
 import avatar from '../images/avatar.jpg'
 import InfoTooltip from '../components/InfoTooltip';
+import { DEFAULT_AVATAR_URL } from '../config/api';
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
@@ -62,7 +63,7 @@ export default function Register() {
       password: password,
       name: name.concat(surname),
       role: 'customer',
-      avatar: 'https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=1380&t=st=1696950657~exp=1696951257~hmac=e04326d0c3456f9c687d0fc5d8153f2ba7b8c913d16f064dc4df6793f88f74fd'
+      avatar: DEFAULT_AVATAR_URL
     }))
     .unwrap()
     .then(() => {

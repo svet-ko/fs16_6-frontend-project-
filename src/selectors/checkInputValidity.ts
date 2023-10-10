@@ -18,4 +18,4 @@ function checkInputValidity(e: React.ChangeEvent<HTMLInputElement | HTMLTextArea
     }
   }
   
-  export {checkInputValidity}
+export {checkInputValidity}

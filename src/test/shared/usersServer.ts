@@ -6,7 +6,10 @@ import usersData from '../data/usersData';
 import { error } from 'console';
 import User from '../../types/User';
 
-export const accessToken = "my-access-token";
+export const jwtFixture = {
+  access_token: 'testtoken',
+  refresh_token: 'testtoken',
+};
 
 export const handlers = [
   rest.get(`${BASE_URL}/users`, async (req, res, ctx) => {
@@ -17,8 +20,9 @@ export const handlers = [
     const { email, password } = await req.json();
     const foundUser = usersData.find(user => user.email === email && user.password === password);
     if (foundUser) {
-      const token = accessToken + '_' + foundUser.id;
-      return res(ctx.json({ access_token: token }));
+      const refreshToken = jwtFixture.refresh_token;
+      const accessToken = jwtFixture.access_token + '_' + foundUser.id
+      return res(ctx.json({access_token: accessToken, refresh_token: refreshToken}));
     } else {
       ctx.status(401);
       return res(ctx.text('User was not authenticated'));
@@ -27,10 +31,11 @@ export const handlers = [
 
   rest.get(`${BASE_URL}/auth/profile`, async (req, res, ctx) => {
     const token = req.headers.get('Authorization')?.split(' ')[1];
+    console.log(token);
     const originalToken = token?.split('_')[0];
     const userId = token?.split('_')[1];
     const foundUser = usersData.find(user => user.id === Number(userId));
-    if (originalToken === accessToken && foundUser) {
+    if (originalToken === jwtFixture.access_token && foundUser) {
       return res(ctx.json(foundUser));
     } else {
       ctx.status(401);

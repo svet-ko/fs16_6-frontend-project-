@@ -1,8 +1,8 @@
-import usersReducer, { UserReducerState, authenticateUser, fetchAllUsersAsync, loginUserAsync, logoutUser, registerUserAsync } from "../../redux/slices/userSlice"
+import usersReducer, { UserReducerState, authUserAsync, fetchAllUsersAsync, getUserProfile, logoutUser, registerUserAsync } from "../../redux/slices/userSlice"
 import { createStore } from "../../redux/store"
 import UserToCreate from "../../types/UserToCreate"
 import usersData from "../data/usersData"
-import usersServer, { accessToken } from "../shared/usersServer"
+import usersServer, {jwtFixture} from "../shared/usersServer"
 
 let store = createStore()
 
@@ -38,19 +38,20 @@ describe("Test async thunk actions in usersReducer", () => {
     expect(usersAmount).toBe(3);
   })
 
-  // test("Should login user with right credentials", async () => {
-  //   await store.dispatch(loginUserAsync({email: usersData[0].email, password: usersData[0].password }));
-  //   const response = store.getState().usersReducer.currentUser;
-  //   expect(response).toMatchObject(usersData[0]);
-  // })
+  test("Should return user by jwt", async () => {
+     await store.dispatch(authUserAsync({email: usersData[0].email, password: usersData[0].password }));
+     const response = store.getState().usersReducer.jwt;
+     let checkUser = response.access_token.split('_');
+     expect(Number(checkUser[1])).toBe(usersData[0].id);
+  })
 
   test("Should authenticate with right token", async () => {
-    const response = await store.dispatch(authenticateUser(accessToken + "_2"));
+    const response = await store.dispatch(getUserProfile(jwtFixture.access_token + "_2"));
     expect(response.payload).toMatchObject(usersData[1])
   })
 
   test("Should not login user with wrong credentials", async () => {
-    await store.dispatch(loginUserAsync({email: usersData[0].email, password: 'wrongPassword' }));
+    await store.dispatch(authUserAsync({email: usersData[0].email, password: 'wrongPassword' }));
     const response = store.getState().usersReducer.error;
     expect(response).toBe('User was not authenticated');
   })

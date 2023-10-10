@@ -14,7 +14,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link, useNavigate } from 'react-router-dom'
 
 import useAppDispatch from '../hooks/useDispatch';
-import { loginUserAsync } from '../redux/slices/userSlice';
+import { authUserAsync, getUserProfile } from '../redux/slices/userSlice';
 import { checkInputValidity } from '../selectors/checkInputValidity';
 import InfoTooltip from '../components/InfoTooltip';
 
@@ -50,12 +50,24 @@ export default function Login() {
    setFormValid(isEmailInputValid && isPasswordInputValid);
   }
 
+  const getUserData = (accessToken: string) => {
+    localStorage.setItem('token', accessToken);
+    dispatch(getUserProfile(accessToken))
+      .unwrap()
+      .then(() => {
+        navigate('/profile');
+      })
+      .catch((err) => {
+        setIsInfoTooltipOpen(true);
+      })
+  }
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    dispatch(loginUserAsync({ email, password }))
+    dispatch(authUserAsync({ email, password }))
     .unwrap()
-    .then(() => {
-      navigate("/profile");
+    .then((data) => {
+      getUserData(data.access_token);
     })
     .catch((err) => {
       setIsInfoTooltipOpen(true);

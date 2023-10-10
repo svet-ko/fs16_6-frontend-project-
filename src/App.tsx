@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   createBrowserRouter,
   RouterProvider,
+  useNavigate,
 } from "react-router-dom";
+import useAppDispatch from './hooks/useDispatch';
 
 //import HomePage from './pages/HomePage'
 import ProductsPage from './pages/ProductsPage'
@@ -14,8 +16,24 @@ import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import { getUserProfile } from './redux/slices/userSlice';
 
 const App = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const jwt = localStorage.getItem('token');
+    if (jwt) {
+      dispatch(getUserProfile(jwt))
+        .then(() => {
+          
+        })
+        .catch((err: string) => {
+          console.warn(err);
+        })
+    }
+  }, []);
+
   const router = createBrowserRouter([
     {
       path: "/",
