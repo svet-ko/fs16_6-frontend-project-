@@ -11,6 +11,9 @@ import ErrorPage from './pages/ErrorPage';
 import About from './pages/About';
 import Cart from './pages/Cart';
 import HomePage from './pages/HomePage';
+import ProfilePage from './pages/ProfilePage';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
 const App = () => {
   const router = createBrowserRouter([
@@ -35,6 +38,18 @@ const App = () => {
           path: "cart",
           element: <Cart />
         },
+        {
+          path: "login",
+          element: <Login />
+        },
+        {
+          path: "register",
+          element: <Register />
+        },
+        {
+          path: "profile",
+          element: <ProfilePage />
+        }
         // {
         //   path: ":breweryID",
         //   element: <SingleBrewery />

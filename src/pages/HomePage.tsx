@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
-import { Button, Container, Grid, Typography } from '@mui/material'
+import { Box, Button, Container, Grid, Typography } from '@mui/material'
 
 import banner from '../images/banner.jpg'
+import registerImg from '../images/registerImg.jpg'
 import StyledImage from '../components/StyledImage'
 import { AppState } from '../redux/store'
 import useAppSelector from '../hooks/useAppSelector'
@@ -11,6 +12,7 @@ import { fetchAllProductsAsync } from '../redux/slices/productsSlice'
 import ErrorPage from './ErrorPage'
 import LoadBox from '../components/LoadBox'
 import { Link } from 'react-router-dom'
+import StyledBanner from '../components/StyleBanner'
 
 const HomePage = () => {
 
@@ -32,7 +34,7 @@ const HomePage = () => {
       flexDirection: "column",
       alignItems: "center"
     }}>
-      <StyledImage link={banner} />
+      <StyledBanner link={banner} />
 
       <Typography variant="h4" color='primary' sx={{mt: '1em'}} gutterBottom>Our new arrivals:</Typography>
 
@@ -50,6 +52,40 @@ const HomePage = () => {
         ))}
       </Grid>)}
       <Button component={Link} to="/products" variant="contained" aria-label="move-to-products" size="large">click to explore more!</Button>
+      <Box sx={{
+        pt: 8,
+        pb: 6,
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignItems: "center",
+        flexWrap: "wrap",
+        rowGap: "1em"
+      }}>
+        <Box sx={{
+          maxWidth: "40%"
+        }}>
+          <Typography
+            variant="h5"
+            gutterBottom
+          >
+            Still not our client?
+          </Typography>
+          <Typography
+            align="left"
+            gutterBottom
+          >
+            Register now to get 20% off your frst order and explore the ocean of our promotions!
+          </Typography>
+          <Button
+            variant="contained"
+            aria-label="register"
+            size="medium"
+            component={Link} to={`/register`}
+          >I'm in!</Button>
+        </Box>
+        <StyledImage link={registerImg}/>
+      </Box>
     </Container>
   )
 }
