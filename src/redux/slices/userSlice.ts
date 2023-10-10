@@ -62,6 +62,7 @@ export const authenticateUser = createAsyncThunk<User, string, { rejectValue: st
       return response.data;
     } catch (err) {
       const error = err as AxiosError;
+      console.log('error', error.message)
       return rejectWithValue(error.message)
     }
   }

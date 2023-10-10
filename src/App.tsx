@@ -49,6 +49,10 @@ const App = () => {
         {
           path: "profile",
           element: <ProfilePage />
+        },
+        {
+          path: "error",
+          element: <ErrorPage message="Page not found" />
         }
         // {
         //   path: ":breweryID",

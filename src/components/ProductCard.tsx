@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material';
+import { Card, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material';
 
 import Product from '../types/Product';
 import useAppDispatch from '../hooks/useDispatch';

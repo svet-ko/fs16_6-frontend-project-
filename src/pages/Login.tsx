@@ -15,22 +15,51 @@ import { Link, useNavigate } from 'react-router-dom'
 
 import useAppDispatch from '../hooks/useDispatch';
 import { loginUserAsync } from '../redux/slices/userSlice';
+import { checkInputValidity } from '../selectors/checkInputValidity';
+import InfoTooltip from '../components/InfoTooltip';
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function Login() {
-
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+
+  const [isEmailInputValid, setIsEmailInputValid] = useState<boolean>(true);
+  const [emailChangeValidationMessage, setEmailChangeValidationMessage] = useState<string>('');
+
+  const [isPasswordInputValid, setIsPasswordInputValid] = useState<boolean>(true);
+  const [passwordChangeValidationMessage, setPasswordChangeValidationMessage] = useState<string>('');
+
+  const [isFormValid, setFormValid] = useState<boolean>(false);
+
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
+
+  function onPasswordChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+    setPassword(e.target.value);
+    checkInputValidity(e, isPasswordInputValid, setIsPasswordInputValid, setPasswordChangeValidationMessage);
+    setFormValid(isEmailInputValid && isPasswordInputValid);
+  }
+
+ function onEmailChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+   setEmail(e.target.value);
+   checkInputValidity(e, isEmailInputValid, setIsEmailInputValid, setEmailChangeValidationMessage);
+   setFormValid(isEmailInputValid && isPasswordInputValid);
+  }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    dispatch(loginUserAsync({ email, password }));
-    navigate("/profile");
+    dispatch(loginUserAsync({ email, password }))
+    .unwrap()
+    .then(() => {
+      navigate("/profile");
+    })
+    .catch((err) => {
+      setIsInfoTooltipOpen(true);
+    })
   };
 
   return (
@@ -76,7 +105,12 @@ export default function Login() {
                 name="email"
                 autoComplete="email"
                 autoFocus
-                value={email} onChange={(e) => setEmail(e.target.value)} 
+                value={email}
+                onChange={onEmailChange}
+                error={!isEmailInputValid}
+                helperText={emailChangeValidationMessage}
+                type="email"
+                sx={{zIndex: 0}}
               />
               <TextField
                 margin="normal"
@@ -87,7 +121,11 @@ export default function Login() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                value={password} onChange={(e) => setPassword(e.target.value)}
+                value={password}
+                onChange={onPasswordChange}
+                error={!isPasswordInputValid}
+                helperText={passwordChangeValidationMessage}
+                sx={{zIndex: 0}}
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
@@ -97,6 +135,7 @@ export default function Login() {
                 type="submit"
                 fullWidth
                 variant="contained"
+                disabled={!isFormValid}
                 sx={{ mt: 3, mb: 2 }}
               >
                 Sign In
@@ -120,6 +159,11 @@ export default function Login() {
           </Box>
         </Grid>
       </Grid>
+      <InfoTooltip
+        isOpen={isInfoTooltipOpen}
+        onClose={()=>setIsInfoTooltipOpen(false)}
+        errorText='Something went wrong! Try again.'
+      />
     </ThemeProvider>
   );
 }
