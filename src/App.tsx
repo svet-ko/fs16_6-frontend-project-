@@ -2,11 +2,9 @@ import React, { useEffect } from 'react';
 import {
   createBrowserRouter,
   RouterProvider,
-  useNavigate,
 } from "react-router-dom";
-import useAppDispatch from './hooks/useDispatch';
 
-//import HomePage from './pages/HomePage'
+import useAppDispatch from './hooks/useDispatch';
 import ProductsPage from './pages/ProductsPage'
 import Root from './pages/Root';
 import ErrorPage from './pages/ErrorPage';
@@ -17,6 +15,7 @@ import ProfilePage from './pages/ProfilePage';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import { getUserProfile } from './redux/slices/userSlice';
+import CheckAuth from './components/CheckAuth';
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -54,7 +53,10 @@ const App = () => {
         },
         {
           path: "cart",
-          element: <Cart />
+          element: 
+          <CheckAuth>
+            <Cart />
+          </CheckAuth>
         },
         {
           path: "login",
@@ -66,7 +68,10 @@ const App = () => {
         },
         {
           path: "profile",
-          element: <ProfilePage />
+          element:  
+          <CheckAuth>
+            <ProfilePage />
+          </CheckAuth>
         },
         {
           path: "error",

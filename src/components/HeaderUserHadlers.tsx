@@ -30,6 +30,7 @@ const HeaderUserHadlers = () => {
   const logOut = () => {
     localStorage.removeItem('token');
     dispatch(logoutUser());
+    navigate('/');
   }
 
   const handleCloseUserMenu = (key: string) => {
