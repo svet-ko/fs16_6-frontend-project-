@@ -3,7 +3,6 @@ import { setupServer } from 'msw/node'
 
 import { BASE_URL } from '../../config/api';
 import usersData from '../data/usersData';
-import { error } from 'console';
 import User from '../../types/User';
 
 export const jwtFixture = {
@@ -31,7 +30,6 @@ export const handlers = [
 
   rest.get(`${BASE_URL}/auth/profile`, async (req, res, ctx) => {
     const token = req.headers.get('Authorization')?.split(' ')[1];
-    console.log(token);
     const originalToken = token?.split('_')[0];
     const userId = token?.split('_')[1];
     const foundUser = usersData.find(user => user.id === Number(userId));

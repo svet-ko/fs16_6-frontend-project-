@@ -18,14 +18,18 @@ import StyledImage from '../components/StyledImage';
 import { addToCart, removeAllItemsOfProductFromCart, removeAllProductsFromCart, removeFromCart } from '../redux/slices/cartSlice';
 import Product from '../types/Product';
 import { Link } from 'react-router-dom';
-import countAmountOfItemsByProperty from '../selectors/countAmountOfItemsByProperty';
 import SnackBarCompletion from '../components/SnackBar';
+import countAmountOfItemsByProperty from '../selectors/countAmountOfItemsByProperty';
 
 const Cart = () => {
   const dispatch = useAppDispatch();
   const cart = useAppSelector((state: AppState) => state.cartReducer);
 
-  const productsInCartAmount = countAmountOfItemsByProperty(cart, 'totalPrice');
+  const productsInCartPrice = cart.reduce((accumulator, currentValue) => {
+    return accumulator + currentValue.price*currentValue.quantity;
+  }, 0);
+
+  const productsInCartAmount = countAmountOfItemsByProperty(cart, 'quantity');
 
   const onAddItem = (product: Product) => {
     dispatch(addToCart(product));
@@ -71,7 +75,10 @@ const Cart = () => {
       {!!cart.length && (
         <>
           <Typography gutterBottom>
-            Total price of your order: {productsInCartAmount}€
+            Total amount of your order: {productsInCartAmount}
+          </Typography>
+          <Typography gutterBottom>
+            Total price of your order: {productsInCartPrice}€
           </Typography>
           <SnackBarCompletion
             buttonText="Complete purchase by one click"
@@ -106,7 +113,7 @@ const Cart = () => {
                       {row.category.name}
                       </TableCell>
                     <TableCell align="left">{row.description}</TableCell>
-                    <TableCell align="center">{row.totalPrice}€</TableCell>
+                    <TableCell align="center">{row.price*row.quantity}€</TableCell>
                     <TableCell align="center">{row.quantity}</TableCell>
                     <TableCell align="center">
                       <ButtonGroup variant="outlined" aria-label="outlined button group">

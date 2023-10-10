@@ -1,5 +1,6 @@
 import usersReducer, { UserReducerState, authUserAsync, fetchAllUsersAsync, getUserProfile, logoutUser, registerUserAsync } from "../../redux/slices/userSlice"
 import { createStore } from "../../redux/store"
+import { JWTPair } from "../../types/JwtPair"
 import UserToCreate from "../../types/UserToCreate"
 import usersData from "../data/usersData"
 import usersServer, {jwtFixture} from "../shared/usersServer"
@@ -39,10 +40,9 @@ describe("Test async thunk actions in usersReducer", () => {
   })
 
   test("Should return user by jwt", async () => {
-     await store.dispatch(authUserAsync({email: usersData[0].email, password: usersData[0].password }));
-     const response = store.getState().usersReducer.jwt;
-     let checkUser = response.access_token.split('_');
-     expect(Number(checkUser[1])).toBe(usersData[0].id);
+    const response = await store.dispatch(authUserAsync({email: usersData[0].email, password: usersData[0].password }));
+    const checkUser = response.payload as JWTPair;
+    expect(Number(checkUser.access_token.split('_')[1])).toBe(usersData[0].id);
   })
 
   test("Should authenticate with right token", async () => {

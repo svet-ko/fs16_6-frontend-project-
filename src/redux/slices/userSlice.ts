@@ -10,7 +10,6 @@ import { JWTPair } from "../../types/JwtPair"
 export interface UserReducerState {
   users: User[],
   currentUser?: User,
-  jwt?: JWTPair,
   loading: boolean,
   error?: string
 }
@@ -100,10 +99,6 @@ const usersSlice = createSlice({
     builder.addCase(fetchAllUsersAsync.rejected, (state, action) => {
       state.error = action.payload;
       state.loading = false;
-    })
-
-    builder.addCase(authUserAsync.fulfilled, (state, action) => {
-      state.jwt = action.payload;
     })
 
     builder.addCase(authUserAsync.rejected, (state, action) => {
