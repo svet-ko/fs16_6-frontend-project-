@@ -71,76 +71,74 @@ export default function ProductsPage() {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <main>
-        <Box
-          sx={{
-            bgcolor: 'background.paper',
-            pt: 8,
-            pb: 6,
-          }}
-        >
-          <Container maxWidth="sm">
-            <Typography
-              component="h1"
-              variant="h2"
-              align="center"
-              color="text.primary"
-              gutterBottom
-            >
-              Meet our products:
-            </Typography>
-            <Typography variant="h5" align="center" color="text.secondary" paragraph>
-              Something short and leading about the collection below—its contents,
-              the creator, etc. Make it short and sweet, but not too short so folks
-              don&apos;t simply skip over it entirely.
-            </Typography>
-            <Stack
-              sx={{ pt: 4 }}
-              direction="row"
-              spacing={2}
-              justifyContent="center"
-            >
-              <TextField
-                id="outlined-controlled"
-                label="Search for item"
-                value={search}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  setSearch(event.target.value);
-                }}
-              />
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Sort by:</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={sortDirection}
-                  label="Sort by"
-                  onChange={handleSortDirectionChange}
-                >
-                  <MenuItem value={'asc'}>Ascending</MenuItem>
-                  <MenuItem value={'desc'}>Descending</MenuItem>
-                </Select>
-              </FormControl>
-            </Stack>
-          </Container>
-        </Box>
-        <Container sx={{ py: 8, display: 'flex', alignItems: 'center', justifyContent: "center", flexDirection: 'column', rowGap: 5}} maxWidth="md">
-          {error && !loading && (
-            <ErrorPage message={error} />
-          )}
-          {loading && !error && (
-            <LoadBox />
-          )}
-
-          {!loading && !error && products && (<Grid container spacing={4}>
-            {paginatedSlice.map((product) => (
-              <ProductCard key={product.id} product={product}/>
-            ))}
-          </Grid>)}
-          <Pagination page={offset} count={amountOfPages} onChange={handlePageChange} color="primary" />
+    <main>
+      <Box
+        sx={{
+          bgcolor: 'background.paper',
+          pt: 8,
+          pb: 6,
+        }}
+      >
+        <Container maxWidth="sm">
+          <Typography
+            component="h1"
+            variant="h2"
+            align="center"
+            color="text.primary"
+            gutterBottom
+          >
+            Meet our products:
+          </Typography>
+          <Typography variant="h5" align="center" color="text.secondary" paragraph>
+            Something short and leading about the collection below—its contents,
+            the creator, etc. Make it short and sweet, but not too short so folks
+            don&apos;t simply skip over it entirely.
+          </Typography>
+          <Stack
+            sx={{ pt: 4 }}
+            direction="row"
+            spacing={2}
+            justifyContent="center"
+          >
+            <TextField
+              id="outlined-controlled"
+              label="Search for item"
+              value={search}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setSearch(event.target.value);
+              }}
+            />
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Sort by:</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={sortDirection}
+                label="Sort by"
+                onChange={handleSortDirectionChange}
+              >
+                <MenuItem value={'asc'}>Ascending</MenuItem>
+                <MenuItem value={'desc'}>Descending</MenuItem>
+              </Select>
+            </FormControl>
+          </Stack>
         </Container>
-      </main>
-    </ThemeProvider>
+      </Box>
+      <Container sx={{ py: 8, display: 'flex', alignItems: 'center', justifyContent: "center", flexDirection: 'column', rowGap: 5}} maxWidth="md">
+        {error && !loading && (
+          <ErrorPage message={error} />
+        )}
+        {loading && !error && (
+          <LoadBox />
+        )}
+
+        {!loading && !error && products && (<Grid container spacing={4}>
+          {paginatedSlice.map((product) => (
+            <ProductCard key={product.id} product={product}/>
+          ))}
+        </Grid>)}
+        <Pagination page={offset} count={amountOfPages} onChange={handlePageChange} color="primary" />
+      </Container>
+    </main>
   );
 }

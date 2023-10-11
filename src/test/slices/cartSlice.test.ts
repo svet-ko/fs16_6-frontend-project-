@@ -1,4 +1,4 @@
-import cartReducer, { addToCart, initialState, removeFromCart, removeAllItemsOfProductFromCart, removeAllProductsFromCart } from "../../redux/slices/cartSlice"
+import cartReducer, { addToCart, initialState, removeItemOfProductFromCart, removeAllItemsOfProductFromCart, removeAllProductsFromCart } from "../../redux/slices/cartSlice"
 import CartItem from "../../types/CartItem"
 import productsData from "../data/productsData"
 
@@ -23,7 +23,7 @@ describe('Testing action in cartReducer', () => {
         ...productsData[0],
         quantity: 2
       }]
-      const newState = cartReducer(state, removeFromCart(productsData[0].id));
+      const newState = cartReducer(state, removeItemOfProductFromCart(productsData[0].id));
       expect(newState[0].quantity).toBe(1);
     })
 
@@ -32,7 +32,7 @@ describe('Testing action in cartReducer', () => {
         ...productsData[0],
         quantity: 1
       }]
-      const newState = cartReducer(state, removeFromCart(productsData[0].id));
+      const newState = cartReducer(state, removeItemOfProductFromCart(productsData[0].id));
       expect(newState.length).toBe(state.length-1);
     })
 

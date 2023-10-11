@@ -16,7 +16,7 @@ import useAppSelector from '../hooks/useAppSelector';
 import { AppState } from '../redux/store';
 import useAppDispatch from '../hooks/useDispatch';
 import StyledImage from '../components/StyledImage';
-import { addToCart, removeAllItemsOfProductFromCart, removeAllProductsFromCart, removeFromCart } from '../redux/slices/cartSlice';
+import { addToCart, removeAllItemsOfProductFromCart, removeAllProductsFromCart, removeItemOfProductFromCart } from '../redux/slices/cartSlice';
 import Product from '../types/Product';
 import SnackBarCompletion from '../components/SnackBar';
 import countAmountOfItemsByProperty from '../selectors/countAmountOfItemsByProperty';
@@ -36,7 +36,7 @@ const Cart = () => {
   }
 
   const onRemoveItem = (productId: number) => {
-    dispatch(removeFromCart(productId));
+    dispatch(removeItemOfProductFromCart(productId));
   }
 
   const onRemoveAllItems = (productId: number) => {

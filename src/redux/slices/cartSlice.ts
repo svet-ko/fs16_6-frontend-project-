@@ -18,7 +18,7 @@ const cartSlice = createSlice({
       }  
     },
 
-    removeFromCart: (state, action: PayloadAction<number>) => {
+    removeItemOfProductFromCart: (state, action: PayloadAction<number>) => {
       const indexOfProductToRemove = state.findIndex(item => item.id === action.payload);
       const itemToRemove = state[indexOfProductToRemove];
       if (itemToRemove.quantity > 1) {
@@ -41,5 +41,5 @@ const cartSlice = createSlice({
 
 const cartReducer = cartSlice.reducer;
 
-export const { addToCart, removeFromCart, removeAllItemsOfProductFromCart, removeAllProductsFromCart } = cartSlice.actions;
+export const { addToCart, removeItemOfProductFromCart, removeAllItemsOfProductFromCart, removeAllProductsFromCart } = cartSlice.actions;
 export default cartReducer;

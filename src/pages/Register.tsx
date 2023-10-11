@@ -10,20 +10,14 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { unwrapResult } from '@reduxjs/toolkit';
 import { Link, useNavigate } from 'react-router-dom';
 
 import useAppDispatch from '../hooks/useDispatch';
 import { useState } from 'react';
 import { checkInputValidity } from '../selectors/checkInputValidity';
 import { registerUserAsync } from '../redux/slices/userSlice';
-import avatar from '../images/avatar.jpg'
 import InfoTooltip from '../components/InfoTooltip';
 import { DEFAULT_AVATAR_URL } from '../config/api';
-
-// TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
 
 export default function Register() {
   const dispatch = useAppDispatch();
@@ -75,7 +69,7 @@ export default function Register() {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -186,6 +180,6 @@ export default function Register() {
         onClose={()=>setIsInfoTooltipOpen(false)}
         errorText='Something went wrong! Try again.'
       />
-    </ThemeProvider>
+    </>
   );
 }
