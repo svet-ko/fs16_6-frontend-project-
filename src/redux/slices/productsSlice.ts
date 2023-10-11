@@ -141,6 +141,7 @@ const productsSlice = createSlice({
       if (foundIndex !== -1) {
         state.products[foundIndex] = action.payload;
       }
+      state.loading = false;
     })
 
     builder.addCase(updateProductAsync.pending, (state, action) => {

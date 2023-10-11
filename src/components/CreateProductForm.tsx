@@ -1,6 +1,11 @@
-import { Avatar, Box, Button, Container, FormControlLabel, Grid, Paper, TextField, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { 
+  Box,
+  Button,
+  Grid,
+  TextField,
+  Typography
+} from '@mui/material'
+import React, { useState } from 'react'
 
 import InfoTooltip from './InfoTooltip'
 import useAppDispatch from '../hooks/useDispatch'
@@ -68,7 +73,7 @@ const CreateProductForm = () => {
                   id="title"
                   label="Title"
                   autoFocus
-                  value={title}
+                  value={title || ''}
                   onChange={(e) => setTitle(e.target.value)}
                   sx={{zIndex: 0}}
                 />
@@ -80,7 +85,7 @@ const CreateProductForm = () => {
                   id="price"
                   label="Price"
                   name="price"
-                  value={price}
+                  value={price || ''}
                   onChange={(e) => setPrice((e.target.value))}
                   sx={{zIndex: 0}}
                 />
@@ -92,6 +97,7 @@ const CreateProductForm = () => {
                   id="description"
                   label="Description"
                   name="description"
+                  value={description || ''}
                   onChange={(e) => setDescription(e.target.value)}
                   sx={{zIndex: 0}}
                 />
@@ -103,6 +109,7 @@ const CreateProductForm = () => {
                   id="categoryId"
                   label="categoryId"
                   name="categoryId"
+                  value={categoryId || ''}
                   onChange={(e) => setCategoryId(e.target.value)}
                   sx={{zIndex: 0}}
                 />
@@ -114,6 +121,7 @@ const CreateProductForm = () => {
                   id="images"
                   label="Images"
                   name="images"
+                  value={images || []}
                   onChange={(e) => setImages(e.target.value.split(','))}
                   sx={{zIndex: 0}}
                 />
@@ -134,7 +142,7 @@ const CreateProductForm = () => {
         isOpen={isInfoTooltipOpen}
         onClose={()=>setIsInfoTooltipOpen(false)}
         isSuccessed={isInfoTooltipSuccessed}
-        successText='User successfully created'
+        successText='Product successfully created'
         errorText='Something went wrong! Try again.'
       />
     </Box>

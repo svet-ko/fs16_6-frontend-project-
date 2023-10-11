@@ -154,7 +154,9 @@ describe("Test async thunk actions in productsReducer", () => {
         title: "Updated product"
       }
     }
-    const action = await store.dispatch(updateProductAsync(input))
+    const action = await store.dispatch(updateProductAsync(input));
+    const loadingState = store.getState().usersReducer.loading;
+    expect(loadingState).toBe(false);
     expect(action.payload).toMatchObject(
       {
         id: 1,
