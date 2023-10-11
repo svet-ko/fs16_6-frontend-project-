@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   createBrowserRouter,
+  Navigate,
   RouterProvider,
 } from "react-router-dom";
 
-import useAppDispatch from './hooks/useDispatch';
 import ProductsPage from './pages/ProductsPage'
 import Root from './pages/Root';
 import ErrorPage from './pages/ErrorPage';
@@ -14,10 +14,12 @@ import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import { getUserProfile } from './redux/slices/userSlice';
 import CheckAuth from './components/CheckAuth';
+import useAppDispatch from './hooks/useDispatch';
+import { getUserProfile } from './redux/slices/userSlice';
 
 const App = () => {
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -25,10 +27,9 @@ const App = () => {
     if (jwt) {
       dispatch(getUserProfile(jwt))
         .then(() => {
-          
         })
         .catch((err: string) => {
-          console.warn(err);
+          <Navigate to="/login" />
         })
     }
   }, []);
