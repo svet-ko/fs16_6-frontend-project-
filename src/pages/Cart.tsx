@@ -47,6 +47,10 @@ const Cart = () => {
     dispatch(removeAllProductsFromCart());
   }
 
+  const onCompletePurchase = () => {
+    dispatch(removeAllProductsFromCart());
+  }
+
   return (
     <Container maxWidth="md" sx={{
       bgcolor: 'background.paper',
@@ -84,6 +88,7 @@ const Cart = () => {
             buttonText="Complete purchase by one click"
             message="Purchase completed successfully"
             buttonSize='large'
+            handleButtonClick={onCompletePurchase}
           />
           <TableContainer component={Paper} sx={{mb: '1em'}}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
