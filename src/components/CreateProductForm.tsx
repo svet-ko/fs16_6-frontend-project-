@@ -1,0 +1,144 @@
+import { Avatar, Box, Button, Container, FormControlLabel, Grid, Paper, TextField, Typography } from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+
+import InfoTooltip from './InfoTooltip'
+import useAppDispatch from '../hooks/useDispatch'
+import { createProductAsync } from '../redux/slices/productsSlice'
+
+const CreateProductForm = () => {
+  const dispatch = useAppDispatch();
+
+  const [title, setTitle] = useState<string | undefined>();
+  const [price, setPrice] = useState<string | undefined>();
+  const [description, setDescription] = useState<string | undefined>();
+  const [categoryId, setCategoryId] = useState<string | undefined>();
+  const [images, setImages] = useState<Array<string> | undefined>();
+
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
+  const [isInfoTooltipSuccessed, setIsInfoTooltipSuccessed] = useState(false);
+
+  const isFormValid = !!title && !!price && !!description && !!categoryId && !!images;
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    dispatch(createProductAsync({
+      title: title as string,
+      price: Number(price),
+      description: description as string,
+      categoryId: Number(categoryId),
+      images: images as Array<string>
+    }))
+    .unwrap()
+    .then(() => {
+      setIsInfoTooltipSuccessed(true);
+    })
+    .catch((err) => {
+      setIsInfoTooltipSuccessed(false);
+    })
+    .finally(() => {
+      setIsInfoTooltipOpen(true);
+    })
+  };
+
+  return (
+    <Box maxWidth="400px" sx={{
+      borderRadius: '0.3em',
+      p: '1em',
+      backgroundColor: 'white'
+    }}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Typography component="h1" variant="h5" color='primary'>
+            Create new product
+          </Typography>
+          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  autoComplete="title"
+                  name="title"
+                  required
+                  fullWidth
+                  id="title"
+                  label="Title"
+                  autoFocus
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  sx={{zIndex: 0}}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="price"
+                  label="Price"
+                  name="price"
+                  value={price}
+                  onChange={(e) => setPrice((e.target.value))}
+                  sx={{zIndex: 0}}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="description"
+                  label="Description"
+                  name="description"
+                  onChange={(e) => setDescription(e.target.value)}
+                  sx={{zIndex: 0}}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="categoryId"
+                  label="categoryId"
+                  name="categoryId"
+                  onChange={(e) => setCategoryId(e.target.value)}
+                  sx={{zIndex: 0}}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="images"
+                  label="Images"
+                  name="images"
+                  onChange={(e) => setImages(e.target.value.split(','))}
+                  sx={{zIndex: 0}}
+                />
+              </Grid>
+            </Grid>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              disabled={!isFormValid}
+            >
+              create product
+            </Button>
+          </Box>
+        </Box>
+      <InfoTooltip
+        isOpen={isInfoTooltipOpen}
+        onClose={()=>setIsInfoTooltipOpen(false)}
+        isSuccessed={isInfoTooltipSuccessed}
+        successText='User successfully created'
+        errorText='Something went wrong! Try again.'
+      />
+    </Box>
+  )
+}
+
+export default CreateProductForm

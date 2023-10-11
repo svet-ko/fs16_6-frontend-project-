@@ -9,6 +9,7 @@ import ProductToCreate from "../../types/ProductToCreate"
 
 export interface ProductsReducerState {
   products: Product[],
+  currentProduct?: Product,
   error?: string,
   loading: boolean
 }
@@ -18,9 +19,9 @@ export const initialState: ProductsReducerState = {
   loading: false
 }
 
-export const fetchAllProductsAsync = createAsyncThunk(
+export const fetchAllProductsAsync = createAsyncThunk<Product[], PaginationQuery, { rejectValue: string }>(
   'fetchAllProductsAsync',
-  async (fetchParams: PaginationQuery, { rejectWithValue }) => {
+  async (fetchParams, { rejectWithValue }) => {
     try {
       const response = await axios.get<any, AxiosResponse<Product[]>>(`${BASE_URL}/products`, {
         params: {
@@ -35,9 +36,22 @@ export const fetchAllProductsAsync = createAsyncThunk(
   }
 )
 
-export const updateProduct = createAsyncThunk(
+export const fetchOneProductAsync = createAsyncThunk<Product, number, { rejectValue: string }>(
+  'fetchOneProductAsync',
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await axios.get<any, AxiosResponse<Product>>(`${BASE_URL}/products/${id}`)
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError;
+      return rejectWithValue(error.message);
+    }
+  }
+)
+
+export const updateProductAsync = createAsyncThunk<Product, UpdationOfProductRequest, { rejectValue: string }>(
   'updateProduct',
-  async ({id, update}: UpdationOfProductRequest, { rejectWithValue }) => {
+  async ({id, update}, { rejectWithValue }) => {
     try {
       const response = await axios.put<any, AxiosResponse<Product>>(`${BASE_URL}/products/${id}`, update);
       return response.data;
@@ -48,9 +62,9 @@ export const updateProduct = createAsyncThunk(
   }
 )
 
-export const createProduct = createAsyncThunk(
+export const createProductAsync = createAsyncThunk<Product, ProductToCreate, { rejectValue: string }>(
   'createProduct',
-  async (product: ProductToCreate, { rejectWithValue }) => {
+  async (product, { rejectWithValue }) => {
     try {
       const response = await axios.post<Product>(`${BASE_URL}/products/`, product);
       return response.data;
@@ -61,7 +75,7 @@ export const createProduct = createAsyncThunk(
   }
 )
 
-export const deleteProduct = createAsyncThunk(
+export const deleteProductAsync = createAsyncThunk<number, number, { rejectValue: string }>(
   'deleteProduct',
   async (productId: number, { rejectWithValue }) => {
     try {
@@ -94,34 +108,34 @@ const productsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchAllProductsAsync.fulfilled, (state, action) => { //data, which func in the first parameter returns is put as a payload of an action of the second callback func
-      //console.log('fulfilled');
-      if (typeof action.payload !== 'string') {
-        return {
-          ...state,
-          products: action.payload,
-          loading: false
-        }
-      }
+      state.products = action.payload;
+      state.loading = false;
     })
 
     builder.addCase(fetchAllProductsAsync.pending, (state, action) => {
-      //console.log('pending');
-      return {
-        ...state,
-        loading: true
-      }
+      state.loading = true;
     })
 
     builder.addCase(fetchAllProductsAsync.rejected, (state, action) => {
-      //console.log('rejected');
-      return {
-        ...state,
-        error: action.payload as string,
-        loading: false
-      }
+      state.error = action.payload;
+      state.loading = false;
     })
 
-    builder.addCase(updateProduct.fulfilled, (state, action) => {
+    builder.addCase(fetchOneProductAsync.fulfilled, (state, action) => {
+      state.currentProduct = action.payload;
+      state.loading = false;
+    })
+
+    builder.addCase(fetchOneProductAsync.pending, (state, action) => {
+      state.loading = true;
+    })
+
+    builder.addCase(fetchOneProductAsync.rejected, (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
+    })
+
+    builder.addCase(updateProductAsync.fulfilled, (state, action) => {
       const id = action.payload.id;
       const foundIndex = state.products.findIndex(product => product.id === id)
       if (foundIndex !== -1) {
@@ -129,47 +143,41 @@ const productsSlice = createSlice({
       }
     })
 
-    builder.addCase(updateProduct.pending, (state, action) => {
-      //console.log('pending');
+    builder.addCase(updateProductAsync.pending, (state, action) => {
       state.loading = true;
     })
 
-    builder.addCase(updateProduct.rejected, (state, action) => {
-      //console.log('rejected');
-      state.error = action.payload as string;
+    builder.addCase(updateProductAsync.rejected, (state, action) => {
+      state.error = action.payload;
       state.loading = false;
     })
 
-    builder.addCase(createProduct.fulfilled, (state, action) => {
+    builder.addCase(createProductAsync.fulfilled, (state, action) => {
       state.products.push(action.payload);
       state.loading = false;
     })
 
-    builder.addCase(createProduct.pending, (state, action) => {
-      //console.log('pending');
+    builder.addCase(createProductAsync.pending, (state, action) => {
       state.loading = true;
     })
 
-    builder.addCase(createProduct.rejected, (state, action) => {
-      //console.log('rejected');
-      state.error = action.payload as string;
+    builder.addCase(createProductAsync.rejected, (state, action) => {
+      state.error = action.payload;
       state.loading = false;
     })
 
-    builder.addCase(deleteProduct.fulfilled, (state, action) => {
+    builder.addCase(deleteProductAsync.fulfilled, (state, action) => {
       const foundIndex = state.products.findIndex(p => p.id === action.payload);
       state.products.splice(foundIndex, 1);
       state.loading = false;
     })
 
-    builder.addCase(deleteProduct.pending, (state, action) => {
-      //console.log('pending');
+    builder.addCase(deleteProductAsync.pending, (state, action) => {
       state.loading = true;
     })
 
-    builder.addCase(deleteProduct.rejected, (state, action) => {
-      //console.log('rejected');
-      state.error = action.payload as string;
+    builder.addCase(deleteProductAsync.rejected, (state, action) => {
+      state.error = action.payload;
       state.loading = false;
     })
   }

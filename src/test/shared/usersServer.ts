@@ -4,6 +4,7 @@ import { setupServer } from 'msw/node'
 import { BASE_URL } from '../../config/api';
 import usersData from '../data/usersData';
 import User from '../../types/User';
+import UserToCreate from '../../types/UserToCreate';
 
 export const jwtFixture = {
   access_token: 'testtoken',
@@ -44,16 +45,16 @@ export const handlers = [
   rest.post(`${BASE_URL}/users`, async (req, res, ctx) => {
     const user = await req.json();
     const expectedUser: User = {
-      id: usersData.length+1,
-      email: user.email,
-      password: user.password,
-      name: user.name,
-      role: user.role,
-      avatar: user.avatar,
-      creationAt: "2023-10-06T13:56:12.000Z",
-      updatedAt: "2023-10-06T13:56:12.000Z"
-    }
-    return res(ctx.json(expectedUser));
+    id: usersData.length+1,
+    email: user.email,
+    password: user.password,
+    name: user.name,
+    role: user.role,
+    avatar: user.avatar,
+    creationAt: "2023-10-06T13:56:12.000Z",
+    updatedAt: "2023-10-06T13:56:12.000Z"
+  }
+  return res(ctx.json(expectedUser));
   })
 ];
 

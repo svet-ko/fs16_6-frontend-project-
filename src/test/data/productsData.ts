@@ -76,7 +76,7 @@ const productsData: Product[] = [
   {
     id: 5,
     title: "Computer 1",
-    price: 1000,
+    price: 1005,
     description: "A very powerful computer",
     images: [
       "https://i.imgur.com/zjLVS8N.jpeg"

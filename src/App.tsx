@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   createBrowserRouter,
   Navigate,
   RouterProvider,
 } from "react-router-dom";
 
-import ProductsPage from './pages/ProductsPage'
+import Products from './pages/Products'
 import Root from './pages/Root';
-import ErrorPage from './pages/ErrorPage';
+import Error from './pages/Error';
 import About from './pages/About';
 import Cart from './pages/Cart';
-import HomePage from './pages/HomePage';
-import ProfilePage from './pages/ProfilePage';
+import Profile from './pages/Profile';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import CheckAuth from './components/CheckAuth';
 import useAppDispatch from './hooks/useDispatch';
 import { getUserProfile } from './redux/slices/userSlice';
+import Home from './pages/Home';
+import SingleProduct from './pages/SingleProduct';
 
 const App = () => {
 
@@ -38,15 +39,19 @@ const App = () => {
     {
       path: "/",
       element: <Root />,
-      errorElement: <ErrorPage message="Page not found" />,
+      errorElement: <Error message="Page not found" />,
       children: [
         {
           path: "",
-          element: <HomePage />,
+          element: <Home />,
         },
         {
           path: "products",
-          element: <ProductsPage />,
+          element: <Products />,
+        },
+        {
+          path: "products/:productID",
+          element: <SingleProduct />
         },
         {
           path: "about",
@@ -71,17 +76,13 @@ const App = () => {
           path: "profile",
           element:  
           <CheckAuth>
-            <ProfilePage />
+            <Profile />
           </CheckAuth>
         },
         {
           path: "error",
-          element: <ErrorPage message="Page not found" />
+          element: <Error message="Page not found" />
         }
-        // {
-        //   path: ":breweryID",
-        //   element: <SingleBrewery />
-        // },
       ]
     }
   ]);

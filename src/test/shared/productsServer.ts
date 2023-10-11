@@ -7,6 +7,17 @@ import categoriesData from '../data/categoriesData';
 import { BASE_URL } from '../../config/api';
 
 export const handlers = [
+  rest.get(`${BASE_URL}/products/:id`, async (req, res, ctx) => {
+    const {id }= req.params;
+    const index = productsData.findIndex(p => p.id === Number(id));
+    if (index > -1) {
+      return res(ctx.json(productsData[index]))
+    } else {
+      ctx.status(400)
+      return res(ctx.text('No such product'))
+    }
+  }),
+
   rest.delete(`${BASE_URL}/products/:id`, async (req, res, ctx) => {
     const { id } = req.params;
     if (productsData.find(product => product.id === Number(id))) {

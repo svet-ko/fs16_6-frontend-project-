@@ -1,10 +1,11 @@
 import React from 'react';
-import { Card, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material';
+import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material';
 
 import Product from '../types/Product';
 import useAppDispatch from '../hooks/useDispatch';
 import { addToCart } from '../redux/slices/cartSlice';
 import SnackBarCompletion from './SnackBar';
+import { Link } from 'react-router-dom';
 
 type ProductCardProps = {
   product : Product
@@ -16,6 +17,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const onAddToCart = (payload: Product) => {
     dispatch(addToCart(payload))
   }
+
+  const linkToSingleProduct = window.location.pathname === '/product' ? `${product.id}` : `/products/${product.id}`;
 
   return (
     <Grid item xs={12} sm={6} md={4}>
@@ -41,14 +44,16 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <Typography align='center' variant="h5" color="primary" gutterBottom>
             {product.price}€
           </Typography>
-        <CardActions sx={{ display: 'flex', justifyContent: 'center', marginBottom: '.5em'}}>
-          {/*<Button variant="contained" size="medium" onClick={() => onAddToCart(product)}>Add to Cart</Button>*/}
+        <CardActions sx={{ display: 'flex', justifyContent: 'center', marginBottom: '.5em', columnGap: '1em'}}>
           <SnackBarCompletion
             buttonText='Add to Cart'
             message='Product added to cart successfully'
-            buttonSize='medium'
+            buttonSize='small'
             handleButtonClick={() => onAddToCart(product)}
           />
+          <Button variant="contained" size="small" sx={{ mb: '1em'}} component={Link} to={linkToSingleProduct} >
+            Read more
+          </Button>
         </CardActions>
       </Card>
     </Grid>

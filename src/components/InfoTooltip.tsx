@@ -1,7 +1,10 @@
+import success from '../images/success.svg';
 import error from '../images/error.svg';
 
 interface InfoTooltipProps {
   isOpen: boolean,
+  isSuccessed?: boolean,
+  successText?: string,
   onClose: ()=>void,
   errorText: string,
 }
@@ -9,18 +12,25 @@ interface InfoTooltipProps {
 function InfoTooltip ({
   isOpen,
   onClose,
+  isSuccessed,
+  successText, 
   errorText,
 }: InfoTooltipProps) {
   return (
-    <section className={`popup ${(isOpen) ? 'popup_opened': ''}`}>
-      <div className="popup__container">
-      <button className="button popup__close-button" onClick={onClose} aria-label="close window with notification"></button>
+    <section className={`popup ${(isOpen) ? 'popup_opened': ''}`} aria-label="Уведомление о регистрации">
+      <div className="popup__container popup__container_type_tooltip">
+        <button 
+          type="button"
+          className="button popup__close-button"
+          aria-label="Закрыть окно с уведомлением"
+          onClick={onClose}>          
+        </button>
         <img 
-          src={error}
-          alt ={'Error sign'}
+          src={ (isSuccessed) ? success : error }
+          alt ={ (isSuccessed) ? 'Значок успеха' : 'Значок ошибки' }
           className="popup__image popup__image_type_tooltip"
         />
-        <p className="popup__caption">{ errorText }</p>
+        <p className="popup__caption popup__caption_type_tooltip">{ (isSuccessed) ? successText : errorText }</p>
       </div>
     </section>
   )

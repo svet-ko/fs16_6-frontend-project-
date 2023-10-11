@@ -31,7 +31,7 @@ import {
 import useAppSelector from '../hooks/useAppSelector';
 import useAppDispatch from '../hooks/useDispatch';
 import LoadBox from '../components/LoadBox';
-import ErrorPage from './ErrorPage';
+import ErrorPage from './Error';
 import useDebounce from '../hooks/useDebounce';
 import ProductCard from '../components/ProductCard';
 

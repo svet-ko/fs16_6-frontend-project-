@@ -1,4 +1,4 @@
-import productsReducer, { ProductsReducerState, createProduct, deleteProduct, fetchAllProductsAsync, initialState, sortByPrice, updateProduct } from "../../redux/slices/productsSlice"
+import productsReducer, { ProductsReducerState, createProductAsync, deleteProductAsync, fetchAllProductsAsync, fetchOneProductAsync, initialState, sortByPrice, updateProductAsync } from "../../redux/slices/productsSlice"
 import productsData from "../data/productsData"
 import { createStore } from "../../redux/store"
 import productsServer from "../shared/productsServer"
@@ -21,7 +21,7 @@ afterEach(() => productsServer.resetHandlers())
 afterAll(() => productsServer.close())
 
 describe('Testing action in productReducer', () => {
-  test("Should sort products by price desc", () => {
+  test("Should sort products by price asc", () => {
     const state: ProductsReducerState = {
         products: productsData,
         loading: false
@@ -29,6 +29,16 @@ describe('Testing action in productReducer', () => {
     const products = productsReducer(state, sortByPrice("asc")).products
     expect(products[0]).toBe(productsData[3])
     expect(products[1]).toBe(productsData[2])
+  })
+
+  test("Should sort products by price desc", () => {
+    const state: ProductsReducerState = {
+        products: productsData,
+        loading: false
+    }
+    const products = productsReducer(state, sortByPrice("desc")).products
+    expect(products[0]).toBe(productsData[4])
+    expect(products[1]).toBe(productsData[1])
   })
 
   test("Should return initial state", () => {
@@ -42,18 +52,39 @@ describe('Testing action in productReducer', () => {
 
 describe("Test async thunk actions in productsReducer", () => {
   test("Should fetch all products", async () => {
-      await store.dispatch(fetchAllProductsAsync({}))
-      const products = store.getState().productReducer.products.length;
-      expect(products).toBeGreaterThan(0)
+    await store.dispatch(fetchAllProductsAsync({}))
+    const products = store.getState().productReducer.products.length;
+    const loadingState = store.getState().usersReducer.loading;
+    expect(products).toBeGreaterThan(0)
+    expect(loadingState).toBe(false);
+  })
+
+  test("Should fetch single product", async () => {
+    await store.dispatch(fetchOneProductAsync(productsData[0].id))
+    const product = store.getState().productReducer.currentProduct;
+    const loadingState = store.getState().usersReducer.loading;
+    expect(product).toMatchObject(productsData[0]);
+    expect(loadingState).toBe(false);
+  })
+
+  test("Should return error if fetch non-existing product", async () => {
+    const response = await store.dispatch(fetchOneProductAsync(-1))
+    const loadingState = store.getState().usersReducer.loading;
+    expect(response.payload).toBe('No such product');
+    expect(loadingState).toBe(false);
   })
 
   test("Should delete an existing product", async () => {
-    const resultAction = await store.dispatch(deleteProduct(1))
+    const resultAction = await store.dispatch(deleteProductAsync(1));
+    const loadingState = store.getState().usersReducer.loading;
+    expect(loadingState).toBe(false);
     expect(resultAction.payload).toBe(1)
   })
 
   test("Should not delete product which do not exist", async () => {
-    const resultAction = await store.dispatch(deleteProduct(501))
+    const resultAction = await store.dispatch(deleteProductAsync(501));
+    const loadingState = store.getState().usersReducer.loading;
+    expect(loadingState).toBe(false);
     expect(resultAction.payload).toBe('Product was not deleted')
   })
 
@@ -83,7 +114,9 @@ describe("Test async thunk actions in productsReducer", () => {
       updatedAt: "2023-01-03T16:51:33.000Z",
     };
 
-    const resultAction = await store.dispatch(createProduct(newProduct))
+    const resultAction = await store.dispatch(createProductAsync(newProduct));
+    const loadingState = store.getState().usersReducer.loading;
+    expect(loadingState).toBe(false);
     expect(resultAction.payload).toEqual(expectedProduct)
   })
 
@@ -107,7 +140,9 @@ describe("Test async thunk actions in productsReducer", () => {
       statusCode: 400
     }
 
-    const resultAction = await store.dispatch(createProduct(input));
+    const resultAction = await store.dispatch(createProductAsync(input));
+    const loadingState = store.getState().usersReducer.loading;
+    expect(loadingState).toBe(false);
     expect(resultAction.payload).toEqual(expectedResponse)
   })
 
@@ -119,7 +154,7 @@ describe("Test async thunk actions in productsReducer", () => {
         title: "Updated product"
       }
     }
-    const action = await store.dispatch(updateProduct(input))
+    const action = await store.dispatch(updateProductAsync(input))
     expect(action.payload).toMatchObject(
       {
         id: 1,
@@ -162,7 +197,9 @@ describe("Test async thunk actions in productsReducer", () => {
       statusCode: 400
     }
 
-    const resultAction = await store.dispatch(updateProduct(input));
+    const resultAction = await store.dispatch(updateProductAsync(input));
+    const loadingState = store.getState().usersReducer.loading;
+    expect(loadingState).toBe(false);
     expect(resultAction.payload).toEqual(expectedResponse)
   })
 })

@@ -101,8 +101,13 @@ const usersSlice = createSlice({
       state.loading = false;
     })
 
+    builder.addCase(authUserAsync.pending, (state, action) => {
+      state.loading = true;
+    })
+
     builder.addCase(authUserAsync.rejected, (state, action) => {
       state.error = action.payload;
+      state.loading = false;
     })
 
     builder.addCase(getUserProfile.fulfilled, (state, action) => {

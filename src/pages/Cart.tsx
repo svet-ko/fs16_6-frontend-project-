@@ -10,6 +10,7 @@ import { Button, ButtonGroup, Container, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
+import { Link } from 'react-router-dom';
 
 import useAppSelector from '../hooks/useAppSelector';
 import { AppState } from '../redux/store';
@@ -17,7 +18,6 @@ import useAppDispatch from '../hooks/useDispatch';
 import StyledImage from '../components/StyledImage';
 import { addToCart, removeAllItemsOfProductFromCart, removeAllProductsFromCart, removeFromCart } from '../redux/slices/cartSlice';
 import Product from '../types/Product';
-import { Link } from 'react-router-dom';
 import SnackBarCompletion from '../components/SnackBar';
 import countAmountOfItemsByProperty from '../selectors/countAmountOfItemsByProperty';
 
