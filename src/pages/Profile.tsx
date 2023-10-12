@@ -9,6 +9,7 @@ import CreateProductForm from '../components/CreateProductForm';
 
 const ProfilePage = () => {
   const {currentUser, loading, error} = useAppSelector(state => state.usersReducer);
+
   return (
     <Container sx={{
       bgcolor: 'background.paper',
@@ -17,10 +18,6 @@ const ProfilePage = () => {
     }}>
       {loading && !error && (
         <LoadBox />
-      )}
-      
-      {!loading && error && (
-        <Error message={error} />
       )}
 
       {!error && !loading && currentUser && (
@@ -34,6 +31,9 @@ const ProfilePage = () => {
         }}>
           <Box>
             <Typography variant="h2" component="h1" color='primary' gutterBottom>{currentUser.name}'s profile</Typography>
+            <Box>
+
+            </Box>
             <StyledImage link={currentUser.avatar} />
             <Typography variant="body1" gutterBottom fontSize={20}>My e-mail: {currentUser.email}</Typography>
             <Button variant='contained' component={Link} to={`/cart`}>Visit cart</Button>

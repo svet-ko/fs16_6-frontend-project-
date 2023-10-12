@@ -113,6 +113,7 @@ const usersSlice = createSlice({
     builder.addCase(getUserProfile.fulfilled, (state, action) => {
       state.currentUser = action.payload;
       state.loading = false;
+      state.error = undefined;
     })
 
     builder.addCase(getUserProfile.pending, (state, action) => {

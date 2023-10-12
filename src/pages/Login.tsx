@@ -67,6 +67,7 @@ export default function Login() {
     })
     .catch((err) => {
       setIsInfoTooltipOpen(true);
+      navigate('/login')
     })
   };
 

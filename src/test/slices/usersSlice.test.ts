@@ -1,3 +1,4 @@
+import { error } from "console"
 import usersReducer, { UserReducerState, authUserAsync, fetchAllUsersAsync, getUserProfile, logoutUser, registerUserAsync } from "../../redux/slices/userSlice"
 import { createStore } from "../../redux/store"
 import { JWTPair } from "../../types/JwtPair"
@@ -56,10 +57,11 @@ describe("Test async thunk actions in usersReducer", () => {
     expect(response.payload).toMatchObject(usersData[1])
   })
 
-  test("Should change loading to false after authentication", async () => {
+  test("Should change loading and error to falsy after authentication", async () => {
     await store.dispatch(getUserProfile(jwtFixture.access_token + "_2"));
-    const loadingState = store.getState().usersReducer.loading;
-    expect(loadingState).toBe(false);
+    const {loading, error} = store.getState().usersReducer;
+    expect(loading).toBe(false);
+    expect(error).toBe(undefined);
   })
 
   test("Should not authenticate with wrong token", async () => {
