@@ -4,12 +4,7 @@ import { setupServer } from 'msw/node'
 import { BASE_URL } from '../../config/api';
 import usersData from '../data/usersData';
 import User from '../../types/User';
-import UserToCreate from '../../types/UserToCreate';
-
-export const jwtFixture = {
-  access_token: 'testtoken',
-  refresh_token: 'testtoken',
-};
+import { jwtFixture } from '../../config/jwtFixture';
 
 export const handlers = [
   rest.get(`${BASE_URL}/users`, async (req, res, ctx) => {

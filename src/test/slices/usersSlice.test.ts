@@ -1,10 +1,17 @@
-import { error } from "console"
-import usersReducer, { UserReducerState, authUserAsync, fetchAllUsersAsync, getUserProfile, logoutUser, registerUserAsync } from "../../redux/slices/userSlice"
+import { jwtFixture } from "../../config/jwtFixture"
+import usersReducer, {
+  UserReducerState,
+  authUserAsync,
+  fetchAllUsersAsync,
+  getUserProfile,
+  logoutUser,
+  registerUserAsync
+} from "../../redux/slices/userSlice"
 import { createStore } from "../../redux/store"
 import { JWTPair } from "../../types/JwtPair"
 import UserToCreate from "../../types/UserToCreate"
 import usersData from "../data/usersData"
-import usersServer, {jwtFixture} from "../shared/usersServer"
+import usersServer from "../shared/usersServer"
 
 let store = createStore()
 

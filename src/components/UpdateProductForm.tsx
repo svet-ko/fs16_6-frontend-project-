@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Grid,
+  SelectChangeEvent,
   TextField, 
   Typography
 } from '@mui/material';
@@ -11,6 +12,7 @@ import useAppDispatch from '../hooks/useDispatch';
 import { updateProductAsync } from '../redux/slices/productsSlice';
 import InfoTooltip from './InfoTooltip';
 import ProductToCreate from '../types/ProductToCreate';
+import CategoriesFormControl from './CategoriesFormControl';
 
 type UpdateProductFormProps = {
   onGetProduct: () => void
@@ -23,7 +25,7 @@ const UpdateProductForm = ({onGetProduct, productId}: UpdateProductFormProps) =>
   const [title, setTitle] = useState<string | undefined>();
   const [price, setPrice] = useState<string | undefined>();
   const [description, setDescription] = useState<string | undefined>();
-  const [categoryId, setCategoryId] = useState<string | undefined>();
+  const [categoryId, setCategoryId] = useState<number | undefined>();
   const [images, setImages] = useState<Array<string> | undefined>();
 
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
@@ -33,23 +35,32 @@ const UpdateProductForm = ({onGetProduct, productId}: UpdateProductFormProps) =>
   const isFormValid = !!title || !!price || !!description || !!categoryId || !!images;
   const productToUpdate: Partial<ProductToCreate> = {};
 
+  const handleCategoryIdChange = (event: SelectChangeEvent<number>) => {
+    console.log(event.target.value);
+    setCategoryId(Number(event.target.value))
+  }
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    productToUpdate.title = title as string;
     if (title) {
       productToUpdate.title = title as string;
     }
+
     if (price) {
       productToUpdate.price = Number(price);
     }
+    
     if (description) {
       productToUpdate.description = description;
     }
-    if (categoryId) {
-      productToUpdate.categoryId = Number(categoryId);
+
+    if (categoryId) { 
+      productToUpdate.categoryId = categoryId;
     }
+
     if (images) {
       productToUpdate.images = images;
     }
+
     event.preventDefault();
     dispatch(updateProductAsync({ id: productId, update: productToUpdate }))
     .unwrap()
@@ -119,15 +130,7 @@ const UpdateProductForm = ({onGetProduct, productId}: UpdateProductFormProps) =>
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  id="categoryId"
-                  label="categoryId"
-                  name="categoryId"
-                  value={categoryId || ''}
-                  onChange={(e) => setCategoryId(e.target.value)}
-                  sx={{zIndex: 0}}
-                />
+                {(<CategoriesFormControl selectValue={categoryId || ''} onItemChange={(e) => handleCategoryIdChange(e)} /> )}
               </Grid>
               <Grid item xs={12}>
                 <TextField

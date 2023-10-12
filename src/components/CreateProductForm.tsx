@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Grid,
+  SelectChangeEvent,
   TextField,
   Typography
 } from '@mui/material'
@@ -10,6 +11,7 @@ import React, { useState } from 'react'
 import InfoTooltip from './InfoTooltip'
 import useAppDispatch from '../hooks/useDispatch'
 import { createProductAsync } from '../redux/slices/productsSlice'
+import CategoriesFormControl from './CategoriesFormControl'
 
 const CreateProductForm = () => {
   const dispatch = useAppDispatch();
@@ -17,13 +19,17 @@ const CreateProductForm = () => {
   const [title, setTitle] = useState<string | undefined>();
   const [price, setPrice] = useState<string | undefined>();
   const [description, setDescription] = useState<string | undefined>();
-  const [categoryId, setCategoryId] = useState<string | undefined>();
+  const [categoryId, setCategoryId] = useState<number | undefined>();
   const [images, setImages] = useState<Array<string> | undefined>();
 
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
   const [isInfoTooltipSuccessed, setIsInfoTooltipSuccessed] = useState(false);
 
   const isFormValid = !!title && !!price && !!description && !!categoryId && !!images;
+
+  const handleCategoryIdChange = (event: SelectChangeEvent<number>) => {
+    setCategoryId(Number(event.target.value))
+  }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -103,16 +109,7 @@ const CreateProductForm = () => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="categoryId"
-                  label="categoryId"
-                  name="categoryId"
-                  value={categoryId || ''}
-                  onChange={(e) => setCategoryId(e.target.value)}
-                  sx={{zIndex: 0}}
-                />
+                <CategoriesFormControl selectValue={categoryId || ''} onItemChange={(e) => handleCategoryIdChange(e)} /> 
               </Grid>
               <Grid item xs={12}>
                 <TextField

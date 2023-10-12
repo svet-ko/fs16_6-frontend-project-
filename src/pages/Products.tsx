@@ -8,10 +8,6 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import {
-  createTheme,
-  ThemeProvider
-} from '@mui/material/styles';
 import { 
   FormControl,
   InputLabel,
@@ -21,7 +17,6 @@ import {
   SelectChangeEvent,
   TextField
 } from '@mui/material';
-import { unwrapResult } from '@reduxjs/toolkit';
 
 import { AppState } from '../redux/store';
 import {
@@ -34,16 +29,15 @@ import LoadBox from '../components/LoadBox';
 import ErrorPage from './Error';
 import useDebounce from '../hooks/useDebounce';
 import ProductCard from '../components/ProductCard';
-
-// TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
+import CategoriesFormControl from '../components/CategoriesFormControl';
 
 export default function ProductsPage() {
-  const {products, loading, error} = useAppSelector((state: AppState) => state.productReducer); //method to read any state from the global store
+  const {products, loading, error} = useAppSelector((state: AppState) => state.productReducer);
   const [search, setSearch] = useState<string>('');
   const [offset, setOffset] = useState<number>(1);
   const [debouncedSearch, setDebouncedSearch] = useState<string | undefined>(search);
   const [sortDirection, setSortDirection] = useState<string>('');
+  const [filterCategoryId, setFilterCategoryId] = useState<number | undefined>();
   const dispatch = useAppDispatch();
 
   let amountOfPages = Math.ceil(products.length/9);
@@ -52,7 +46,7 @@ export default function ProductsPage() {
   useDebounce(() => setDebouncedSearch(search), search);
 
   useEffect(() => {
-    dispatch(fetchAllProductsAsync({title: search}))//possible to make "fetch more" button which grows the value of offset and limit. Offset and limit is set through the dispatch func
+    dispatch(fetchAllProductsAsync({title: search}))
     setSortDirection('')
   }, [debouncedSearch]);
 
@@ -69,6 +63,16 @@ export default function ProductsPage() {
   const handleSortDirectionChange = (event: SelectChangeEvent<string>) => {
     setSortDirection(event.target.value);
   };
+
+  useEffect(() => {
+    if (!!filterCategoryId) {
+      dispatch(fetchAllProductsAsync({categoryId: filterCategoryId}));
+    }
+  }, [filterCategoryId])
+
+  const handleFilterCategoryIdChange = (event: SelectChangeEvent<number>) => {
+    setFilterCategoryId(Number(event.target.value))
+  }
 
   return (
     <main>
@@ -121,6 +125,7 @@ export default function ProductsPage() {
                 <MenuItem value={'desc'}>Descending</MenuItem>
               </Select>
             </FormControl>
+            <CategoriesFormControl selectValue={filterCategoryId || ''} onItemChange={handleFilterCategoryIdChange} />
           </Stack>
         </Container>
       </Box>

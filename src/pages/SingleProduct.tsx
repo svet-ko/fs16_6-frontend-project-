@@ -123,6 +123,9 @@ const SingleProduct = () => {
 
               <Box maxWidth={'400px'}>
                 <Typography variant="body1" gutterBottom>
+                Product's category: "{currentProduct.category.name}"
+                </Typography>
+                <Typography variant="body1" gutterBottom>
                   {currentProduct.description}
                 </Typography>
                 <Typography sx={{fontWeight: 'bold'}} color='primary' variant="body1" gutterBottom>

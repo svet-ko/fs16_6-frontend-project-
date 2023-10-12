@@ -18,6 +18,7 @@ import useAppDispatch from './hooks/useDispatch';
 import { getUserProfile } from './redux/slices/userSlice';
 import Home from './pages/Home';
 import SingleProduct from './pages/SingleProduct';
+import { fetchAllCategoriesAsync } from './redux/slices/categoriesSlice';
 
 const App = () => {
 
@@ -34,6 +35,10 @@ const App = () => {
         })
     }
   }, []);
+
+  useEffect(() => {
+    dispatch(fetchAllCategoriesAsync());
+  }, [])
 
   const router = createBrowserRouter([
     {
