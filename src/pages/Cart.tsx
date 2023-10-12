@@ -15,7 +15,7 @@ import { Link } from 'react-router-dom';
 import useAppSelector from '../hooks/useAppSelector';
 import { AppState } from '../redux/store';
 import useAppDispatch from '../hooks/useDispatch';
-import StyledImage from '../components/StyledImage';
+import StyledImage from '../styles/StyledImage';
 import { addToCart, removeAllItemsOfProductFromCart, removeAllProductsFromCart, removeItemOfProductFromCart } from '../redux/slices/cartSlice';
 import Product from '../types/Product';
 import SnackBarCompletion from '../components/SnackBar';

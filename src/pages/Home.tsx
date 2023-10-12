@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 import banner from '../images/banner.jpg'
 import registerImg from '../images/registerImg.jpg'
-import StyledImage from '../components/StyledImage'
+import StyledImage from '../styles/StyledImage'
 import { AppState } from '../redux/store'
 import useAppSelector from '../hooks/useAppSelector'
 import ProductCard from '../components/ProductCard'
@@ -12,7 +12,7 @@ import useAppDispatch from '../hooks/useDispatch'
 import { fetchAllProductsAsync } from '../redux/slices/productsSlice'
 import Error from './Error'
 import LoadBox from '../components/LoadBox'
-import StyledBanner from '../components/StyleBanner'
+import StyledBanner from '../styles/StyledBanner'
 
 const HomePage = () => {
 

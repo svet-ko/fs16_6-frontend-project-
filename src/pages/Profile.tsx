@@ -1,7 +1,7 @@
 import React from 'react'
 import useAppSelector from '../hooks/useAppSelector'
 import { Box, Button, Container, Typography } from '@mui/material';
-import StyledImage from '../components/StyledImage';
+import StyledImage from '../styles/StyledImage';
 import { Link } from 'react-router-dom';
 import Error from './Error';
 import LoadBox from '../components/LoadBox';

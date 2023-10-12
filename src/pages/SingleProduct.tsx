@@ -16,7 +16,7 @@ import useAppSelector from '../hooks/useAppSelector';
 import { AppState } from '../redux/store';
 import useAppDispatch from '../hooks/useDispatch';
 import { deleteProductAsync, fetchOneProductAsync } from '../redux/slices/productsSlice';
-import StyledImage from '../components/StyledImage';
+import StyledImage from '../styles/StyledImage';
 import SnackBarCompletion from '../components/SnackBar';
 import Product from '../types/Product';
 import { addToCart } from '../redux/slices/cartSlice';
