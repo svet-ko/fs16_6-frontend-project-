@@ -1,5 +1,13 @@
 import React from 'react';
-import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material';
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Grid,
+  Typography
+} from '@mui/material';
 
 import Product from '../types/Product';
 import useAppDispatch from '../hooks/useDispatch';
@@ -34,7 +42,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <Grid item xs={12} sm={6} md={4}>
       <Card
-        sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+        sx={{
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column'
+        }}
       >
         <CardMedia
           component="div"
@@ -45,7 +57,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
           image={product.images[0]}
         />
         <CardContent sx={{ flexGrow: 1 }}>
-          <Typography gutterBottom variant="h5" component="h2">
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="h2"
+          >
             {product.title}
           </Typography>
           {!!isProductsPage && (<Typography gutterBottom>
@@ -55,17 +71,32 @@ const ProductCard = ({ product }: ProductCardProps) => {
             {product.description}
           </Typography>
         </CardContent>
-        <Typography align='center' variant="h5" color="primary" gutterBottom>
-            {product.price}€
-          </Typography>
-        <CardActions sx={{ display: 'flex', justifyContent: 'center', marginBottom: '.5em', columnGap: '1em'}}>
+        <Typography
+          align='center'
+          variant="h5"
+          color="primary"
+          gutterBottom
+        >
+          {product.price}€
+        </Typography>
+        <CardActions sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          marginBottom: '.5em',
+          columnGap: '1em'
+        }}>
           <SnackBarCompletion
             buttonText='Add to Cart'
             message='Product added to cart successfully'
             buttonSize='small'
             handleButtonClick={() => onAddToCart(product)}
           />
-          <Button variant="contained" size="small" sx={{ mb: '1em'}} component={Link} to={linkToSingleProduct} >
+          <Button
+            variant="contained"
+            size="small"
+            sx={{ mb: '1em'}}
+            component={Link} to={linkToSingleProduct}
+          >
             Read more
           </Button>
         </CardActions>
