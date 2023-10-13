@@ -39,7 +39,7 @@ export function ThemeProvider({ children }: ThemeProviderProps): JSX.Element {
       },
       secondary: {
         main: '#c2185b',
-        contrastText: '#f8bbd0'
+        light: '#f8bbd0',
       },
       background: {
         default: '#f5f5f5',

@@ -89,7 +89,7 @@ const UpdateProductForm = ({onGetProduct, productId}: UpdateProductFormProps) =>
             alignItems: 'center',
           }}
         >
-          <Typography component="h1" variant="h5" color='secondary'>
+          <Typography component="h1" variant="h5" color='secondary.light'>
             Update product
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
@@ -137,7 +137,7 @@ const UpdateProductForm = ({onGetProduct, productId}: UpdateProductFormProps) =>
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  color = 'secondary'
+                  color= 'secondary'
                   fullWidth
                   id="images"
                   label="Images"

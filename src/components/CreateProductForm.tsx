@@ -65,7 +65,7 @@ const CreateProductForm = () => {
             alignItems: 'center',
           }}
         >
-          <Typography component="h1" variant="h5" color='secondary'>
+          <Typography component="h1" variant="h5" color='secondary.light'>
             Create new product
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>

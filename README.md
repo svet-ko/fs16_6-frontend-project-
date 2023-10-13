@@ -1,4 +1,6 @@
-# Front-end Project
+#Introduction
+
+Frontend of mock e-commerce paltform.
 
 ![React](https://img.shields.io/badge/React-v.18-blue)
 ![Redux toolkit](https://img.shields.io/badge/RTK-v.1-purple)
@@ -7,61 +9,56 @@
 
 This project requires implementation of TypeScript and SASS.
 
+## Table of content
+
+- [Technologies](#technologies)
+- [Project structure](#project-structure)
+- [Getting started](#getting-started)
+- [Deployment link](#deployment-link)
+
 ## Technologies
 
-1. Used the API endpoint [https://fakeapi.platzi.com/](https://fakeapi.platzi.com/) to create an e-commerce website.
-2. Created 4 pages: 
-  - Home page
-  - Page for all products
-  - Single product page
-  - Cart page (only available if user logins)
-  - About page
-  - User's profile page (only available if user logins)
-  - Error page
-  - Login and Register pages
+- Typescript
+- React
+- Redux (Toolkit)
+- React Router
+- styled-components
+- Material UI
 
-3. Created Redux store for following features:
-  ### product reducer: 
-      - get all products
-      - find a single products
-      - filter products by categories
-      - sort products by price
-      - create, update and delete a product (enabled update & delete features only for admin of the webapp)
-  ### user reducer: 
-    - get all users,
-    - register and login
-  ### cart reducer:
-    - add product to cart
-    - remove products
-    - update products's quantity in cart
-4. Set certain routes to be private. Route to user profile page and to his cart is not accessible if user has not logged in.
-5. Use pagination when fetching/displaying all the products
-6. Implement unit testing for the reducers
-7. Implemented performance optimization by debouncing fetching products, that fit's user's input title
-7. Deployed the application
-Deployment link: [https://main--marvelous-torte-2b4ae0.netlify.app/](https://main--marvelous-torte-2b4ae0.netlify.app/).
+## Project structure
 
-## Instruction to start the project
+```
+.
+├── public
+└── src
+    ├── components
+    ├── config
+    ├── hooks
+    ├── img
+    ├── pages
+    ├── redux
+    │   └── slices 
+    ├── selectors   
+    ├── styles
+    │   └── styled
+    ├── test
+    │   ├── data
+    │   ├── shared
+    │   └── slices
+    ├── types
+    └── utils
+```
 
-In the project directory, you can run:
+## Deployment link
+Visit [this link](https://main--marvelous-torte-2b4ae0.netlify.app/).
 
-### `npm install`
+## Getting started
 
-Install all the dependencies
+1. Clone this repo with `git clone https://github.com/svet-ko/fs16_6-frontend-project.git` command.
+2. Install project dependencies using `npm ci` or `npm install` command.
+3. Run the app with `npm start`.
 
-### `npm start`
-
-Runs the app in the development mode.\
+Runs the app in the development mode.
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+4. You can also run tests with `npm test`
