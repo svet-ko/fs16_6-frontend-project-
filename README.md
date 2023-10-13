@@ -54,7 +54,7 @@ Visit [this link](https://main--marvelous-torte-2b4ae0.netlify.app/).
 
 ## Getting started
 
-1. Clone this repo with `git clone https://github.com/svet-ko/fs16_6-frontend-project.git` command.
+1. Clone this repo with `git clone https://github.com/svet-ko/fs16_6-frontend-project-` command.
 2. Install project dependencies using `npm ci` or `npm install` command.
 3. Run the app with `npm start`.
 
