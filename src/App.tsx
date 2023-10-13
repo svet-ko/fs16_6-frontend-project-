@@ -19,6 +19,7 @@ import { getUserProfile } from './redux/slices/userSlice';
 import Home from './pages/Home';
 import SingleProduct from './pages/SingleProduct';
 import { fetchAllCategoriesAsync } from './redux/slices/categoriesSlice';
+import { ThemeProvider } from './ThemeProvider';
 
 const App = () => {
 
@@ -92,7 +93,9 @@ const App = () => {
     }
   ]);
   return (
-    <RouterProvider router={router} />
+    <ThemeProvider>
+      <RouterProvider router={router} />
+    </ThemeProvider>
   )
 }
 

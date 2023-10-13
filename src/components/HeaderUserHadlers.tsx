@@ -57,13 +57,13 @@ const HeaderUserHadlers = () => {
       {!currentUser && (
         <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
           <Button
-            sx={{ my: 2, color: 'white', display: 'block' }}
+            sx={{ my: 2, color: 'inherit', display: 'block' }}
             component={Link} to={`/login`}
           >
             Login
           </Button>
           <Button
-            sx={{ my: 2, color: 'white', display: 'block' }}
+            sx={{ my: 2, color: 'inherit', display: 'block' }}
             component={Link} to={`/register`}
           >
             Register
