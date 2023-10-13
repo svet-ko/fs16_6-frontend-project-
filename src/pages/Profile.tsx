@@ -1,9 +1,13 @@
 import React from 'react'
 import useAppSelector from '../hooks/useAppSelector'
-import { Box, Button, Container, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Container,
+  Typography
+} from '@mui/material';
 import StyledImage from '../styles/components/StyledImage';
 import { Link } from 'react-router-dom';
-import Error from './Error';
 import LoadBox from '../components/LoadBox';
 import CreateProductForm from '../components/CreateProductForm';
 
@@ -24,16 +28,13 @@ const ProfilePage = () => {
         <Box sx={{display: 'flex',
           alignItems: 'center',
           flexWrap: 'wrap',
-          backgroundColor: '#AFDAFC',
+          bgcolor: 'primary.light',
           borderRadius: '0.3em',
           p: '2em',
           rowGap: '1em'
         }}>
           <Box>
             <Typography variant="h2" component="h1" color='primary' gutterBottom>{currentUser.name}'s profile</Typography>
-            <Box>
-
-            </Box>
             <StyledImage link={currentUser.avatar} />
             <Typography variant="body1" gutterBottom fontSize={20}>My e-mail: {currentUser.email}</Typography>
             <Button variant='contained' component={Link} to={`/cart`}>Visit cart</Button>

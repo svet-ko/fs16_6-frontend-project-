@@ -71,7 +71,8 @@ const HomePage = () => {
         alignItems: "center",
         flexWrap: "wrap",
         rowGap: "1em",
-        backgroundColor: '#AFDAFC',
+        //backgroundColor: '#AFDAFC',
+        bgcolor: 'primary.light',
         borderRadius: '0.3em'
       }}>
 

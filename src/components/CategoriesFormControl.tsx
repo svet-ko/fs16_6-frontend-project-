@@ -20,8 +20,9 @@ const CategoriesFormControl = ({selectValue, onItemChange}: CategoriesFormContro
 
   return (
     <FormControl fullWidth>
-      <InputLabel id="form-select-category-label">Categories</InputLabel>
+      <InputLabel color='secondary' id="form-select-category-label">Categories</InputLabel>
       <Select
+        color='secondary'
         labelId="form-select-category-label"
         id="form-select-category"
         value={selectValue}

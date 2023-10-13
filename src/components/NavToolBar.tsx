@@ -10,6 +10,8 @@ import AdbIcon from '@mui/icons-material/Adb';
 import React from 'react'
 import { Link } from 'react-router-dom'
 
+import DarkModeToggle from './DarkModeToggle';
+
 const pages = ['home', 'products', 'about'];
 
 const NavToolBar = () => {
@@ -114,6 +116,7 @@ const NavToolBar = () => {
           </Button>
         ))}
       </Box>
+      <DarkModeToggle />
     </>
   )
 }

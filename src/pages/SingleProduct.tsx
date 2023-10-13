@@ -86,7 +86,7 @@ const SingleProduct = () => {
       sx={{
         minWidth: '60%',
         maxWidth: '90%',
-        backgroundColor: '#AFDAFC',
+        bgcolor: 'primary.light',
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
@@ -106,7 +106,7 @@ const SingleProduct = () => {
 
         {currentProduct && !error && !loading && (
           <>
-            <Typography sx={{color:'#1976d2'}} variant="h4" align="center" gutterBottom>
+            <Typography color='primary' variant="h4" align="center" gutterBottom>
               {currentProduct.title}
             </Typography>
             <Box

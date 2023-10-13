@@ -80,7 +80,7 @@ const UpdateProductForm = ({onGetProduct, productId}: UpdateProductFormProps) =>
     <Box maxWidth="400px" sx={{
       borderRadius: '0.3em',
       p: '1em',
-      backgroundColor: 'white'
+      bgcolor: 'primary.main'
     }}>
         <Box
           sx={{
@@ -89,13 +89,14 @@ const UpdateProductForm = ({onGetProduct, productId}: UpdateProductFormProps) =>
             alignItems: 'center',
           }}
         >
-          <Typography component="h1" variant="h5" color='primary'>
+          <Typography component="h1" variant="h5" color='secondary'>
             Update product
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
+                  color = 'secondary'
                   autoComplete="title"
                   name="title"
                   fullWidth
@@ -109,6 +110,7 @@ const UpdateProductForm = ({onGetProduct, productId}: UpdateProductFormProps) =>
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  color = 'secondary'
                   fullWidth
                   id="price"
                   label="Price"
@@ -120,6 +122,7 @@ const UpdateProductForm = ({onGetProduct, productId}: UpdateProductFormProps) =>
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  color = 'secondary'
                   fullWidth
                   id="description"
                   label="Description"
@@ -134,6 +137,7 @@ const UpdateProductForm = ({onGetProduct, productId}: UpdateProductFormProps) =>
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  color = 'secondary'
                   fullWidth
                   id="images"
                   label="Images"
