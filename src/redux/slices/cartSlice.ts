@@ -5,41 +5,52 @@ import Product from "../../types/Product";
 export const initialState: CartItem[] = [];
 
 const cartSlice = createSlice({
-  name: 'cart',
+  name: "cart",
   initialState,
   reducers: {
     addToCart: (state, action: PayloadAction<Product>) => {
-      const foundIndex = state.findIndex(item => item.id === action.payload.id)
+      const foundIndex = state.findIndex(
+        (item) => item.id === action.payload.id
+      );
       if (foundIndex !== -1) {
         state[foundIndex].quantity++;
       } else {
         const cartItem: CartItem = { ...action.payload, quantity: 1 };
         state.push(cartItem);
-      }  
+      }
     },
 
     removeItemOfProductFromCart: (state, action: PayloadAction<number>) => {
-      const indexOfProductToRemove = state.findIndex(item => item.id === action.payload);
+      const indexOfProductToRemove = state.findIndex(
+        (item) => item.id === action.payload
+      );
       const itemToRemove = state[indexOfProductToRemove];
       if (itemToRemove.quantity > 1) {
-        itemToRemove.quantity--
+        itemToRemove.quantity--;
       } else {
         state.splice(indexOfProductToRemove, 1);
       }
     },
 
     removeAllItemsOfProductFromCart: (state, action: PayloadAction<number>) => {
-      const indexOfProductToRemove = state.findIndex(item => item.id === action.payload);
+      const indexOfProductToRemove = state.findIndex(
+        (item) => item.id === action.payload
+      );
       state.splice(indexOfProductToRemove, 1);
     },
 
     removeAllProductsFromCart: (state) => {
       return [];
-    }
-  }
-})
+    },
+  },
+});
 
 const cartReducer = cartSlice.reducer;
 
-export const { addToCart, removeItemOfProductFromCart, removeAllItemsOfProductFromCart, removeAllProductsFromCart } = cartSlice.actions;
+export const {
+  addToCart,
+  removeItemOfProductFromCart,
+  removeAllItemsOfProductFromCart,
+  removeAllProductsFromCart,
+} = cartSlice.actions;
 export default cartReducer;

@@ -1,4 +1,4 @@
 export const jwtFixture = {
-  access_token: 'testtoken',
-  refresh_token: 'testtoken',
+  access_token: "testtoken",
+  refresh_token: "testtoken",
 };

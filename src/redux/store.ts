@@ -1,5 +1,5 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
+import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 import persistReducer from "redux-persist/lib/persistReducer";
 import persistStore from "redux-persist/lib/persistStore";
 import { PersistConfig } from "redux-persist/lib/types";
@@ -10,7 +10,7 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
-} from 'redux-persist'
+} from "redux-persist";
 
 import productReducer from "../redux/slices/productsSlice";
 import { setupListeners } from "@reduxjs/toolkit/dist/query/react";
@@ -19,16 +19,16 @@ import usersReducer from "./slices/userSlice";
 import categoriesReducer from "./slices/categoriesSlice";
 
 const persistConfig: PersistConfig<any> = {
-  key: 'root',
+  key: "root",
   storage,
-  whitelist: ['cartReducer']
+  whitelist: ["cartReducer"],
 };
 
 const rootReducer = combineReducers({
   productReducer,
   usersReducer,
   cartReducer,
-  categoriesReducer
+  categoriesReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -43,7 +43,7 @@ export const createStore = () => {
         },
       }),
   });
-}
+};
 
 const store = createStore();
 

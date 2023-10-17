@@ -1,18 +1,23 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import Snackbar from '@mui/material/Snackbar';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
+import * as React from "react";
+import Button from "@mui/material/Button";
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface SnackBarCompletionProps {
-  buttonText: string,
-  message: string,
-  buttonSize: "small" | "medium" | "large",
+  buttonText: string;
+  message: string;
+  buttonSize: "small" | "medium" | "large";
   handleButtonClick?: () => any;
-  buttonClickParams?: any
+  buttonClickParams?: any;
 }
 
-export default function SnackBarCompletion({buttonText, message, buttonSize, handleButtonClick}: SnackBarCompletionProps) {
+export default function SnackBarCompletion({
+  buttonText,
+  message,
+  buttonSize,
+  handleButtonClick,
+}: SnackBarCompletionProps) {
   const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
@@ -22,8 +27,11 @@ export default function SnackBarCompletion({buttonText, message, buttonSize, han
     setOpen(true);
   };
 
-  const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') {
+  const handleClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
       return;
     }
     setOpen(false);
@@ -44,7 +52,15 @@ export default function SnackBarCompletion({buttonText, message, buttonSize, han
 
   return (
     <div>
-      <Button variant="contained" aria-label="complete-purchase" size={buttonSize} sx={{mb: '1em'}} onClick={handleClick}>{buttonText}</Button>
+      <Button
+        variant="contained"
+        aria-label="complete-purchase"
+        size={buttonSize}
+        sx={{ mb: "1em" }}
+        onClick={handleClick}
+      >
+        {buttonText}
+      </Button>
       <Snackbar
         open={open}
         autoHideDuration={6000}

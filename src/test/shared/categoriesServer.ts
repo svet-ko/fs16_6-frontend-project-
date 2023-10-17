@@ -1,8 +1,8 @@
-import { rest } from 'msw'
-import { setupServer } from 'msw/node'
+import { rest } from "msw";
+import { setupServer } from "msw/node";
 
 import categoriesData from "../data/categoriesData";
-import { BASE_URL } from '../../config/api';
+import { BASE_URL } from "../../config/api";
 
 export const handlers = [
   rest.get(`${BASE_URL}/categories`, async (req, res, ctx) => {

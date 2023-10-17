@@ -1,71 +1,90 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { Link, useNavigate } from 'react-router-dom';
+import * as React from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { Link, useNavigate } from "react-router-dom";
 
-import useAppDispatch from '../hooks/useDispatch';
-import { useState } from 'react';
-import { checkInputValidity } from '../selectors/checkInputValidity';
-import { registerUserAsync } from '../redux/slices/userSlice';
-import InfoTooltip from '../components/InfoTooltip';
-import { DEFAULT_AVATAR_URL } from '../config/api';
+import useAppDispatch from "../hooks/useDispatch";
+import { useState } from "react";
+import { checkInputValidity } from "../selectors/checkInputValidity";
+import { registerUserAsync } from "../redux/slices/userSlice";
+import InfoTooltip from "../components/InfoTooltip";
+import { DEFAULT_AVATAR_URL } from "../config/api";
 
 export default function Register() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const [name, setName] = useState<string>('');
-  const [surname, setSurname] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [name, setName] = useState<string>("");
+  const [surname, setSurname] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   const [isEmailInputValid, setIsEmailInputValid] = useState<boolean>(true);
-  const [emailChangeValidationMessage, setEmailChangeValidationMessage] = useState<string>('');
+  const [emailChangeValidationMessage, setEmailChangeValidationMessage] =
+    useState<string>("");
 
-  const [isPasswordInputValid, setIsPasswordInputValid] = useState<boolean>(true);
-  const [passwordChangeValidationMessage, setPasswordChangeValidationMessage] = useState<string>('');
+  const [isPasswordInputValid, setIsPasswordInputValid] =
+    useState<boolean>(true);
+  const [passwordChangeValidationMessage, setPasswordChangeValidationMessage] =
+    useState<string>("");
 
   const [isFormValid, setFormValid] = useState<boolean>(false);
 
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
 
-  function onPasswordChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+  function onPasswordChange(
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
     setPassword(e.target.value);
-    checkInputValidity(e, isPasswordInputValid, setIsPasswordInputValid, setPasswordChangeValidationMessage);
+    checkInputValidity(
+      e,
+      isPasswordInputValid,
+      setIsPasswordInputValid,
+      setPasswordChangeValidationMessage
+    );
     setFormValid(isEmailInputValid && isPasswordInputValid);
   }
 
- function onEmailChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
-   setEmail(e.target.value);
-   checkInputValidity(e, isEmailInputValid, setIsEmailInputValid, setEmailChangeValidationMessage);
-   setFormValid(isEmailInputValid && isPasswordInputValid);
+  function onEmailChange(
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
+    setEmail(e.target.value);
+    checkInputValidity(
+      e,
+      isEmailInputValid,
+      setIsEmailInputValid,
+      setEmailChangeValidationMessage
+    );
+    setFormValid(isEmailInputValid && isPasswordInputValid);
   }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    dispatch(registerUserAsync({
-      email: email,
-      password: password,
-      name: name.concat(surname),
-      role: 'customer',
-      avatar: DEFAULT_AVATAR_URL
-    }))
-    .unwrap()
-    .then(() => {
-      navigate("/login");
-    })
-    .catch((err) => {
-      setIsInfoTooltipOpen(true);
-    })
+    dispatch(
+      registerUserAsync({
+        email: email,
+        password: password,
+        name: name.concat(surname),
+        role: "customer",
+        avatar: DEFAULT_AVATAR_URL,
+      })
+    )
+      .unwrap()
+      .then(() => {
+        navigate("/login");
+      })
+      .catch((err) => {
+        setIsInfoTooltipOpen(true);
+      });
   };
 
   return (
@@ -75,18 +94,23 @@ export default function Register() {
         <Box
           sx={{
             marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box
+            component="form"
+            noValidate
+            onSubmit={handleSubmit}
+            sx={{ mt: 3 }}
+          >
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -97,7 +121,7 @@ export default function Register() {
                   id="firstName"
                   label="First Name"
                   autoFocus
-                  sx={{zIndex: 0}}
+                  sx={{ zIndex: 0 }}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
@@ -127,7 +151,7 @@ export default function Register() {
                   error={!isEmailInputValid}
                   helperText={emailChangeValidationMessage}
                   type="email"
-                  sx={{zIndex: 0}}
+                  sx={{ zIndex: 0 }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -143,12 +167,14 @@ export default function Register() {
                   onChange={onPasswordChange}
                   error={!isPasswordInputValid}
                   helperText={passwordChangeValidationMessage}
-                  sx={{zIndex: 0}}
+                  sx={{ zIndex: 0 }}
                 />
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
+                  control={
+                    <Checkbox value="allowExtraEmails" color="primary" />
+                  }
                   label="I want to receive inspiration, marketing promotions and updates via email."
                 />
               </Grid>
@@ -164,10 +190,7 @@ export default function Register() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Button
-                  variant="text"
-                  component={Link} to={`/login`}
-                >
+                <Button variant="text" component={Link} to={`/login`}>
                   "Already have an account? Sign In"
                 </Button>
               </Grid>
@@ -177,8 +200,8 @@ export default function Register() {
       </Container>
       <InfoTooltip
         isOpen={isInfoTooltipOpen}
-        onClose={()=>setIsInfoTooltipOpen(false)}
-        errorText='Something went wrong! Try again.'
+        onClose={() => setIsInfoTooltipOpen(false)}
+        errorText="Something went wrong! Try again."
       />
     </>
   );
