@@ -24,11 +24,13 @@ const cartSlice = createSlice({
       const indexOfProductToRemove = state.findIndex(
         (item) => item.id === action.payload
       );
-      const itemToRemove = state[indexOfProductToRemove];
-      if (itemToRemove.quantity > 1) {
-        itemToRemove.quantity--;
-      } else {
-        state.splice(indexOfProductToRemove, 1);
+      if (indexOfProductToRemove !== -1) {
+        const itemToRemove = state[indexOfProductToRemove];
+        if (itemToRemove.quantity > 1) {
+          itemToRemove.quantity--;
+        } else {
+          state.splice(indexOfProductToRemove, 1);
+        }
       }
     },
 

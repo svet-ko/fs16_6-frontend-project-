@@ -50,7 +50,7 @@ export default function ProductsPage() {
   useEffect(() => {
     dispatch(fetchAllProductsAsync({ title: search }));
     setSortDirection("");
-  }, [debouncedSearch, dispatch, search]);
+  }, [debouncedSearch, dispatch]);
 
   const handlePageChange = (event: ChangeEvent<unknown>, value: number) => {
     setOffset(value);

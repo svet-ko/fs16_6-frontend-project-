@@ -108,20 +108,23 @@ const HeaderUserHadlers = () => {
               </MenuItem>
             ))}
           </Menu>
-          <IconButton
-            color="inherit"
-            component={Link}
-            to="/cart"
-            aria-label="cart"
-          >
-            <Badge
-              badgeContent={productsInCartAmount}
-              color="secondary"
-              max={99}
+
+          {currentUser.role === "customer" && (
+            <IconButton
+              color="inherit"
+              component={Link}
+              to="/cart"
+              aria-label="cart"
             >
-              <ShoppingCartIcon />
-            </Badge>
-          </IconButton>
+              <Badge
+                badgeContent={productsInCartAmount}
+                color="secondary"
+                max={99}
+              >
+                <ShoppingCartIcon />
+              </Badge>
+            </IconButton>
+          )}
         </Box>
       )}
     </>

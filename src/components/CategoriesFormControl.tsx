@@ -6,7 +6,6 @@ import { AppState } from "../redux/store";
 
 interface CategoriesFormControlProps {
   selectValue: number | string;
-  //onItemChange: (params?: any) => void;
   onItemChange: ((event: SelectChangeEvent<string | number>, child: React.ReactNode) => void) | undefined;
 }
 
