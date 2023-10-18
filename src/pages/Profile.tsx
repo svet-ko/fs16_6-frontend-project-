@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import LoadBox from "../components/LoadBox";
 import CreateProductForm from "../components/CreateProductForm";
 import AdminDashboard from "../components/AdminDashboard";
+import { relative } from "path";
 
 const ProfilePage = () => {
   const { currentUser, loading, error } = useAppSelector(
@@ -58,7 +59,9 @@ const ProfilePage = () => {
             </Box>
           </Box>
           {currentUser.role === "admin" && (
-            <AdminDashboard />
+            <Box sx={{mb: "5em"}}>
+              <AdminDashboard />
+            </Box>
           )}
         </>
       )}

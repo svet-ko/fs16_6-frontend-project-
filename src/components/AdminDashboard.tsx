@@ -22,24 +22,16 @@ import {
 import {
   randomId,
 } from '@mui/x-data-grid-generator';
-import { Typography } from '@mui/material';
+import { TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { deleteProductAsync, fetchAllProductsAsync, updateProductAsync } from '../redux/slices/productsSlice';
 import useAppDispatch from '../hooks/useDispatch';
 import useAppSelector from '../hooks/useAppSelector';
 import { AppState } from '../redux/store';
 import InfoTooltip from './InfoTooltip';
-
-/*
-const initialRows: GridRowsProp = [
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 25,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-];*/
+import useDebounce from '../hooks/useDebounce';
+import ErrorPage from '../pages/Error';
+import LoadBox from './LoadBox';
 
 interface EditToolbarProps {
   setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
@@ -79,8 +71,6 @@ export default function FullFeaturedCrudGrid() {
   const {categories} = useAppSelector(
     (state: AppState) => state.categoriesReducer
   )
-
-  const categoriesIds: Array<number> = categories.map((category) => category.id);
   
   const [rows, setRows] = useState<GridRowsProp>(products);
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
@@ -89,16 +79,21 @@ export default function FullFeaturedCrudGrid() {
   const [isInfoTooltipSuccessed, setIsInfoTooltipSuccessed] =
     useState<boolean>(false);
   const [errorText, setErrorText] = useState<string>("Something went wrong");
+  const [search, setSearch] = useState<string>("");
+  const [debouncedSearch, setDebouncedSearch] = useState<string | undefined>(
+    search
+  );
+  useDebounce(() => setDebouncedSearch(search), search);
 
   useEffect(() => {
-    dispatch(fetchAllProductsAsync({}))
+    dispatch(fetchAllProductsAsync({title: search}))
     .unwrap()
     .then((result) => {
       setRows(result);
     })
     .catch(() => {
     })
-  }, []);
+  }, [debouncedSearch, dispatch]);
 
   const handleRowEditStop: GridEventListener<'rowEditStop'> = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -248,22 +243,35 @@ export default function FullFeaturedCrudGrid() {
       >
         Admin's dashboard
       </Typography>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        editMode="row"
-        rowModesModel={rowModesModel}
-        onRowModesModelChange={handleRowModesModelChange}
-        onRowEditStop={handleRowEditStop}
-        processRowUpdate={processRowUpdate}
-        onProcessRowUpdateError={(err) => console.log(err)}
-        slots={{
-          toolbar: EditToolbar,
+      <TextField
+        id="outlined-controlled"
+        label="Search for item"
+        value={search}
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+          setSearch(event.target.value);
         }}
-        slotProps={{
-          toolbar: { setRows, setRowModesModel },
-        }}
+        sx={{mb: "2em"}}
       />
+      {error && !loading && <ErrorPage message={error} />}
+      {loading && !error && <LoadBox />}
+      {!loading && !error && (
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          editMode="row"
+          rowModesModel={rowModesModel}
+          onRowModesModelChange={handleRowModesModelChange}
+          onRowEditStop={handleRowEditStop}
+          processRowUpdate={processRowUpdate}
+          onProcessRowUpdateError={(err) => console.log(err)}
+          slots={{
+            toolbar: EditToolbar,
+          }}
+          slotProps={{
+            toolbar: { setRows, setRowModesModel },
+          }}
+        />
+      )}
       <InfoTooltip
         isOpen={isInfoTooltipOpen}
         onClose={() => setIsInfoTooltipOpen(false)}
