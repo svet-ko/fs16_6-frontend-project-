@@ -20,10 +20,7 @@ import {
   GridRowEditStopReasons,
 } from '@mui/x-data-grid';
 import {
-  randomCreatedDate,
-  randomTraderName,
   randomId,
-  randomArrayItem,
 } from '@mui/x-data-grid-generator';
 import { Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
@@ -83,8 +80,7 @@ export default function FullFeaturedCrudGrid() {
     (state: AppState) => state.categoriesReducer
   )
 
-  const categoriesNames: Array<string> = categories.map((category) => category.name);
-  //console.log(categoriesNames);
+  const categoriesIds: Array<number> = categories.map((category) => category.id);
   
   const [rows, setRows] = useState<GridRowsProp>(products);
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
@@ -144,6 +140,7 @@ export default function FullFeaturedCrudGrid() {
   };
 
   const processRowUpdate = (newRow: GridRowModel) => {
+    console.log(newRow);
     const updatedRow = { ...newRow, isNew: false };
     dispatch(updateProductAsync({id: newRow.id, update: newRow}))
     return updatedRow;
@@ -175,21 +172,13 @@ export default function FullFeaturedCrudGrid() {
       width: 500,
       editable: true,
     },
-    /*{
-      field: 'category',
-      headerName: 'Category',
-      valueFormatter: ({ value }) => value.name,
-      width: 180,
-      editable: true,
-      valueGetter(params) {
-        //console.log(params);
-        return params.value.name;
-      },
-      valueSetter(params) {
-        console.log(params);
-        return params.row.category.id;
-      },
-    },*/
+    {
+       field: 'category',
+       headerName: 'Category',
+       valueFormatter: ({ value }) => value.name,
+       width: 180,
+       editable: false,
+    },
     {
       field: 'actions',
       type: 'actions',
@@ -267,6 +256,7 @@ export default function FullFeaturedCrudGrid() {
         onRowModesModelChange={handleRowModesModelChange}
         onRowEditStop={handleRowEditStop}
         processRowUpdate={processRowUpdate}
+        onProcessRowUpdateError={(err) => console.log(err)}
         slots={{
           toolbar: EditToolbar,
         }}
