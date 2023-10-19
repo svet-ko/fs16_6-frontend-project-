@@ -3,12 +3,13 @@ import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import { Box } from "@mui/material";
 
 interface SnackBarCompletionProps {
   buttonText: string;
   message: string;
   buttonSize: "small" | "medium" | "large";
-  handleButtonClick?: () => any;
+  handleButtonClick?: (params?: any) => any;
   buttonClickParams?: any;
 }
 
@@ -51,7 +52,7 @@ export default function SnackBarCompletion({
   );
 
   return (
-    <div>
+    <Box>
       <Button
         variant="contained"
         aria-label="complete-purchase"
@@ -68,6 +69,6 @@ export default function SnackBarCompletion({
         message={message}
         action={action}
       />
-    </div>
+    </Box>
   );
 }

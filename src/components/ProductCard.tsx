@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Box,
   Button,
   Card,
   CardActions,
@@ -13,7 +14,7 @@ import Product from "../types/Product";
 import useAppDispatch from "../hooks/useDispatch";
 import { addToCart } from "../redux/slices/cartSlice";
 import SnackBarCompletion from "./SnackBar";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { fetchAllProductsAsync } from "../redux/slices/productsSlice";
 
 type ProductCardProps = {
@@ -29,7 +30,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
     dispatch(addToCart(payload));
   };
 
-  const onCategoriesClick = () => {
+  const onCategoriesClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
     dispatch(fetchAllProductsAsync({ categoryId: product.category.id }))
       .then(() => {})
       .catch((err) => navigate("/error"));
@@ -45,8 +47,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
         sx={{
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center", 
+          justifyContent: "space-between",
+          alignItems: "center",
           height: "100%",
           transition: 'transform 0.2s',
           '&:hover': {
@@ -66,13 +68,13 @@ const ProductCard = ({ product }: ProductCardProps) => {
         >
         <CardMedia
           component="img"
-          height="250"
+          height="210"
           image={product.images[0]}
           alt={product.title}
           style={{
-              objectFit: "cover",
-              width: "100%",
-              borderRadius: "0.5rem",
+            objectFit: "cover",
+            width: "100%",
+            borderRadius: "0.5rem",
           }}
         />
         <CardContent sx={{ flexGrow: 1 }}>
@@ -82,23 +84,32 @@ const ProductCard = ({ product }: ProductCardProps) => {
           {!!isProductsPage && (
             <Typography gutterBottom>
               Category:{" "}
-              <Button onClick={onCategoriesClick}>
+              <Button onClick={
+                  onCategoriesClick
+              }>
                 {product.category.name}
               </Button>
             </Typography>
           )}
           <Typography gutterBottom>{product.description}</Typography>
         </CardContent>
-        <Typography align="center" variant="h5" color="primary" gutterBottom>
-          {product.price}€
-        </Typography>
         </CardActions>
-        <SnackBarCompletion
-            buttonText="Add to Cart"
-            message="Product added to cart successfully"
-            buttonSize="small"
-            handleButtonClick={() => onAddToCart(product)}
-          />
+        <Box sx={{
+          mb: "1em"
+        }}>
+          <Typography align="center" variant="h5" color="primary" gutterBottom>
+            {product.price}€
+          </Typography>
+          <Button
+            variant="contained"
+            aria-label="complete-purchase"
+            size="small"
+            sx={{ mb: "1em" }}
+            onClick={() => onAddToCart(product)}
+          >
+            Add to Cart
+          </Button>
+        </Box>
       </Card>
     </Grid>
   );
