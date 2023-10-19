@@ -118,6 +118,7 @@ export default function ProductsPage() {
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 setSearch(event.target.value);
               }}
+              sx={{minWidth: "15em"}}
             />
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Sort by:</InputLabel>

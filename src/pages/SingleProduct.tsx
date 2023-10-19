@@ -78,9 +78,10 @@ const SingleProduct = () => {
       sx={{
         display: "flex",
         justifyContent: "center",
-        alignItems: "center",
-        marginTop: "2em",
-        marginBottom: "2em",
+        bgcolor: "background.paper",
+        minHeight: "100vh",
+        pt: 8,
+        pb: 6,
       }}
     >
       <Box
@@ -88,6 +89,7 @@ const SingleProduct = () => {
           position: "relative",
           minWidth: "60%",
           maxWidth: "90%",
+          height: "60%",
           bgcolor: "primary.light",
           display: "flex",
           flexDirection: "column",

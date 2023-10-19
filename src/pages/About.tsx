@@ -12,6 +12,7 @@ const About = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        minHeight: "100vh"
       }}
     >
       <Typography variant="h2" gutterBottom>

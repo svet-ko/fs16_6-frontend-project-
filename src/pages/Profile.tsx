@@ -18,6 +18,7 @@ const ProfilePage = () => {
         bgcolor: "background.paper",
         pt: 8,
         pb: 6,
+        minHeight: "100vh"
       }}
     >
       {loading && !error && <LoadBox />}
