@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Box, Button, ButtonGroup, Container, Typography } from "@mui/material";
+import { Box, Button, ButtonGroup, Container, Grid, Typography } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import LoadBox from "../components/LoadBox";
@@ -13,12 +13,12 @@ import {
   deleteProductAsync,
   fetchOneProductAsync,
 } from "../redux/slices/productsSlice";
-import StyledImage from "../styles/components/StyledImage";
 import SnackBarCompletion from "../components/SnackBar";
 import Product from "../types/Product";
 import { addToCart } from "../redux/slices/cartSlice";
 import InfoTooltip from "../components/InfoTooltip";
 import UpdateProductForm from "../components/UpdateProductForm";
+import ImageSlider from "../components/ImageSlider";
 
 const SingleProduct = () => {
   const { currentProduct, loading, error } = useAppSelector(
@@ -85,6 +85,7 @@ const SingleProduct = () => {
     >
       <Box
         sx={{
+          position: "relative",
           minWidth: "60%",
           maxWidth: "90%",
           bgcolor: "primary.light",
@@ -92,7 +93,7 @@ const SingleProduct = () => {
           flexDirection: "column",
           justifyContent: "space-between",
           alignItems: "center",
-          padding: "1em",
+          padding: "2em",
           color: "primary",
           borderRadius: "0.3em",
         }}
@@ -111,17 +112,19 @@ const SingleProduct = () => {
             >
               {currentProduct.title}
             </Typography>
-            <Box
+            <Grid container
               sx={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
                 flexWrap: "wrap",
+                gap: "3em"
               }}
             >
-              <Box maxWidth={"200px"}>
-                <StyledImage link={currentProduct.images[0]} />
-              </Box>
+
+              <Grid item xs={12} sm={6} sx={{ mb: "2em" }}>
+                <ImageSlider images={currentProduct.images} />
+              </Grid>
 
               <Box maxWidth={"400px"} sx={{ mb: "2em" }}>
                 <Typography
@@ -179,7 +182,7 @@ const SingleProduct = () => {
                   </ButtonGroup>
                 )}
               </Box>
-            </Box>
+            </Grid>
             <Button
               variant="contained"
               onClick={handleReturn}

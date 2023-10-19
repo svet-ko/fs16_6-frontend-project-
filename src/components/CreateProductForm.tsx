@@ -5,7 +5,6 @@ import {
   SelectChangeEvent,
   TextField,
   Typography,
-  styled,
 } from "@mui/material";
 import React, { useState } from "react";
 
@@ -13,33 +12,6 @@ import InfoTooltip from "./InfoTooltip";
 import useAppDispatch from "../hooks/useDispatch";
 import { createProductAsync } from "../redux/slices/productsSlice";
 import CategoriesFormControl from "./CategoriesFormControl";
-
-// export const StyledTextField = styled(TextField)({
-//   "& label": {
-//     color: "white"
-//   },
-//   "&:hover label": {
-//     fontWeight: 700
-//   },
-//   "& label.Mui-focused": {
-//     color: "white"
-//   },
-//   "& .MuiInput-underline:after": {
-//     borderBottomColor: "white"
-//   },
-//   "& .MuiOutlinedInput-root": {
-//     "& fieldset": {
-//       borderColor: "white"
-//     },
-//     "&:hover fieldset": {
-//       borderColor: "white",
-//       borderWidth: 2
-//     },
-//     "&.Mui-focused fieldset": {
-//       borderColor: "white"
-//     }
-//   }
-// });
 
 const CreateProductForm = () => {
   const dispatch = useAppDispatch();

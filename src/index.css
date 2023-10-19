@@ -17,6 +17,15 @@ code {
   border-radius: 0.3em;
 }
 
+.slider-image {
+  border-radius: 0.3em;
+  max-width: 100%;
+  object-fit: cover;
+  width: 100%;
+  max-height: 400px;
+  display: block;
+}
+
 .banner {
   max-width: 1000px;
 }

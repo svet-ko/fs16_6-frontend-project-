@@ -13,7 +13,6 @@ import {
 import Product from "../types/Product";
 import useAppDispatch from "../hooks/useDispatch";
 import { addToCart } from "../redux/slices/cartSlice";
-import SnackBarCompletion from "./SnackBar";
 import { useNavigate } from "react-router-dom";
 import { fetchAllProductsAsync } from "../redux/slices/productsSlice";
 
