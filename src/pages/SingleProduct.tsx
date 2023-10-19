@@ -156,14 +156,20 @@ const SingleProduct = () => {
                 {currentUser && currentUser.role === "admin" && (
                   <ButtonGroup>
                     <Button
-                      sx={{ borderColor: "primary.dark", color: "primary.dark"}}
+                      sx={{
+                        borderColor: "primary.dark",
+                        color: "primary.dark"
+                      }}
                       variant="outlined"
                       onClick={() => setIsUpdateForm(true)}
                     >
                       Update
                     </Button>
                     <Button
-                      sx={{ borderColor: "primary.dark", color: "primary.dark"}}
+                      sx={{
+                        borderColor: "primary.dark",
+                        color: "primary.dark"
+                      }}
                       variant="outlined"
                       startIcon={<DeleteIcon />}
                       onClick={() => onDelete(currentProduct.id)}
