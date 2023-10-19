@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import LoadBox from "../components/LoadBox";
 import CreateProductForm from "../components/CreateProductForm";
 import AdminDashboard from "../components/AdminDashboard";
-import { relative } from "path";
 
 const ProfilePage = () => {
   const { currentUser, loading, error } = useAppSelector(
@@ -41,25 +40,27 @@ const ProfilePage = () => {
               <Typography
                 variant="h2"
                 component="h1"
-                color="primary"
+                color="primary.dark"
                 gutterBottom
               >
                 {currentUser.name}'s profile
               </Typography>
               <StyledImage link={currentUser.avatar} />
-              <Typography variant="body1" gutterBottom fontSize={20}>
+              <Typography variant="body1" color="primary.dark" gutterBottom fontSize={20}>
                 My e-mail: {currentUser.email}
               </Typography>
-              <Button variant="contained" component={Link} to={`/cart`}>
-                Visit cart
-              </Button>
+              {currentUser.role === "customer" && (
+                <Button variant="contained" component={Link} to={`/cart`}>
+                  Visit cart
+                </Button>
+              )}
             </Box>
             <Box>
               <CreateProductForm />
             </Box>
           </Box>
           {currentUser.role === "admin" && (
-            <Box sx={{mb: "5em"}}>
+            <Box sx={{mb: "8em"}}>
               <AdminDashboard />
             </Box>
           )}

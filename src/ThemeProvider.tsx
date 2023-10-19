@@ -34,12 +34,13 @@ export function ThemeProvider({ children }: ThemeProviderProps): JSX.Element {
       mode: 'light',
       primary: {
         main: '#f06292',
+        dark: '#c2185b',
         light: '#f8bbd0',
         contrastText: '#fce4ec',
       },
       secondary: {
         main: '#c2185b',
-        light: '#f8bbd0',
+        light: '#fce4ec',
       },
       background: {
         default: '#f5f5f5',
@@ -53,6 +54,10 @@ export function ThemeProvider({ children }: ThemeProviderProps): JSX.Element {
       primary: {
         main: '#0d47a1',
       },
+      secondary: {
+        light: "#00008B",
+        main: "#bfcfff",
+      }
     },
   });
 

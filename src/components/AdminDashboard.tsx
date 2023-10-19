@@ -33,7 +33,7 @@ import useDebounce from '../hooks/useDebounce';
 import ErrorPage from '../pages/Error';
 import LoadBox from './LoadBox';
 
-interface EditToolbarProps {
+/*interface EditToolbarProps {
   setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
   setRowModesModel: (
     newModel: (oldModel: GridRowModesModel) => GridRowModesModel,
@@ -59,7 +59,7 @@ function EditToolbar(props: EditToolbarProps) {
       </Button>
     </GridToolbarContainer>
   );
-}
+}*/
 
 export default function FullFeaturedCrudGrid() {
   const dispatch = useAppDispatch();
@@ -264,9 +264,9 @@ export default function FullFeaturedCrudGrid() {
           onRowEditStop={handleRowEditStop}
           processRowUpdate={processRowUpdate}
           onProcessRowUpdateError={(err) => console.log(err)}
-          slots={{
+          /*slots={{
             toolbar: EditToolbar,
-          }}
+          }}*/
           slotProps={{
             toolbar: { setRows, setRowModesModel },
           }}

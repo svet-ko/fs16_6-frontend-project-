@@ -5,6 +5,7 @@ import {
   SelectChangeEvent,
   TextField,
   Typography,
+  styled,
 } from "@mui/material";
 import React, { useState } from "react";
 
@@ -12,6 +13,33 @@ import InfoTooltip from "./InfoTooltip";
 import useAppDispatch from "../hooks/useDispatch";
 import { createProductAsync } from "../redux/slices/productsSlice";
 import CategoriesFormControl from "./CategoriesFormControl";
+
+// export const StyledTextField = styled(TextField)({
+//   "& label": {
+//     color: "white"
+//   },
+//   "&:hover label": {
+//     fontWeight: 700
+//   },
+//   "& label.Mui-focused": {
+//     color: "white"
+//   },
+//   "& .MuiInput-underline:after": {
+//     borderBottomColor: "white"
+//   },
+//   "& .MuiOutlinedInput-root": {
+//     "& fieldset": {
+//       borderColor: "white"
+//     },
+//     "&:hover fieldset": {
+//       borderColor: "white",
+//       borderWidth: 2
+//     },
+//     "&.Mui-focused fieldset": {
+//       borderColor: "white"
+//     }
+//   }
+// });
 
 const CreateProductForm = () => {
   const dispatch = useAppDispatch();
@@ -59,9 +87,9 @@ const CreateProductForm = () => {
     <Box
       maxWidth="400px"
       sx={{
-        borderRadius: "0.3em",
         p: "1em",
-        bgcolor: "primary.main",
+        borderRadius: "0.3em",
+        backgroundColor: "secondary.light"
       }}
     >
       <Box
@@ -71,14 +99,14 @@ const CreateProductForm = () => {
           alignItems: "center",
         }}
       >
-        <Typography component="h1" variant="h5" color="secondary.light">
+        <Typography component="h1" variant="h5" color="secondary">
           Create new product
         </Typography>
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
-                color="secondary"
+                sx={{ zIndex: 0 }}
                 autoComplete="title"
                 name="title"
                 required
@@ -88,12 +116,10 @@ const CreateProductForm = () => {
                 autoFocus
                 value={title || ""}
                 onChange={(e) => setTitle(e.target.value)}
-                sx={{ zIndex: 0 }}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
-                color="secondary"
                 required
                 fullWidth
                 id="price"

@@ -31,8 +31,8 @@ const UpdateProductForm = ({
   const [categoryId, setCategoryId] = useState<number | undefined>();
   const [images, setImages] = useState<Array<string> | undefined>();
 
-  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
-  const [isInfoTooltipSuccessed, setIsInfoTooltipSuccessed] = useState(false);
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState<boolean>(false);
+  const [isInfoTooltipSuccessed, setIsInfoTooltipSuccessed] = useState<boolean>(false);
   const [errorText, setErrorText] = useState<string>("Something went wrong");
 
   const isFormValid =
@@ -85,7 +85,7 @@ const UpdateProductForm = ({
       sx={{
         borderRadius: "0.3em",
         p: "1em",
-        bgcolor: "primary.main",
+        bgcolor: "secondary.light",
       }}
     >
       <Box
@@ -95,14 +95,13 @@ const UpdateProductForm = ({
           alignItems: "center",
         }}
       >
-        <Typography component="h1" variant="h5" color="secondary.light">
+        <Typography component="h1" variant="h5" color="secondary">
           Update product
         </Typography>
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
-                color="secondary"
                 autoComplete="title"
                 name="title"
                 fullWidth
@@ -116,7 +115,6 @@ const UpdateProductForm = ({
             </Grid>
             <Grid item xs={12}>
               <TextField
-                color="secondary"
                 fullWidth
                 id="price"
                 label="Price"
@@ -128,7 +126,6 @@ const UpdateProductForm = ({
             </Grid>
             <Grid item xs={12}>
               <TextField
-                color="secondary"
                 fullWidth
                 id="description"
                 label="Description"
@@ -148,7 +145,6 @@ const UpdateProductForm = ({
             </Grid>
             <Grid item xs={12}>
               <TextField
-                color="secondary"
                 fullWidth
                 id="images"
                 label="Images"

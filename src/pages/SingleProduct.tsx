@@ -104,7 +104,7 @@ const SingleProduct = () => {
         {currentProduct && !error && !loading && (
           <>
             <Typography
-              color="primary"
+              color="primary.dark"
               variant="h4"
               align="center"
               gutterBottom
@@ -123,8 +123,13 @@ const SingleProduct = () => {
                 <StyledImage link={currentProduct.images[0]} />
               </Box>
 
-              <Box maxWidth={"400px"}>
-                <Typography variant="body1" gutterBottom>
+              <Box maxWidth={"400px"} sx={{ mb: "2em" }}>
+                <Typography
+                  variant="body1"
+                  color="primary.dark"
+                  sx={{ fontWeight: "bold" }}
+                  gutterBottom
+                >
                   Product's category: "{currentProduct.category.name}"
                 </Typography>
                 <Typography variant="body1" gutterBottom>
@@ -132,7 +137,7 @@ const SingleProduct = () => {
                 </Typography>
                 <Typography
                   sx={{ fontWeight: "bold" }}
-                  color="primary"
+                  color="primary.dark"
                   variant="body1"
                   gutterBottom
                 >
@@ -151,12 +156,14 @@ const SingleProduct = () => {
                 {currentUser && currentUser.role === "admin" && (
                   <ButtonGroup>
                     <Button
+                      sx={{ borderColor: "primary.dark", color: "primary.dark"}}
                       variant="outlined"
                       onClick={() => setIsUpdateForm(true)}
                     >
                       Update
                     </Button>
                     <Button
+                      sx={{ borderColor: "primary.dark", color: "primary.dark"}}
                       variant="outlined"
                       startIcon={<DeleteIcon />}
                       onClick={() => onDelete(currentProduct.id)}
