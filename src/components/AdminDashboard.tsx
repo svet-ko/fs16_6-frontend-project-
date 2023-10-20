@@ -1,7 +1,5 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import SaveIcon from "@mui/icons-material/Save";
@@ -12,14 +10,12 @@ import {
   GridRowModes,
   DataGrid,
   GridColDef,
-  GridToolbarContainer,
   GridActionsCellItem,
   GridEventListener,
   GridRowId,
   GridRowModel,
   GridRowEditStopReasons,
 } from "@mui/x-data-grid";
-import { randomId } from "@mui/x-data-grid-generator";
 import { TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import {
@@ -238,7 +234,6 @@ export default function FullFeaturedCrudGrid() {
           onRowModesModelChange={handleRowModesModelChange}
           onRowEditStop={handleRowEditStop}
           processRowUpdate={processRowUpdate}
-          //onProcessRowUpdateError={(err) => console.log(err)}
           /*slots={{
             toolbar: EditToolbar,
           }}*/
