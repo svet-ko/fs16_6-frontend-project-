@@ -1,11 +1,11 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/DeleteOutlined';
-import SaveIcon from '@mui/icons-material/Save';
-import CancelIcon from '@mui/icons-material/Close';
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import SaveIcon from "@mui/icons-material/Save";
+import CancelIcon from "@mui/icons-material/Close";
 import {
   GridRowsProp,
   GridRowModesModel,
@@ -18,48 +18,22 @@ import {
   GridRowId,
   GridRowModel,
   GridRowEditStopReasons,
-} from '@mui/x-data-grid';
+} from "@mui/x-data-grid";
+import { randomId } from "@mui/x-data-grid-generator";
+import { TextField, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import {
-  randomId,
-} from '@mui/x-data-grid-generator';
-import { TextField, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
-import { deleteProductAsync, fetchAllProductsAsync, updateProductAsync } from '../redux/slices/productsSlice';
-import useAppDispatch from '../hooks/useDispatch';
-import useAppSelector from '../hooks/useAppSelector';
-import { AppState } from '../redux/store';
-import InfoTooltip from './InfoTooltip';
-import useDebounce from '../hooks/useDebounce';
-import ErrorPage from '../pages/Error';
-import LoadBox from './LoadBox';
-
-/*interface EditToolbarProps {
-  setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
-  setRowModesModel: (
-    newModel: (oldModel: GridRowModesModel) => GridRowModesModel,
-  ) => void;
-}
-
-function EditToolbar(props: EditToolbarProps) {
-  const { setRows, setRowModesModel } = props;
-
-  const handleClick = () => {
-    const id = randomId();
-    setRows((oldRows) => [...oldRows, { id, name: '', age: '', isNew: true }]);
-    setRowModesModel((oldModel) => ({
-      ...oldModel,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },
-    }));
-  };
-
-  return (
-    <GridToolbarContainer>
-      <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
-        Add record
-      </Button>
-    </GridToolbarContainer>
-  );
-}*/
+  deleteProductAsync,
+  fetchAllProductsAsync,
+  updateProductAsync,
+} from "../redux/slices/productsSlice";
+import useAppDispatch from "../hooks/useDispatch";
+import useAppSelector from "../hooks/useAppSelector";
+import { AppState } from "../redux/store";
+import InfoTooltip from "./InfoTooltip";
+import useDebounce from "../hooks/useDebounce";
+import ErrorPage from "../pages/Error";
+import LoadBox from "./LoadBox";
 
 export default function FullFeaturedCrudGrid() {
   const dispatch = useAppDispatch();
@@ -68,10 +42,6 @@ export default function FullFeaturedCrudGrid() {
     (state: AppState) => state.productReducer
   );
 
-  const {categories} = useAppSelector(
-    (state: AppState) => state.categoriesReducer
-  )
-  
   const [rows, setRows] = useState<GridRowsProp>(products);
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
 
@@ -83,19 +53,22 @@ export default function FullFeaturedCrudGrid() {
   const [debouncedSearch, setDebouncedSearch] = useState<string | undefined>(
     search
   );
+  const [isRowUpdated, setIsRowUpdated] = useState<boolean>(false);
   useDebounce(() => setDebouncedSearch(search), search);
 
   useEffect(() => {
-    dispatch(fetchAllProductsAsync({title: search}))
-    .unwrap()
-    .then((result) => {
-      setRows(result);
-    })
-    .catch(() => {
-    })
-  }, [debouncedSearch, dispatch]);
+    dispatch(fetchAllProductsAsync({ title: search }))
+      .unwrap()
+      .then((result) => {
+        setRows(result);
+      })
+      .catch(() => {});
+  }, [debouncedSearch, isRowUpdated]);
 
-  const handleRowEditStop: GridEventListener<'rowEditStop'> = (params, event) => {
+  const handleRowEditStop: GridEventListener<"rowEditStop"> = (
+    params,
+    event
+  ) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
       event.defaultMuiPrevented = true;
     }
@@ -111,15 +84,15 @@ export default function FullFeaturedCrudGrid() {
 
   const handleDeleteClick = (id: GridRowId) => () => {
     dispatch(deleteProductAsync(Number(id)))
-    .unwrap()
-    .then(() => {
-      setRows(rows.filter((row) => row.id !== id));
-    })
-    .catch((err) => {
-      setErrorText(err);
-      setIsInfoTooltipSuccessed(false);
-      setIsInfoTooltipOpen(true);
-    });
+      .unwrap()
+      .then(() => {
+        setRows(rows.filter((row) => row.id !== id));
+      })
+      .catch((err) => {
+        setErrorText(err);
+        setIsInfoTooltipSuccessed(false);
+        setIsInfoTooltipOpen(true);
+      });
   };
 
   const handleCancelClick = (id: GridRowId) => () => {
@@ -135,9 +108,15 @@ export default function FullFeaturedCrudGrid() {
   };
 
   const processRowUpdate = (newRow: GridRowModel) => {
-    console.log(newRow);
     const updatedRow = { ...newRow, isNew: false };
-    dispatch(updateProductAsync({id: newRow.id, update: newRow}))
+    dispatch(updateProductAsync({ id: newRow.id, update: newRow }))
+      .then(() => {
+        setIsRowUpdated(true);
+      })
+      .catch((err) => {
+        setIsInfoTooltipSuccessed(false);
+        setIsInfoTooltipOpen(true);
+      });
     return updatedRow;
   };
 
@@ -147,39 +126,39 @@ export default function FullFeaturedCrudGrid() {
 
   const columns: GridColDef[] = [
     {
-      field: 'title',
-      headerName: 'Title',
+      field: "title",
+      headerName: "Title",
       width: 180,
-      editable: true
-    },
-    {
-      field: 'price',
-      headerName: 'Price',
-      type: 'number',
-      width: 80,
-      align: 'left',
-      headerAlign: 'left',
       editable: true,
     },
     {
-      field: 'description',
-      headerName: 'Description',
+      field: "price",
+      headerName: "Price",
+      type: "number",
+      width: 80,
+      align: "left",
+      headerAlign: "left",
+      editable: true,
+    },
+    {
+      field: "description",
+      headerName: "Description",
       width: 500,
       editable: true,
     },
     {
-       field: 'category',
-       headerName: 'Category',
-       valueFormatter: ({ value }) => value.name,
-       width: 180,
-       editable: false,
+      field: "category",
+      headerName: "Category",
+      valueFormatter: ({ value }) => value.name,
+      width: 180,
+      editable: false,
     },
     {
-      field: 'actions',
-      type: 'actions',
-      headerName: 'Actions',
+      field: "actions",
+      type: "actions",
+      headerName: "Actions",
       width: 100,
-      cellClassName: 'actions',
+      cellClassName: "actions",
       getActions: ({ id }) => {
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
 
@@ -189,7 +168,7 @@ export default function FullFeaturedCrudGrid() {
               icon={<SaveIcon />}
               label="Save"
               sx={{
-                color: 'primary.main',
+                color: "primary.main",
               }}
               onClick={handleSaveClick(id)}
             />,
@@ -227,20 +206,16 @@ export default function FullFeaturedCrudGrid() {
       sx={{
         height: 500,
         mb: "2em",
-        width: '100%',
-        '& .actions': {
-          color: 'text.secondary',
+        width: "100%",
+        "& .actions": {
+          color: "text.secondary",
         },
-        '& .textPrimary': {
-          color: 'text.primary',
+        "& .textPrimary": {
+          color: "text.primary",
         },
       }}
     >
-      <Typography
-        variant="h4"
-        color="primary"
-        gutterBottom
-      >
+      <Typography variant="h4" color="primary" gutterBottom>
         Admin's dashboard
       </Typography>
       <TextField
@@ -250,7 +225,7 @@ export default function FullFeaturedCrudGrid() {
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
           setSearch(event.target.value);
         }}
-        sx={{mb: "2em"}}
+        sx={{ mb: "2em" }}
       />
       {error && !loading && <ErrorPage message={error} />}
       {loading && !error && <LoadBox />}
@@ -263,7 +238,7 @@ export default function FullFeaturedCrudGrid() {
           onRowModesModelChange={handleRowModesModelChange}
           onRowEditStop={handleRowEditStop}
           processRowUpdate={processRowUpdate}
-          onProcessRowUpdateError={(err) => console.log(err)}
+          //onProcessRowUpdateError={(err) => console.log(err)}
           /*slots={{
             toolbar: EditToolbar,
           }}*/

@@ -20,7 +20,6 @@ type ProductCardProps = {
   product: Product;
 };
 
-
 const ProductCard = ({ product }: ProductCardProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -29,7 +28,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
     dispatch(addToCart(payload));
   };
 
-  const onCategoriesClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const onCategoriesClick = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.stopPropagation();
     dispatch(fetchAllProductsAsync({ categoryId: product.category.id }))
       .then(() => {})
@@ -42,60 +43,60 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
   return (
     <Grid item xs={12} sm={6} md={4}>
-      <Card 
+      <Card
         sx={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
           alignItems: "center",
           height: "100%",
-          transition: 'transform 0.2s',
-          '&:hover': {
-            transform: 'scale(1.1)',
+          transition: "transform 0.2s",
+          "&:hover": {
+            transform: "scale(1.1)",
           },
-          cursor: "pointer"
+          cursor: "pointer",
         }}
       >
         <CardActions
           sx={{
             display: "flex",
-            flexDirection: "column",  
+            flexDirection: "column",
           }}
           onClick={() => {
             navigate(linkToSingleProduct);
           }}
         >
-        <CardMedia
-          component="img"
-          height="210"
-          image={product.images[0]}
-          alt={product.title}
-          style={{
-            objectFit: "cover",
-            width: "100%",
-            borderRadius: "0.5rem",
-          }}
-        />
-        <CardContent sx={{ flexGrow: 1 }}>
-          <Typography gutterBottom variant="h5" component="h2">
-            {product.title}
-          </Typography>
-          {!!isProductsPage && (
-            <Typography gutterBottom>
-              Category:{" "}
-              <Button onClick={
-                  onCategoriesClick
-              }>
-                {product.category.name}
-              </Button>
+          <CardMedia
+            component="img"
+            height="210"
+            image={product.images[0]}
+            alt={product.title}
+            style={{
+              objectFit: "cover",
+              width: "100%",
+              borderRadius: "0.5rem",
+            }}
+          />
+          <CardContent sx={{ flexGrow: 1 }}>
+            <Typography gutterBottom variant="h5" component="h2">
+              {product.title}
             </Typography>
-          )}
-          <Typography gutterBottom>{product.description}</Typography>
-        </CardContent>
+            {!!isProductsPage && (
+              <Typography gutterBottom>
+                Category:{" "}
+                <Button onClick={onCategoriesClick}>
+                  {product.category.name}
+                </Button>
+              </Typography>
+            )}
+            <Typography gutterBottom>{product.description}</Typography>
+          </CardContent>
         </CardActions>
-        <Box sx={{
-          mb: "1em"
-        }}>
+        <Box
+          sx={{
+            mb: "1em",
+          }}
+        >
           <Typography align="center" variant="h5" color="primary" gutterBottom>
             {product.price}€
           </Typography>

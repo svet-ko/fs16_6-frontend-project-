@@ -32,14 +32,17 @@ const UpdateProductForm = ({
   const [images, setImages] = useState<Array<string> | undefined>();
 
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState<boolean>(false);
-  const [isInfoTooltipSuccessed, setIsInfoTooltipSuccessed] = useState<boolean>(false);
+  const [isInfoTooltipSuccessed, setIsInfoTooltipSuccessed] =
+    useState<boolean>(false);
   const [errorText, setErrorText] = useState<string>("Something went wrong");
 
   const isFormValid =
     !!title || !!price || !!description || !!categoryId || !!images;
   const productToUpdate: Partial<ProductToCreate> = {};
 
-  const handleCategoryIdChange = (event: SelectChangeEvent<string | number>) => {
+  const handleCategoryIdChange = (
+    event: SelectChangeEvent<string | number>
+  ) => {
     setCategoryId(Number(event.target.value));
   };
 

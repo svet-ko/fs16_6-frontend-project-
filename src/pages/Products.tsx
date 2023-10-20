@@ -72,7 +72,9 @@ export default function ProductsPage() {
     }
   }, [filterCategoryId]);
 
-  const handleFilterCategoryIdChange = (event: SelectChangeEvent<string | number>) => {
+  const handleFilterCategoryIdChange = (
+    event: SelectChangeEvent<string | number>
+  ) => {
     setFilterCategoryId(Number(event.target.value));
   };
 
@@ -118,7 +120,7 @@ export default function ProductsPage() {
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 setSearch(event.target.value);
               }}
-              sx={{minWidth: "15em"}}
+              sx={{ minWidth: "15em" }}
             />
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Sort by:</InputLabel>

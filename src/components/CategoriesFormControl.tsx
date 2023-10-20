@@ -1,4 +1,10 @@
-import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+} from "@mui/material";
 import React from "react";
 
 import useAppSelector from "../hooks/useAppSelector";
@@ -6,7 +12,12 @@ import { AppState } from "../redux/store";
 
 interface CategoriesFormControlProps {
   selectValue: number | string;
-  onItemChange: ((event: SelectChangeEvent<string | number>, child: React.ReactNode) => void) | undefined;
+  onItemChange:
+    | ((
+        event: SelectChangeEvent<string | number>,
+        child: React.ReactNode
+      ) => void)
+    | undefined;
 }
 
 const CategoriesFormControl = ({

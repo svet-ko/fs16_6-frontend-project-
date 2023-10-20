@@ -66,7 +66,7 @@ const Cart = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        minHeight: "100vh"
+        minHeight: "100vh",
       }}
     >
       <Typography

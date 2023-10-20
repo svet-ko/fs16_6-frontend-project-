@@ -18,7 +18,7 @@ const ProfilePage = () => {
         bgcolor: "background.paper",
         pt: 8,
         pb: 6,
-        minHeight: "100vh"
+        minHeight: "100vh",
       }}
     >
       {loading && !error && <LoadBox />}
@@ -47,7 +47,12 @@ const ProfilePage = () => {
                 {currentUser.name}'s profile
               </Typography>
               <StyledImage link={currentUser.avatar} />
-              <Typography variant="body1" color="primary.dark" gutterBottom fontSize={20}>
+              <Typography
+                variant="body1"
+                color="primary.dark"
+                gutterBottom
+                fontSize={20}
+              >
                 My e-mail: {currentUser.email}
               </Typography>
               {currentUser.role === "customer" && (
@@ -61,7 +66,7 @@ const ProfilePage = () => {
             </Box>
           </Box>
           {currentUser.role === "admin" && (
-            <Box sx={{mb: "8em"}}>
+            <Box sx={{ mb: "8em" }}>
               <AdminDashboard />
             </Box>
           )}

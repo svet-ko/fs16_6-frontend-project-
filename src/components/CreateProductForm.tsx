@@ -28,7 +28,9 @@ const CreateProductForm = () => {
   const isFormValid =
     !!title && !!price && !!description && !!categoryId && !!images;
 
-  const handleCategoryIdChange = (event: SelectChangeEvent<string | number>) => {
+  const handleCategoryIdChange = (
+    event: SelectChangeEvent<string | number>
+  ) => {
     setCategoryId(Number(event.target.value));
   };
 
@@ -61,7 +63,7 @@ const CreateProductForm = () => {
       sx={{
         p: "1em",
         borderRadius: "0.3em",
-        backgroundColor: "secondary.light"
+        backgroundColor: "secondary.light",
       }}
     >
       <Box

@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Box, Button, ButtonGroup, Container, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Container,
+  Grid,
+  Typography,
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import LoadBox from "../components/LoadBox";
@@ -114,16 +121,16 @@ const SingleProduct = () => {
             >
               {currentProduct.title}
             </Typography>
-            <Grid container
+            <Grid
+              container
               sx={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
                 flexWrap: "wrap",
-                gap: "3em"
+                gap: "3em",
               }}
             >
-
               <Grid item xs={12} sm={6} sx={{ mb: "2em" }}>
                 <ImageSlider images={currentProduct.images} />
               </Grid>
@@ -163,7 +170,7 @@ const SingleProduct = () => {
                     <Button
                       sx={{
                         borderColor: "primary.dark",
-                        color: "primary.dark"
+                        color: "primary.dark",
                       }}
                       variant="outlined"
                       onClick={() => setIsUpdateForm(true)}
@@ -173,7 +180,7 @@ const SingleProduct = () => {
                     <Button
                       sx={{
                         borderColor: "primary.dark",
-                        color: "primary.dark"
+                        color: "primary.dark",
                       }}
                       variant="outlined"
                       startIcon={<DeleteIcon />}

@@ -13,10 +13,10 @@ const ErrorPage = ({ message }: ErrorProps) => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        minHeight: "100vh"
+        minHeight: "100vh",
       }}
     >
-      <Typography align="center" variant="h4" sx={{m: "2em"}}>
+      <Typography align="center" variant="h4" sx={{ m: "2em" }}>
         {message}
       </Typography>
     </Container>
