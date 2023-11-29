@@ -9,7 +9,7 @@ import { BASE_URL } from "../../config/api";
 export const handlers = [
   rest.get(`${BASE_URL}/products/:id`, async (req, res, ctx) => {
     const { id } = req.params;
-    const index = productsData.findIndex((p) => p.id === Number(id));
+    const index = productsData.findIndex((p) => p._id === id);
     if (index > -1) {
       return res(ctx.json(productsData[index]));
     } else {
@@ -20,7 +20,7 @@ export const handlers = [
 
   rest.delete(`${BASE_URL}/products/:id`, async (req, res, ctx) => {
     const { id } = req.params;
-    if (productsData.find((product) => product.id === Number(id))) {
+    if (productsData.find((product) => product._id === id)) {
       return res(ctx.json(true));
     } else {
       return res(ctx.json(false));
@@ -30,11 +30,11 @@ export const handlers = [
   rest.post(`${BASE_URL}/products`, async (req, res, ctx) => {
     const input: ProductToCreate = await req.json();
     const category = categoriesData.find(
-      (category) => category.id === input.categoryId
+      (category) => category._id === input.categoryId
     );
     if (category) {
       const newProduct: Product = {
-        id: productsData.length + 1,
+        _id: String(productsData.length + 1),
         title: input.title,
         price: input.price,
         description: input.description,
@@ -63,8 +63,8 @@ export const handlers = [
 
   rest.put(`${BASE_URL}/products/:id`, async (req, res, ctx) => {
     const input: Partial<Product> = await req.json();
-    const { id } = req.params;
-    const index = productsData.findIndex((p) => p.id === Number(id));
+    const { _id } = req.params;
+    const index = productsData.findIndex((p) => p._id === _id);
     try {
       if (index > -1) {
         return res(

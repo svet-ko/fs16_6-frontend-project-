@@ -32,14 +32,14 @@ const ProductCard = ({ product }: ProductCardProps) => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.stopPropagation();
-    dispatch(fetchAllProductsAsync({ categoryId: product.category.id }))
+    dispatch(fetchAllProductsAsync({ categoryId: product.category._id }))
       .then(() => {})
       .catch((err) => navigate("/error"));
   };
   const isProductsPage = !!(window.location.pathname === "/products");
   const linkToSingleProduct = isProductsPage
-    ? `${product.id}`
-    : `/products/${product.id}`;
+    ? `${product._id}`
+    : `/products/${product._id}`;
 
   return (
     <Grid item xs={12} sm={6} md={4}>

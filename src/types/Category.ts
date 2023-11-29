@@ -1,5 +1,5 @@
 interface Category {
-  id: number;
+  _id: string;
   name: string;
   image: string;
   creationAt?: string,

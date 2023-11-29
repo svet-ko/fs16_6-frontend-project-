@@ -10,7 +10,7 @@ const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action: PayloadAction<Product>) => {
       const foundIndex = state.findIndex(
-        (item) => item.id === action.payload.id
+        (item) => item._id === action.payload._id
       );
       if (foundIndex !== -1) {
         state[foundIndex].quantity++;
@@ -20,9 +20,9 @@ const cartSlice = createSlice({
       }
     },
 
-    removeItemOfProductFromCart: (state, action: PayloadAction<number>) => {
+    removeItemOfProductFromCart: (state, action: PayloadAction<string>) => {
       const indexOfProductToRemove = state.findIndex(
-        (item) => item.id === action.payload
+        (item) => item._id === action.payload
       );
       if (indexOfProductToRemove !== -1) {
         const itemToRemove = state[indexOfProductToRemove];
@@ -34,9 +34,9 @@ const cartSlice = createSlice({
       }
     },
 
-    removeAllItemsOfProductFromCart: (state, action: PayloadAction<number>) => {
+    removeAllItemsOfProductFromCart: (state, action: PayloadAction<string>) => {
       const indexOfProductToRemove = state.findIndex(
-        (item) => item.id === action.payload
+        (item) => item._id === action.payload
       );
       state.splice(indexOfProductToRemove, 1);
     },

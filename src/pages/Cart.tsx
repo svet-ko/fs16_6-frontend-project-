@@ -40,11 +40,11 @@ const Cart = () => {
     dispatch(addToCart(product));
   };
 
-  const onRemoveItem = (productId: number) => {
+  const onRemoveItem = (productId: string) => {
     dispatch(removeItemOfProductFromCart(productId));
   };
 
-  const onRemoveAllItems = (productId: number) => {
+  const onRemoveAllItems = (productId: string) => {
     dispatch(removeAllItemsOfProductFromCart(productId));
   };
 
@@ -124,7 +124,7 @@ const Cart = () => {
               <TableBody>
                 {cart.map((row) => (
                   <TableRow
-                    key={row.id}
+                    key={row._id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell align="center">
@@ -143,7 +143,7 @@ const Cart = () => {
                         aria-label="outlined button group"
                       >
                         <Button
-                          onClick={() => onRemoveItem(row.id)}
+                          onClick={() => onRemoveItem(row._id)}
                           aria-label="remove-one"
                         >
                           <RemoveIcon fontSize="inherit" />
@@ -152,7 +152,7 @@ const Cart = () => {
                           <AddIcon fontSize="inherit" />
                         </Button>
                         <Button
-                          onClick={() => onRemoveAllItems(row.id)}
+                          onClick={() => onRemoveAllItems(row._id)}
                           aria-label="delete"
                           size="small"
                         >

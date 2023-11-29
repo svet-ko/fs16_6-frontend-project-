@@ -16,7 +16,7 @@ import CategoriesFormControl from "./CategoriesFormControl";
 
 type UpdateProductFormProps = {
   onGetProduct: () => void;
-  productId: number;
+  productId: string;
 };
 
 const UpdateProductForm = ({
@@ -28,7 +28,7 @@ const UpdateProductForm = ({
   const [title, setTitle] = useState<string | undefined>();
   const [price, setPrice] = useState<string | undefined>();
   const [description, setDescription] = useState<string | undefined>();
-  const [categoryId, setCategoryId] = useState<number | undefined>();
+  const [categoryId, setCategoryId] = useState<string | undefined>();
   const [images, setImages] = useState<Array<string> | undefined>();
 
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState<boolean>(false);
@@ -38,12 +38,13 @@ const UpdateProductForm = ({
 
   const isFormValid =
     !!title || !!price || !!description || !!categoryId || !!images;
+
   const productToUpdate: Partial<ProductToCreate> = {};
 
   const handleCategoryIdChange = (
     event: SelectChangeEvent<string | number>
   ) => {
-    setCategoryId(Number(event.target.value));
+    setCategoryId(event.target.value as string);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

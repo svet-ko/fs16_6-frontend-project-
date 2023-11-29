@@ -42,13 +42,15 @@ export const fetchAllProductsAsync = createAsyncThunk<
 
 export const fetchOneProductAsync = createAsyncThunk<
   Product,
-  number,
+  string,
   { rejectValue: string }
 >("fetchOneProductAsync", async (id, { rejectWithValue }) => {
   try {
+    console.log(id);
     const response = await axios.get<any, AxiosResponse<Product>>(
       `${BASE_URL}/products/${id}`
     );
+    console.log(response.data);
     return response.data;
   } catch (err) {
     const error = err as AxiosError;
@@ -91,10 +93,10 @@ export const createProductAsync = createAsyncThunk<
 });
 
 export const deleteProductAsync = createAsyncThunk<
-  number,
-  number,
+  string,
+  string,
   { rejectValue: string }
->("deleteProduct", async (productId: number, { rejectWithValue }) => {
+>("deleteProduct", async (productId: string, { rejectWithValue }) => {
   try {
     const response = await axios.delete<AxiosResponse<boolean>>(
       `${BASE_URL}/products/${productId}`
@@ -156,9 +158,9 @@ const productsSlice = createSlice({
     });
 
     builder.addCase(updateProductAsync.fulfilled, (state, action) => {
-      const id = action.payload.id;
+      const id = action.payload._id;
       const foundIndex = state.products.findIndex(
-        (product) => product.id === id
+        (product) => product._id === id
       );
       if (foundIndex !== -1) {
         state.products[foundIndex] = action.payload;
@@ -191,7 +193,7 @@ const productsSlice = createSlice({
 
     builder.addCase(deleteProductAsync.fulfilled, (state, action) => {
       const foundIndex = state.products.findIndex(
-        (p) => p.id === action.payload
+        (p) => p._id === action.payload
       );
       state.products.splice(foundIndex, 1);
       state.loading = false;

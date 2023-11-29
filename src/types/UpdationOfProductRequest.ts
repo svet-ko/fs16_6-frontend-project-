@@ -1,7 +1,7 @@
 import ProductToCreate from "./ProductToCreate";
 
 interface UpdationOfProductRequest {
-  id: number,
+  id: string,
   update: Partial<ProductToCreate>
 }
 

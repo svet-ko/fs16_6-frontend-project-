@@ -40,7 +40,7 @@ const CategoriesFormControl = ({
         disabled={!!loading && !!error}
       >
         {categories.map((category) => (
-          <MenuItem key={category.id} value={category.id}>
+          <MenuItem key={category._id} value={category._id}>
             {category.name}
           </MenuItem>
         ))}

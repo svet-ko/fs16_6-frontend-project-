@@ -38,7 +38,7 @@ export default function ProductsPage() {
   );
   const [sortDirection, setSortDirection] = useState<string>("");
   const [filterCategoryId, setFilterCategoryId] = useState<
-    number | undefined
+    string | undefined
   >();
   const dispatch = useAppDispatch();
 
@@ -75,7 +75,7 @@ export default function ProductsPage() {
   const handleFilterCategoryIdChange = (
     event: SelectChangeEvent<string | number>
   ) => {
-    setFilterCategoryId(Number(event.target.value));
+    setFilterCategoryId(event.target.value as string);
   };
 
   return (
@@ -159,7 +159,7 @@ export default function ProductsPage() {
         {!loading && !error && products && (
           <Grid container spacing={4}>
             {paginatedSlice.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard key={product._id} product={product} />
             ))}
           </Grid>
         )}

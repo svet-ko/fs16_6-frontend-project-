@@ -79,7 +79,7 @@ export default function FullFeaturedCrudGrid() {
   };
 
   const handleDeleteClick = (id: GridRowId) => () => {
-    dispatch(deleteProductAsync(Number(id)))
+    dispatch(deleteProductAsync(String(id)))
       .unwrap()
       .then(() => {
         setRows(rows.filter((row) => row.id !== id));

@@ -35,7 +35,7 @@ describe("Testing action in cartReducer", () => {
     ];
     const newState = cartReducer(
       state,
-      removeItemOfProductFromCart(productsData[0].id)
+      removeItemOfProductFromCart(productsData[0]._id)
     );
     expect(newState[0].quantity).toBe(1);
   });
@@ -49,7 +49,7 @@ describe("Testing action in cartReducer", () => {
     ];
     const newState = cartReducer(
       state,
-      removeItemOfProductFromCart(productsData[0].id)
+      removeItemOfProductFromCart(productsData[0]._id)
     );
     expect(newState.length).toBe(state.length - 1);
   });
@@ -63,7 +63,7 @@ describe("Testing action in cartReducer", () => {
     ];
     const newState = cartReducer(
       state,
-      removeAllItemsOfProductFromCart(productsData[0].id)
+      removeAllItemsOfProductFromCart(productsData[0]._id)
     );
     expect(newState.length).toBe(state.length - 1);
   });

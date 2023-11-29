@@ -69,7 +69,7 @@ describe("Test async thunk actions in productsReducer", () => {
   });
 
   test("Should fetch single product", async () => {
-    await store.dispatch(fetchOneProductAsync(productsData[0].id));
+    await store.dispatch(fetchOneProductAsync(productsData[0]._id));
     const product = store.getState().productReducer.currentProduct;
     const loadingState = store.getState().usersReducer.loading;
     expect(product).toMatchObject(productsData[0]);
@@ -77,21 +77,21 @@ describe("Test async thunk actions in productsReducer", () => {
   });
 
   test("Should return error if fetch non-existing product", async () => {
-    const response = await store.dispatch(fetchOneProductAsync(-1));
+    const response = await store.dispatch(fetchOneProductAsync("-1"));
     const loadingState = store.getState().usersReducer.loading;
     expect(response.payload).toBe("No such product");
     expect(loadingState).toBe(false);
   });
 
   test("Should delete an existing product", async () => {
-    const resultAction = await store.dispatch(deleteProductAsync(1));
+    const resultAction = await store.dispatch(deleteProductAsync("1"));
     const loadingState = store.getState().usersReducer.loading;
     expect(loadingState).toBe(false);
     expect(resultAction.payload).toBe(1);
   });
 
   test("Should not delete product which do not exist", async () => {
-    const resultAction = await store.dispatch(deleteProductAsync(501));
+    const resultAction = await store.dispatch(deleteProductAsync("501"));
     const loadingState = store.getState().usersReducer.loading;
     expect(loadingState).toBe(false);
     expect(resultAction.payload).toBe("Product was not deleted");
@@ -102,12 +102,12 @@ describe("Test async thunk actions in productsReducer", () => {
       title: "New Product",
       price: 10,
       description: "A description",
-      categoryId: 15,
+      categoryId: "15",
       images: ["https://placeimg.com/640/480/any"],
     };
 
     const expectedProduct = {
-      id: productsData.length + 1,
+      _id: productsData.length + 1,
       title: newProduct.title,
       price: newProduct.price,
       description: newProduct.description,
@@ -134,7 +134,7 @@ describe("Test async thunk actions in productsReducer", () => {
       title: "New Product",
       price: 10,
       description: "A description",
-      categoryId: 0,
+      categoryId: "0",
       images: ["https://placeimg.com/640/480/any"],
     };
 
@@ -157,7 +157,7 @@ describe("Test async thunk actions in productsReducer", () => {
 
   test("Should update product", async () => {
     const input: UpdationOfProductRequest = {
-      id: 1,
+      id: "1",
       update: {
         price: 200,
         title: "Updated product",
@@ -167,7 +167,7 @@ describe("Test async thunk actions in productsReducer", () => {
     const loadingState = store.getState().usersReducer.loading;
     expect(loadingState).toBe(false);
     expect(action.payload).toMatchObject({
-      id: 1,
+      _id: 1,
       title: "Updated product",
       price: 200,
       description: "A very powerful computer",
@@ -186,7 +186,7 @@ describe("Test async thunk actions in productsReducer", () => {
 
   test("should not update product with wrong id", async () => {
     const input: UpdationOfProductRequest = {
-      id: 150,
+      id: "150",
       update: {
         price: 200,
         title: "Updated product",

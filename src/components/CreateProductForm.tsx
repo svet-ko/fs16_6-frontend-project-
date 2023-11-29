@@ -19,7 +19,7 @@ const CreateProductForm = () => {
   const [title, setTitle] = useState<string | undefined>();
   const [price, setPrice] = useState<string | undefined>();
   const [description, setDescription] = useState<string | undefined>();
-  const [categoryId, setCategoryId] = useState<number | undefined>();
+  const [categoryId, setCategoryId] = useState<string | undefined>();
   const [images, setImages] = useState<Array<string> | undefined>();
 
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
@@ -27,11 +27,11 @@ const CreateProductForm = () => {
 
   const isFormValid =
     !!title && !!price && !!description && !!categoryId && !!images;
-
+    
   const handleCategoryIdChange = (
     event: SelectChangeEvent<string | number>
   ) => {
-    setCategoryId(Number(event.target.value));
+    setCategoryId(event.target.value as string);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -41,7 +41,7 @@ const CreateProductForm = () => {
         title: title as string,
         price: Number(price),
         description: description as string,
-        categoryId: Number(categoryId),
+        categoryId: categoryId as string,
         images: images as Array<string>,
       })
     )

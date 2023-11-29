@@ -50,7 +50,7 @@ const HomePage = () => {
       {!loading && !error && products && (
         <Grid container spacing={4} sx={{ mb: "1em" }}>
           {saleSlice.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard key={product._id} product={product} />
           ))}
         </Grid>
       )}

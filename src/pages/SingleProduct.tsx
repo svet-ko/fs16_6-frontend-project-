@@ -26,14 +26,17 @@ import { addToCart } from "../redux/slices/cartSlice";
 import InfoTooltip from "../components/InfoTooltip";
 import UpdateProductForm from "../components/UpdateProductForm";
 import ImageSlider from "../components/ImageSlider";
+import CreateProductForm from "../components/CreateProductForm";
 
 const SingleProduct = () => {
   const { currentProduct, loading, error } = useAppSelector(
     (state: AppState) => state.productReducer
   );
-  const { currentUser } = useAppSelector(
-    (state: AppState) => state.usersReducer
-  );
+  // const { currentUser } = useAppSelector(
+  //   (state: AppState) => state.usersReducer
+  // );
+
+  let currentUser = {role: "admin"};
 
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState<boolean>(false);
   const [isInfoTooltipSuccessed, setIsInfoTooltipSuccessed] =
@@ -46,14 +49,14 @@ const SingleProduct = () => {
 
   const params = useParams<string>();
 
-  const productId: number | undefined = Number(params.productID);
+  const productId: string | undefined = params.productID;
 
   useEffect(() => {
     getProduct();
   }, []);
 
   const getProduct = async () => {
-    dispatch(fetchOneProductAsync(productId))
+    dispatch(fetchOneProductAsync(productId as string))
       .unwrap()
       .then(() => {})
       .catch((err) => {
@@ -65,7 +68,7 @@ const SingleProduct = () => {
     dispatch(addToCart(payload));
   };
 
-  const onDelete = (productId: number) => {
+  const onDelete = (productId: string) => {
     dispatch(deleteProductAsync(productId))
       .unwrap()
       .then(() => {
@@ -184,7 +187,7 @@ const SingleProduct = () => {
                       }}
                       variant="outlined"
                       startIcon={<DeleteIcon />}
-                      onClick={() => onDelete(currentProduct.id)}
+                      onClick={() => onDelete(currentProduct._id)}
                     >
                       Delete
                     </Button>
@@ -203,7 +206,7 @@ const SingleProduct = () => {
               <>
                 <UpdateProductForm
                   onGetProduct={getProduct}
-                  productId={currentProduct.id}
+                  productId={currentProduct._id}
                 />
                 <Button onClick={() => setIsUpdateForm(false)}>
                   Hide form
@@ -212,6 +215,9 @@ const SingleProduct = () => {
             )}
           </>
         )}
+        <Box>
+          <CreateProductForm />
+        </Box>
       </Box>
       <InfoTooltip
         isOpen={isInfoTooltipOpen}

@@ -1,6 +1,6 @@
 interface PaginationQuery {
     title?: string,
-    categoryId?: number
+    categoryId?: string
 }
 
 export default PaginationQuery;

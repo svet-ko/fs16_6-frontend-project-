@@ -25,17 +25,17 @@ const App = () => {
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    const jwt = localStorage.getItem('token');
-    if (jwt) {
-      dispatch(getUserProfile(jwt))
-        .then(() => {
-        })
-        .catch((err: string) => {
-          <Navigate to="/login" />
-        })
-    }
-  }, []);
+  // useEffect(() => {
+  //   const jwt = localStorage.getItem('token');
+  //   if (jwt) {
+  //     dispatch(getUserProfile(jwt))
+  //       .then(() => {
+  //       })
+  //       .catch((err: string) => {
+  //         <Navigate to="/login" />
+  //       })
+  //   }
+  // }, []);
 
   useEffect(() => {
     dispatch(fetchAllCategoriesAsync());
@@ -66,9 +66,9 @@ const App = () => {
         {
           path: "cart",
           element: 
-          <CheckAuth>
+          //<CheckAuth>
             <Cart />
-          </CheckAuth>
+          //</CheckAuth>
         },
         {
           path: "login",
@@ -81,9 +81,9 @@ const App = () => {
         {
           path: "profile",
           element:  
-          <CheckAuth>
+          //<CheckAuth>
             <Profile />
-          </CheckAuth>
+          //</CheckAuth>
         },
         {
           path: "error",
