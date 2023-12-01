@@ -63,24 +63,13 @@ export default function Login() {
     setFormValid(isEmailInputValid && isPasswordInputValid);
   }
 
-  const getUserData = (accessToken: string) => {
-    localStorage.setItem("token", accessToken);
-    dispatch(getUserProfile(accessToken))
-      .unwrap()
-      .then(() => {
-        navigate("/profile");
-      })
-      .catch((err) => {
-        setIsInfoTooltipOpen(true);
-      });
-  };
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     dispatch(authUserAsync({ email, password }))
       .unwrap()
-      .then((data) => {
-        getUserData(data.access_token);
+      .then((res) => {
+        localStorage.setItem("token", res.token);
+        navigate("/profile");
       })
       .catch((err) => {
         setIsInfoTooltipOpen(true);

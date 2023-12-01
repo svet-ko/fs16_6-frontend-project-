@@ -5,13 +5,18 @@ import { BASE_URL } from "../../config/api";
 import User from "../../types/User";
 import UserCredentials from "../../types/UserCredentials";
 import UserToCreate from "../../types/UserToCreate";
-import { JWTPair } from "../../types/JwtPair";
+import { LoggedUserResponse } from "../../types/LoggedUserResponse";
 
 export interface UserReducerState {
   users: User[];
   currentUser?: User;
   loading: boolean;
   error?: string;
+}
+
+export interface UserProfileRequest {
+  id: string,
+  accessToken: string
 }
 
 export const initialState: UserReducerState = {
@@ -52,7 +57,7 @@ export const getUserProfile = createAsyncThunk<
 });
 
 export const authUserAsync = createAsyncThunk<
-  JWTPair,
+  LoggedUserResponse,
   UserCredentials,
   { rejectValue: string }
 >("authUser", async (cred, { rejectWithValue }) => {
@@ -74,7 +79,7 @@ export const registerUserAsync = createAsyncThunk<
   { rejectValue: string }
 >("registerUser", async (newUser, { rejectWithValue, dispatch }) => {
   try {
-    const response = await axios.post(`${BASE_URL}/users`, newUser);
+    const response = await axios.post(`${BASE_URL}/auth/signup`, newUser);
     return response.data;
   } catch (err) {
     const error = err as AxiosError;
@@ -102,6 +107,11 @@ const usersSlice = createSlice({
 
     builder.addCase(fetchAllUsersAsync.rejected, (state, action) => {
       state.error = action.payload;
+      state.loading = false;
+    });
+
+    builder.addCase(authUserAsync.fulfilled, (state, action) => {
+      state.currentUser = action.payload.user;
       state.loading = false;
     });
 

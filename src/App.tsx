@@ -25,17 +25,17 @@ const App = () => {
 
   const dispatch = useAppDispatch();
 
-  // useEffect(() => {
-  //   const jwt = localStorage.getItem('token');
-  //   if (jwt) {
-  //     dispatch(getUserProfile(jwt))
-  //       .then(() => {
-  //       })
-  //       .catch((err: string) => {
-  //         <Navigate to="/login" />
-  //       })
-  //   }
-  // }, []);
+  useEffect(() => {
+    const jwt = localStorage.getItem('token');
+    if (jwt) {
+      dispatch(getUserProfile(jwt))
+        .then(() => {
+        })
+        .catch((err: string) => {
+          <Navigate to="/login" />
+        })
+    }
+  }, []);
 
   useEffect(() => {
     dispatch(fetchAllCategoriesAsync());

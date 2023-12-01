@@ -74,7 +74,7 @@ export default function Register() {
         email: email,
         password: password,
         name: name.concat(surname),
-        role: "customer",
+        role: "CUSTOMER",
         avatar: DEFAULT_AVATAR_URL,
       })
     )

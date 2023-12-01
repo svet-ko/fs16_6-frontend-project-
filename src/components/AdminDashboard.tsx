@@ -228,6 +228,7 @@ export default function FullFeaturedCrudGrid() {
       {!loading && !error && (
         <DataGrid
           rows={rows}
+          getRowId={(row: any) => row._id}
           columns={columns}
           editMode="row"
           rowModesModel={rowModesModel}

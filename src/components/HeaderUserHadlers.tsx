@@ -109,7 +109,7 @@ const HeaderUserHadlers = () => {
             ))}
           </Menu>
 
-          {currentUser.role === "customer" && (
+          {currentUser.role === "CUSTOMER" && (
             <IconButton
               color="inherit"
               component={Link}

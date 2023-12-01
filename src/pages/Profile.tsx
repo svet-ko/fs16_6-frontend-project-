@@ -55,7 +55,7 @@ const ProfilePage = () => {
               >
                 My e-mail: {currentUser.email}
               </Typography>
-              {currentUser.role === "customer" && (
+              {currentUser.role === "CUSTOMER" && (
                 <Button variant="contained" component={Link} to={`/cart`}>
                   Visit cart
                 </Button>
@@ -65,7 +65,7 @@ const ProfilePage = () => {
               <CreateProductForm />
             </Box>
           </Box>
-          {currentUser.role === "admin" && (
+          {currentUser.role === "ADMIN" && (
             <Box sx={{ mb: "8em" }}>
               <AdminDashboard />
             </Box>

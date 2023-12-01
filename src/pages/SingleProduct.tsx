@@ -32,11 +32,9 @@ const SingleProduct = () => {
   const { currentProduct, loading, error } = useAppSelector(
     (state: AppState) => state.productReducer
   );
-  // const { currentUser } = useAppSelector(
-  //   (state: AppState) => state.usersReducer
-  // );
-
-  let currentUser = {role: "admin"};
+  const { currentUser } = useAppSelector(
+    (state: AppState) => state.usersReducer
+  );
 
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState<boolean>(false);
   const [isInfoTooltipSuccessed, setIsInfoTooltipSuccessed] =
@@ -159,7 +157,7 @@ const SingleProduct = () => {
                   Price: {currentProduct.price}€
                 </Typography>
 
-                {currentUser && currentUser.role !== "admin" && (
+                {currentUser && currentUser.role !== "ADMIN" && (
                   <SnackBarCompletion
                     buttonText="Add to Cart"
                     message="Product added to cart successfully"
@@ -168,7 +166,7 @@ const SingleProduct = () => {
                   />
                 )}
 
-                {currentUser && currentUser.role === "admin" && (
+                {currentUser && currentUser.role === "ADMIN" && (
                   <ButtonGroup>
                     <Button
                       sx={{
@@ -202,7 +200,7 @@ const SingleProduct = () => {
             >
               Return to Home page
             </Button>
-            {currentUser && currentUser.role === "admin" && isUpdateForm && (
+            {currentUser && currentUser.role === "ADMIN" && isUpdateForm && (
               <>
                 <UpdateProductForm
                   onGetProduct={getProduct}
