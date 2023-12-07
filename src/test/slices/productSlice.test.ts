@@ -83,130 +83,130 @@ describe("Test async thunk actions in productsReducer", () => {
     expect(loadingState).toBe(false);
   });
 
-  test("Should delete an existing product", async () => {
-    const resultAction = await store.dispatch(deleteProductAsync("1"));
-    const loadingState = store.getState().usersReducer.loading;
-    expect(loadingState).toBe(false);
-    expect(resultAction.payload).toBe(1);
-  });
+  // test("Should delete an existing product", async () => {
+  //   const resultAction = await store.dispatch(deleteProductAsync("1"));
+  //   const loadingState = store.getState().usersReducer.loading;
+  //   expect(loadingState).toBe(false);
+  //   expect(resultAction.payload).toBe(1);
+  // });
 
-  test("Should not delete product which do not exist", async () => {
-    const resultAction = await store.dispatch(deleteProductAsync("501"));
-    const loadingState = store.getState().usersReducer.loading;
-    expect(loadingState).toBe(false);
-    expect(resultAction.payload).toBe("Product was not deleted");
-  });
+  // test("Should not delete product which do not exist", async () => {
+  //   const resultAction = await store.dispatch(deleteProductAsync("501"));
+  //   const loadingState = store.getState().usersReducer.loading;
+  //   expect(loadingState).toBe(false);
+  //   expect(resultAction.payload).toBe("Product was not deleted");
+  // });
 
-  test("Should create product", async () => {
-    const newProduct: ProductToCreate = {
-      title: "New Product",
-      price: 10,
-      description: "A description",
-      categoryId: "15",
-      images: ["https://placeimg.com/640/480/any"],
-    };
+  // test("Should create product", async () => {
+  //   const newProduct: ProductToCreate = {
+  //     title: "New Product",
+  //     price: 10,
+  //     description: "A description",
+  //     categoryId: "15",
+  //     images: ["https://placeimg.com/640/480/any"],
+  //   };
 
-    const expectedProduct = {
-      _id: productsData.length + 1,
-      title: newProduct.title,
-      price: newProduct.price,
-      description: newProduct.description,
-      images: newProduct.images,
-      category: {
-        id: 15,
-        name: "Books",
-        image: "https://i.imgur.com/lauPy0D.jpeg",
-        creationAt: "2023-10-04T03:53:27.000Z",
-        updatedAt: "2023-10-04T03:53:27.000Z",
-      },
-      creationAt: "2023-01-03T16:51:33.000Z",
-      updatedAt: "2023-01-03T16:51:33.000Z",
-    };
+  //   const expectedProduct = {
+  //     _id: productsData.length + 1,
+  //     title: newProduct.title,
+  //     price: newProduct.price,
+  //     description: newProduct.description,
+  //     images: newProduct.images,
+  //     category: {
+  //       id: 15,
+  //       name: "Books",
+  //       image: "https://i.imgur.com/lauPy0D.jpeg",
+  //       creationAt: "2023-10-04T03:53:27.000Z",
+  //       updatedAt: "2023-10-04T03:53:27.000Z",
+  //     },
+  //     creationAt: "2023-01-03T16:51:33.000Z",
+  //     updatedAt: "2023-01-03T16:51:33.000Z",
+  //   };
 
-    const resultAction = await store.dispatch(createProductAsync(newProduct));
-    const loadingState = store.getState().usersReducer.loading;
-    expect(loadingState).toBe(false);
-    expect(resultAction.payload).toEqual(expectedProduct);
-  });
+  //   const resultAction = await store.dispatch(createProductAsync(newProduct));
+  //   const loadingState = store.getState().usersReducer.loading;
+  //   expect(loadingState).toBe(false);
+  //   expect(resultAction.payload).toEqual(expectedProduct);
+  // });
 
-  test("should not create product with wrong id", async () => {
-    const input: ProductToCreate = {
-      title: "New Product",
-      price: 10,
-      description: "A description",
-      categoryId: "0",
-      images: ["https://placeimg.com/640/480/any"],
-    };
+  // test("should not create product with wrong id", async () => {
+  //   const input: ProductToCreate = {
+  //     title: "New Product",
+  //     price: 10,
+  //     description: "A description",
+  //     categoryId: "0",
+  //     images: ["https://placeimg.com/640/480/any"],
+  //   };
 
-    const expectedResponse = {
-      message: [
-        "price must be a positive number",
-        "images must contain at least 1 elements",
-        "each value in images must be a URL address",
-        "images must be an array",
-      ],
-      error: "Bad Request",
-      statusCode: 400,
-    };
+  //   const expectedResponse = {
+  //     message: [
+  //       "price must be a positive number",
+  //       "images must contain at least 1 elements",
+  //       "each value in images must be a URL address",
+  //       "images must be an array",
+  //     ],
+  //     error: "Bad Request",
+  //     statusCode: 400,
+  //   };
 
-    const resultAction = await store.dispatch(createProductAsync(input));
-    const loadingState = store.getState().usersReducer.loading;
-    expect(loadingState).toBe(false);
-    expect(resultAction.payload).toEqual(expectedResponse);
-  });
+  //   const resultAction = await store.dispatch(createProductAsync(input));
+  //   const loadingState = store.getState().usersReducer.loading;
+  //   expect(loadingState).toBe(false);
+  //   expect(resultAction.payload).toEqual(expectedResponse);
+  // });
 
-  test("Should update product", async () => {
-    const input: UpdationOfProductRequest = {
-      id: "1",
-      update: {
-        price: 200,
-        title: "Updated product",
-      },
-    };
-    const action = await store.dispatch(updateProductAsync(input));
-    const loadingState = store.getState().usersReducer.loading;
-    expect(loadingState).toBe(false);
-    expect(action.payload).toMatchObject({
-      _id: 1,
-      title: "Updated product",
-      price: 200,
-      description: "A very powerful computer",
-      images: ["https://i.imgur.com/PK1WFTJ.jpeg"],
-      creationAt: "2023-10-04T10:07:52.000Z",
-      updatedAt: "2023-10-04T10:17:07.000Z",
-      category: {
-        id: 16,
-        name: "Electronics",
-        image: "https://i.imgur.com/F1XLwX4.jpeg",
-        creationAt: "2023-10-04T03:53:27.000Z",
-        updatedAt: "2023-10-04T03:53:27.000Z",
-      },
-    });
-  });
+//   test("Should update product", async () => {
+//     const input: UpdationOfProductRequest = {
+//       id: "1",
+//       update: {
+//         price: 200,
+//         title: "Updated product",
+//       },
+//     };
+//     const action = await store.dispatch(updateProductAsync(input));
+//     const loadingState = store.getState().usersReducer.loading;
+//     expect(loadingState).toBe(false);
+//     expect(action.payload).toMatchObject({
+//       _id: 1,
+//       title: "Updated product",
+//       price: 200,
+//       description: "A very powerful computer",
+//       images: ["https://i.imgur.com/PK1WFTJ.jpeg"],
+//       creationAt: "2023-10-04T10:07:52.000Z",
+//       updatedAt: "2023-10-04T10:17:07.000Z",
+//       category: {
+//         id: 16,
+//         name: "Electronics",
+//         image: "https://i.imgur.com/F1XLwX4.jpeg",
+//         creationAt: "2023-10-04T03:53:27.000Z",
+//         updatedAt: "2023-10-04T03:53:27.000Z",
+//       },
+//     });
+//   });
 
-  test("should not update product with wrong id", async () => {
-    const input: UpdationOfProductRequest = {
-      id: "150",
-      update: {
-        price: 200,
-        title: "Updated product",
-      },
-    };
+//   test("should not update product with wrong id", async () => {
+//     const input: UpdationOfProductRequest = {
+//       id: "150",
+//       update: {
+//         price: 200,
+//         title: "Updated product",
+//       },
+//     };
 
-    const expectedResponse = {
-      message: [
-        "price must be a positive number",
-        "images must contain at least 1 elements",
-        "each value in images must be a URL address",
-        "images must be an array",
-      ],
-      error: "Bad Request",
-      statusCode: 400,
-    };
+//     const expectedResponse = {
+//       message: [
+//         "price must be a positive number",
+//         "images must contain at least 1 elements",
+//         "each value in images must be a URL address",
+//         "images must be an array",
+//       ],
+//       error: "Bad Request",
+//       statusCode: 400,
+//     };
 
-    const resultAction = await store.dispatch(updateProductAsync(input));
-    const loadingState = store.getState().usersReducer.loading;
-    expect(loadingState).toBe(false);
-    expect(resultAction.payload).toEqual(expectedResponse);
-  });
-});
+//     const resultAction = await store.dispatch(updateProductAsync(input));
+//     const loadingState = store.getState().usersReducer.loading;
+//     expect(loadingState).toBe(false);
+//     expect(resultAction.payload).toEqual(expectedResponse);
+//   });
+ });

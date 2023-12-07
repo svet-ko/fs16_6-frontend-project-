@@ -25,6 +25,8 @@ const CreateProductForm = () => {
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
   const [isInfoTooltipSuccessed, setIsInfoTooltipSuccessed] = useState(false);
 
+  const jwt = localStorage.getItem('token');
+
   const isFormValid =
     !!title && !!price && !!description && !!categoryId && !!images;
     
@@ -38,12 +40,15 @@ const CreateProductForm = () => {
     event.preventDefault();
     dispatch(
       createProductAsync({
-        title: title as string,
-        price: Number(price),
-        description: description as string,
-        categoryId: categoryId as string,
-        images: images as Array<string>,
-      })
+        accessToken: jwt as string,
+        product: {
+          title: title as string,
+          price: Number(price),
+          description: description as string,
+          categoryId: categoryId as string,
+          images: images as Array<string>,
+      }
+    })
     )
       .unwrap()
       .then(() => {

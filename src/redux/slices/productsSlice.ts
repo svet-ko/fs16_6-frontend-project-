@@ -6,6 +6,7 @@ import PaginationQuery from "../../types/PaginationQuery";
 import UpdationOfProductRequest from "../../types/UpdationOfProductRequest";
 import { BASE_URL } from "../../config/api";
 import ProductToCreate from "../../types/ProductToCreate";
+import ProductCreateInput from "../../types/ProductCreateInput";
 
 export interface ProductsReducerState {
   products: Product[];
@@ -62,11 +63,16 @@ export const updateProductAsync = createAsyncThunk<
   Product,
   UpdationOfProductRequest,
   { rejectValue: string }
->("updateProduct", async ({ id, update }, { rejectWithValue }) => {
+>("updateProduct", async ({ accessToken, id, update }, { rejectWithValue }) => {
   try {
     const response = await axios.put<any, AxiosResponse<Product>>(
       `${BASE_URL}/products/${id}`,
-      update
+      update,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        }
+      }
     );
     return response.data;
   } catch (err) {
@@ -77,13 +83,18 @@ export const updateProductAsync = createAsyncThunk<
 
 export const createProductAsync = createAsyncThunk<
   Product,
-  ProductToCreate,
+  ProductCreateInput,
   { rejectValue: string }
->("createProduct", async (product, { rejectWithValue }) => {
+>("createProduct", async ({accessToken, product}, { rejectWithValue }) => {
   try {
     const response = await axios.post<Product>(
       `${BASE_URL}/products/`,
-      product
+      product,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        }
+      }
     );
     return response.data;
   } catch (err) {
@@ -94,12 +105,17 @@ export const createProductAsync = createAsyncThunk<
 
 export const deleteProductAsync = createAsyncThunk<
   string,
-  string,
+  {accessToken: string, productId: string},
   { rejectValue: string }
->("deleteProduct", async (productId: string, { rejectWithValue }) => {
+>("deleteProduct", async ({accessToken, productId}, { rejectWithValue }) => {
   try {
     const response = await axios.delete<AxiosResponse<boolean>>(
-      `${BASE_URL}/products/${productId}`
+      `${BASE_URL}/products/${productId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        }
+      }
     );
     if (response.data) {
       return productId;

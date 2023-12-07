@@ -50,6 +50,8 @@ export default function FullFeaturedCrudGrid() {
     search
   );
   const [isRowUpdated, setIsRowUpdated] = useState<boolean>(false);
+  const [isRowDeleted, setIsRowDeleted] = useState<boolean>(false);
+  const jwt = localStorage.getItem('token');
   useDebounce(() => setDebouncedSearch(search), search);
 
   useEffect(() => {
@@ -59,7 +61,7 @@ export default function FullFeaturedCrudGrid() {
         setRows(result);
       })
       .catch(() => {});
-  }, [debouncedSearch, isRowUpdated]);
+  }, [debouncedSearch, isRowUpdated, isRowDeleted]);
 
   const handleRowEditStop: GridEventListener<"rowEditStop"> = (
     params,
@@ -79,10 +81,14 @@ export default function FullFeaturedCrudGrid() {
   };
 
   const handleDeleteClick = (id: GridRowId) => () => {
-    dispatch(deleteProductAsync(String(id)))
+    dispatch(deleteProductAsync({
+      accessToken: jwt as string,
+      productId: String(id)
+    }))
       .unwrap()
       .then(() => {
         setRows(rows.filter((row) => row.id !== id));
+        setIsRowDeleted(true);
       })
       .catch((err) => {
         setErrorText(err);
@@ -105,7 +111,11 @@ export default function FullFeaturedCrudGrid() {
 
   const processRowUpdate = (newRow: GridRowModel) => {
     const updatedRow = { ...newRow, isNew: false };
-    dispatch(updateProductAsync({ id: newRow.id, update: newRow }))
+    dispatch(updateProductAsync({ 
+      accessToken: jwt as string,
+      id: newRow._id,
+      update: newRow
+    }))
       .then(() => {
         setIsRowUpdated(true);
       })

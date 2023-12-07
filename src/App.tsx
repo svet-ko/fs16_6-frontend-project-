@@ -66,9 +66,9 @@ const App = () => {
         {
           path: "cart",
           element: 
-          //<CheckAuth>
+          <CheckAuth>
             <Cart />
-          //</CheckAuth>
+          </CheckAuth>
         },
         {
           path: "login",
@@ -81,9 +81,9 @@ const App = () => {
         {
           path: "profile",
           element:  
-          //<CheckAuth>
+          <CheckAuth>
             <Profile />
-          //</CheckAuth>
+          </CheckAuth>
         },
         {
           path: "error",

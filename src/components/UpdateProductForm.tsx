@@ -36,6 +36,8 @@ const UpdateProductForm = ({
     useState<boolean>(false);
   const [errorText, setErrorText] = useState<string>("Something went wrong");
 
+  const jwt = localStorage.getItem('token');
+
   const isFormValid =
     !!title || !!price || !!description || !!categoryId || !!images;
 
@@ -69,7 +71,11 @@ const UpdateProductForm = ({
       productToUpdate.images = images;
     }
 
-    dispatch(updateProductAsync({ id: productId, update: productToUpdate }))
+    dispatch(updateProductAsync({ 
+      accessToken: jwt as string,
+      id: productId,
+      update: productToUpdate 
+    }))
       .unwrap()
       .then(() => {
         onGetProduct();

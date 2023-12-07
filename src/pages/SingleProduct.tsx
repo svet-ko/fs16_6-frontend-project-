@@ -49,6 +49,8 @@ const SingleProduct = () => {
 
   const productId: string | undefined = params.productID;
 
+  const jwt = localStorage.getItem('token');
+
   useEffect(() => {
     getProduct();
   }, []);
@@ -67,7 +69,10 @@ const SingleProduct = () => {
   };
 
   const onDelete = (productId: string) => {
-    dispatch(deleteProductAsync(productId))
+    dispatch(deleteProductAsync({
+      accessToken: jwt as string,
+      productId: productId
+    }))
       .unwrap()
       .then(() => {
         navigate("/products");
