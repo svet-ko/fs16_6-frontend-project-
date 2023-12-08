@@ -32,7 +32,7 @@ export const handlers = [
     const token = req.headers.get("Authorization")?.split(" ")[1];
     const originalToken = token?.split("_")[0];
     const userId = token?.split("_")[1];
-    const foundUser = usersData.find((user) => user._id === Number(userId));
+    const foundUser = usersData.find((user) => user._id === userId);
     if (originalToken === jwtFixture.access_token && foundUser) {
       return res(ctx.json(foundUser));
     } else {
@@ -44,7 +44,7 @@ export const handlers = [
   rest.post(`${BASE_URL}/users`, async (req, res, ctx) => {
     const user = await req.json();
     const expectedUser: User = {
-      _id: usersData.length + 1,
+      _id: usersData.length + 1 + '',
       email: user.email,
       password: user.password,
       name: user.name,
