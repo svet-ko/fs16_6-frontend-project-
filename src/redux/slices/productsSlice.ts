@@ -5,7 +5,6 @@ import Product from "../../types/Product";
 import PaginationQuery from "../../types/PaginationQuery";
 import UpdationOfProductRequest from "../../types/UpdationOfProductRequest";
 import { BASE_URL } from "../../config/api";
-import ProductToCreate from "../../types/ProductToCreate";
 import ProductCreateInput from "../../types/ProductCreateInput";
 
 export interface ProductsReducerState {
