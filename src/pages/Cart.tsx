@@ -25,16 +25,31 @@ import {
 import Product from "../types/Product";
 import SnackBarCompletion from "../components/SnackBar";
 import countAmountOfItemsByProperty from "../selectors/countAmountOfItemsByProperty";
+import { createOrderAsync } from "../redux/slices/orderSlice";
+import OrderItem from "../types/OrderItem";
+import { useState } from "react";
+import InfoTooltip from "../components/InfoTooltip";
 
 const Cart = () => {
   const dispatch = useAppDispatch();
   const cart = useAppSelector((state: AppState) => state.cartReducer);
+  const { currentUser } = useAppSelector(
+    (state) => state.usersReducer
+  );
+  const jwt = localStorage.getItem('token');
+  const { currentOrder } = useAppSelector((state: AppState) => state.ordersReducer);
 
   const productsInCartPrice = cart.reduce((accumulator, currentValue) => {
     return accumulator + currentValue.price * currentValue.quantity;
   }, 0);
 
   const productsInCartAmount = countAmountOfItemsByProperty(cart, "quantity");
+
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState<boolean>(false);
+  const [isInfoTooltipSuccessed, setIsInfoTooltipSuccessed] =
+    useState<boolean>(false);
+  const [errorText, setErrorText] = useState<string>("Something went wrong");
+  const [successText, setSuccessText] = useState<string>("");
 
   const onAddItem = (product: Product) => {
     dispatch(addToCart(product));
@@ -53,7 +68,33 @@ const Cart = () => {
   };
 
   const onCompletePurchase = () => {
-    dispatch(removeAllProductsFromCart());
+    const order: OrderItem[] = []
+    cart.forEach((cartItem) => {
+      order.push({
+        productId: cartItem._id,
+        quantity: cartItem.quantity
+      }) 
+    })
+    dispatch(createOrderAsync({
+      accessToken: jwt as string,
+      userId: currentUser?._id as string,
+      order: order
+    }))
+    .unwrap()
+    .then(() => {
+      console.log(currentOrder);
+      dispatch(removeAllProductsFromCart());
+      setIsInfoTooltipSuccessed(true);
+      setSuccessText(`New order was created! Total price: ${currentOrder?.totalPrice}`);
+    })
+    .catch((err) => {
+      setErrorText(err);
+      setIsInfoTooltipSuccessed(false);
+    })
+    .finally(() => {
+      setErrorText('Something went wrong');
+      setIsInfoTooltipOpen(true);
+    });
   };
 
   return (
@@ -175,6 +216,13 @@ const Cart = () => {
           </Button>
         </>
       )}
+      <InfoTooltip
+        isOpen={isInfoTooltipOpen}
+        onClose={() => setIsInfoTooltipOpen(false)}
+        isSuccessed={isInfoTooltipSuccessed}
+        successText={successText}
+        errorText={errorText}
+      />
     </Container>
   );
 };

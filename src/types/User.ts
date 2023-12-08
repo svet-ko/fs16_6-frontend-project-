@@ -1,7 +1,7 @@
 export type Role = 'CUSTOMER'|'ADMIN';
 
 interface User {
-  _id: number,
+  _id: string,
   email: string,
   password: string,
   name: string,
