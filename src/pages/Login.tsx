@@ -11,9 +11,10 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { Link, useNavigate } from "react-router-dom";
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 
 import useAppDispatch from "../hooks/useDispatch";
-import { authUserAsync, getUserProfile } from "../redux/slices/userSlice";
+import { authUserAsync, getUserProfile, loginUserWithGoogle } from "../redux/slices/userSlice";
 import { checkInputValidity } from "../selectors/checkInputValidity";
 import InfoTooltip from "../components/InfoTooltip";
 
@@ -76,6 +77,31 @@ export default function Login() {
         navigate("/login");
       });
   };
+
+  const getProfileWithToken = (token: string) => {
+    dispatch(getUserProfile(token))
+    .unwrap()
+    .then((res) => {
+      navigate("/profile");
+    })
+    .catch((err) => {
+      setIsInfoTooltipOpen(true);
+      navigate("/login");
+    });
+  }
+
+  const handleGoogleLoginSubmit = (credentialResponse: CredentialResponse) => {
+    dispatch(loginUserWithGoogle(credentialResponse.credential as string))
+    .unwrap()
+    .then((res) => {
+      localStorage.setItem("token", res.token);
+      getProfileWithToken(res.token);
+    })
+    .catch((err) => {
+      setIsInfoTooltipOpen(true);
+      //navigate("/login");
+    });
+  }
 
   return (
     <>
@@ -163,6 +189,14 @@ export default function Login() {
               >
                 Sign In
               </Button>
+              <GoogleLogin
+                onSuccess={(credentialResponse) => {
+                  handleGoogleLoginSubmit(credentialResponse)
+                }}
+                onError={() => {
+                  setIsInfoTooltipOpen(true);
+                }}
+              />
               <Grid container>
                 <Grid item xs>
                   <Button variant="text">Forgot password?</Button>

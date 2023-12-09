@@ -3,7 +3,8 @@ import {
   createBrowserRouter,
   Navigate,
   RouterProvider,
-} from "react-router-dom";
+} from 'react-router-dom';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import Products from './pages/Products'
 import Root from './pages/Root';
@@ -72,7 +73,10 @@ const App = () => {
         },
         {
           path: "login",
-          element: <Login />
+          element: 
+          <GoogleOAuthProvider clientId="932782294872-0dnbeb01707rug4k607gkfj4n1fv3d88.apps.googleusercontent.com">
+            <Login />
+          </GoogleOAuthProvider>
         },
         {
           path: "register",
