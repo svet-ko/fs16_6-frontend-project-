@@ -26,9 +26,9 @@ import Product from "../types/Product";
 import SnackBarCompletion from "../components/SnackBar";
 import countAmountOfItemsByProperty from "../selectors/countAmountOfItemsByProperty";
 import { createOrderAsync } from "../redux/slices/orderSlice";
-import OrderItem from "../types/OrderItem";
 import { useState } from "react";
 import InfoTooltip from "../components/InfoTooltip";
+import OrderToCreateItem from "../types/OrderToCreateItem";
 
 const Cart = () => {
   const dispatch = useAppDispatch();
@@ -68,7 +68,7 @@ const Cart = () => {
   };
 
   const onCompletePurchase = () => {
-    const order: OrderItem[] = []
+    const order: OrderToCreateItem[] = []
     cart.forEach((cartItem) => {
       order.push({
         productId: cartItem._id,

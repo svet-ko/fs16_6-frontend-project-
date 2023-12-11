@@ -4,9 +4,11 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import Order from "../../types/Order";
 import { BASE_URL } from "../../config/api";
 import OrderItem from "../../types/OrderItem";
+import OrderToCreateItem from "../../types/OrderToCreateItem";
 
 export interface OrdersReducerState {
   orders: Order[];
+  userOrders?: Order[];
   currentOrder?: Order;
   error?: string;
   loading: boolean;
@@ -39,7 +41,7 @@ export const createOrderAsync = createAsyncThunk<
   Order,
   {
     accessToken: string,
-    order: OrderItem[],
+    order: OrderToCreateItem[],
     userId: string
   },
   { rejectValue: string }
@@ -71,7 +73,7 @@ export const fetchOrdersByUserAsync = createAsyncThunk<
 >("fetchOrdersByUserAsync", async ({ accessToken, userId }, { rejectWithValue }) => {
   try {
     const result = await axios.get(
-      `${BASE_URL}/user/${userId}`,
+      `${BASE_URL}/orders/user/${userId}`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -123,7 +125,7 @@ const ordersSlice = createSlice({
     });
 
     builder.addCase(fetchOrdersByUserAsync.fulfilled, (state, action) => {
-      state.orders = action.payload;
+      state.userOrders = action.payload;
       state.loading = false;
     });
 

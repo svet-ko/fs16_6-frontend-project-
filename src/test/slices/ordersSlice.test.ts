@@ -2,6 +2,7 @@ import { jwtFixture } from "../../config/jwtFixture";
 import { createOrderAsync, fetchOrdersAsync, fetchOrdersByUserAsync } from "../../redux/slices/orderSlice";
 import { createStore } from "../../redux/store";
 import OrderItem from "../../types/OrderItem";
+import OrderToCreateItem from "../../types/OrderToCreateItem";
 import productsData from "../data/productsData";
 import usersData from "../data/usersData";
 import ordersServer from "../shared/ordersServer";
@@ -38,7 +39,7 @@ describe("Test async thunk actions in ordersReducer", () => {
   });
 
   test("Should create and return order", async () => {
-    const order: OrderItem[] = [{
+    const order: OrderToCreateItem[] = [{
       productId: productsData[0]._id,
       quantity: 2
     }]
@@ -61,7 +62,7 @@ describe("Test async thunk actions in ordersReducer", () => {
       })
     )
     
-    const ordersLength = store.getState().ordersReducer.orders.length;
+    const ordersLength = store.getState().ordersReducer.userOrders.length;
     expect(ordersLength).toBeGreaterThan(0);
   })
 

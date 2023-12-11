@@ -32,7 +32,7 @@ export const handlers = [
         let totalPrice = 0;
         order.forEach((orderItem) => {
           const orderItemPrice = productsData.reduce((acc, product) => {
-            if (product._id === orderItem.productId) {
+            if (product._id === orderItem.productId._id) {
               return acc += product.price;
             }
             return acc;

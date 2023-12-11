@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import LoadBox from "../components/LoadBox";
 import CreateProductForm from "../components/CreateProductForm";
 import AdminDashboard from "../components/AdminDashboard";
+import OrdersTable from "../components/OrdersTable";
 
 const ProfilePage = () => {
   const { currentUser, loading, error } = useAppSelector(
@@ -56,13 +57,16 @@ const ProfilePage = () => {
                 My e-mail: {currentUser.email}
               </Typography>
               {currentUser.role === "CUSTOMER" && (
-                <Button variant="contained" component={Link} to={`/cart`}>
-                  Visit cart
-                </Button>
+                <Box>
+                  <Typography
+                    variant="body1"
+                    color="primary.dark"
+                    gutterBottom
+                    fontSize={20}
+                  >Previous Orders:</Typography>
+                  <OrdersTable/>
+                </Box>  
               )}
-            </Box>
-            <Box>
-              <CreateProductForm />
             </Box>
           </Box>
           {currentUser.role === "ADMIN" && (

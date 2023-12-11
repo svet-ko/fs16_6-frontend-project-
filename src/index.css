@@ -17,6 +17,14 @@ code {
   border-radius: 0.3em;
 }
 
+.order-image {
+  width: 45%;
+  min-height: 150px;
+  max-width: 500px;
+  object-fit: cover;
+  border-radius: 0.3em;
+}
+
 .slider-image {
   border-radius: 0.3em;
   max-width: 100%;

@@ -1,5 +1,8 @@
+import Product from "./Product";
+
 interface OrderItem {
-  productId: string,
+  _id: string,
+  productId: Product,
   quantity: number
 }
 
