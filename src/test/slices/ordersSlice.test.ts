@@ -1,8 +1,9 @@
 import { jwtFixture } from "../../config/jwtFixture";
-import { createOrderAsync, fetchOrdersAsync } from "../../redux/slices/orderSlice";
+import { createOrderAsync, fetchOrdersAsync, fetchOrdersByUserAsync } from "../../redux/slices/orderSlice";
 import { createStore } from "../../redux/store";
 import OrderItem from "../../types/OrderItem";
 import productsData from "../data/productsData";
+import usersData from "../data/usersData";
 import ordersServer from "../shared/ordersServer";
 
 let store = createStore();
@@ -51,5 +52,17 @@ describe("Test async thunk actions in ordersReducer", () => {
     );
     expect(response.payload).toEqual({_id: "2", totalPrice: productsData[0].price*2})
   });
+
+  test("Should fetch all orders by user id", async () => {
+    await store.dispatch(
+      fetchOrdersByUserAsync({
+        accessToken: jwtFixture.access_token,
+        userId: usersData[0]._id
+      })
+    )
+    
+    const ordersLength = store.getState().ordersReducer.orders.length;
+    expect(ordersLength).toBeGreaterThan(0);
+  })
 
 });

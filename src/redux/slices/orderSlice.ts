@@ -36,9 +36,13 @@ export const fetchOrdersAsync = createAsyncThunk<
 });
 
 export const createOrderAsync = createAsyncThunk<
-Order,
-{accessToken: string, order: OrderItem[], userId: string},
-{ rejectValue: string }
+  Order,
+  {
+    accessToken: string,
+    order: OrderItem[],
+    userId: string
+  },
+  { rejectValue: string }
 >("createOrderAsync", async ({accessToken, order, userId}, { rejectWithValue }) => {
   try {
     const result = await axios.post(
@@ -56,6 +60,30 @@ Order,
     return rejectWithValue(error.message);
   }
 });
+
+export const fetchOrdersByUserAsync = createAsyncThunk<
+  Order[],
+  {
+    accessToken: string,
+    userId: string
+  },
+  { rejectValue: string }
+>("fetchOrdersByUserAsync", async ({ accessToken, userId }, { rejectWithValue }) => {
+  try {
+    const result = await axios.get(
+      `${BASE_URL}/user/${userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return result.data;
+  } catch (e) {
+    const error = e as Error;
+    return rejectWithValue(error.message);
+  }
+})
 
 const ordersSlice = createSlice({
   name: "orders",
@@ -90,6 +118,20 @@ const ordersSlice = createSlice({
     });
 
     builder.addCase(createOrderAsync.rejected, (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
+    });
+
+    builder.addCase(fetchOrdersByUserAsync.fulfilled, (state, action) => {
+      state.orders = action.payload;
+      state.loading = false;
+    });
+
+    builder.addCase(fetchOrdersByUserAsync.pending, (state, action) => {
+      state.loading = true;
+    });
+
+    builder.addCase(fetchOrdersByUserAsync.rejected, (state, action) => {
       state.error = action.payload;
       state.loading = false;
     });

@@ -51,6 +51,18 @@ export const handlers = [
       return res(ctx.text("Access forbidden"));
     }
   }),
+
+  rest.get(`${BASE_URL}/user/:id`, async (req, res, ctx) => {
+    const token = req.headers.get("Authorization")?.split(" ")[1];
+    if (token === jwtFixture.access_token) {
+      const { id } = req.params;
+      const ordersByUserId = ordersData.filter((order) => order.userId === id);
+      return res(ctx.json(ordersByUserId));
+    } else {
+      ctx.status(403);
+      return res(ctx.text("Access forbidden"));
+    }
+  })
   
 ];
   
