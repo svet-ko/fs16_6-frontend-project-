@@ -17,7 +17,7 @@ export interface ProductsReducerState {
 export const initialState: ProductsReducerState = {
   products: [],
   loading: false,
-};
+}; 
 
 export const fetchAllProductsAsync = createAsyncThunk<
   Product[],
@@ -28,10 +28,14 @@ export const fetchAllProductsAsync = createAsyncThunk<
     const response = await axios.get<any, AxiosResponse<Product[]>>(
       `${BASE_URL}/products`,
       {
+        // headers: {
+        //   "Cache-control": "no-cache",
+        // },
         params: {
           ...fetchParams,
         },
-      }
+      },
+      
     );
     return response.data;
   } catch (err) {
