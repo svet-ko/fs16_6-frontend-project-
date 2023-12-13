@@ -28,9 +28,9 @@ export const fetchAllProductsAsync = createAsyncThunk<
     const response = await axios.get<any, AxiosResponse<Product[]>>(
       `${BASE_URL}/products`,
       {
-        // headers: {
-        //   "Cache-control": "no-cache",
-        // },
+        headers: {
+          "Cache-control": "no-cache",
+        },
         params: {
           ...fetchParams,
         },
