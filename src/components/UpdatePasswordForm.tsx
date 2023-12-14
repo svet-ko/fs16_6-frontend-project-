@@ -13,51 +13,36 @@ import UserToCreate from "../types/UserToCreate";
 import { updateUserAsync } from "../redux/slices/userSlice";
 import useAppSelector from "../hooks/useAppSelector";
 
-type UpdateUserFormProps = {
-  userId: string;
-};
-
-const UpdateUserForm = ({
-  userId,
-}: UpdateUserFormProps) => {
+const UpdatePasswordForm = () => {
   const dispatch = useAppDispatch();
-  const { currentUser, loading, error } = useAppSelector(
-    (state) => state.usersReducer
-  );
 
-  const [name, setName] = useState<string | undefined>(currentUser && currentUser.name ? currentUser.name : undefined);
-  const [address, setAddress] = useState<string | undefined>(currentUser && currentUser.address ? currentUser.address : undefined);
-  const [avatar, setAvatar] = useState<string | undefined>(currentUser && currentUser.avatar ? currentUser.avatar : undefined);
+  const [oldPassword, setOldPassword] = useState<string | undefined>();
+  const [newPassword, setNewPassword] = useState<string | undefined>();
+  const [duplicatePassword, setDuplicatePassword] = useState<string | undefined>();
 
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState<boolean>(false);
   const [isInfoTooltipSuccessed, setIsInfoTooltipSuccessed] =
     useState<boolean>(false);
   const [errorText, setErrorText] = useState<string>("Something went wrong");
 
+  const { currentUser, loading, error } = useAppSelector(
+    (state) => state.usersReducer
+  );
+
   const jwt = localStorage.getItem('token');
 
   const isFormValid =
-    !!name || !!address || !!avatar;
+    !!oldPassword && !!newPassword && !!duplicatePassword && newPassword===duplicatePassword;
 
   const userToUpdate: Partial<UserToCreate> = {};
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (name) {
-      userToUpdate.name = name as string;
-    }
-
-    if (address) {
-      userToUpdate.address = address as string;
-    }
-
-    if (avatar) {
-      userToUpdate.avatar = avatar as string;
-    }
+      userToUpdate.password = newPassword as string;
 
     dispatch(updateUserAsync({ 
       accessToken: jwt as string,
-      userId: userId,
+      userId: currentUser?._id as string,
       userUpdates: userToUpdate
     }))
       .unwrap()
@@ -96,36 +81,36 @@ const UpdateUserForm = ({
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
-                autoComplete="name"
-                name="name"
+                autoComplete="old password"
+                name="oldPassword"
                 fullWidth
-                id="name"
-                label="Name"
+                id="oldPassword"
+                label="Old password"
                 autoFocus
-                value={name || ""}
-                onChange={(e) => setName(e.target.value)}
+                value={oldPassword || ""}
+                onChange={(e) => setOldPassword(e.target.value)}
                 sx={{ zIndex: 0 }}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                id="address"
-                label="Address"
-                name="address"
-                value={address || ""}
-                onChange={(e) => setAddress(e.target.value)}
+                id="newPassword"
+                label="New password"
+                name="newPassword"
+                value={newPassword || ""}
+                onChange={(e) => setNewPassword(e.target.value)}
                 sx={{ zIndex: 0 }}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                id="avatar"
-                label="Avatar"
-                name="avatar"
-                value={avatar || ""}
-                onChange={(e) => setAvatar(e.target.value)}
+                id="duplicatePassword"
+                label="Duplicate new password"
+                name="duplicatePassword"
+                value={duplicatePassword || ""}
+                onChange={(e) => setDuplicatePassword(e.target.value)}
                 sx={{ zIndex: 0 }}
               />
             </Grid>
@@ -137,7 +122,7 @@ const UpdateUserForm = ({
             sx={{ mt: 3, mb: 2 }}
             disabled={!isFormValid}
           >
-            update user
+            update password
           </Button>
         </Box>
       </Box>
@@ -152,4 +137,4 @@ const UpdateUserForm = ({
   );
 };
 
-export default UpdateUserForm;
+export default UpdatePasswordForm;
