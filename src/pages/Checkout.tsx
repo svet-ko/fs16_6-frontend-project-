@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 // redux
-import { useSelector } from "react-redux";
 import { AppState } from "../redux/store";
 
 // MUI
 import {
-  Autocomplete,
   Box,
   Button,
   Container,
@@ -26,10 +24,9 @@ import {
 import { useNavigate } from "react-router-dom";
 import useAppDispatch from "../hooks/useDispatch";
 import useAppSelector from "../hooks/useAppSelector";
-import UserToCreate from "../types/UserToCreate";
-import { updateUserAsync } from "../redux/slices/userSlice";
 import { createPaymentAsync } from "../redux/slices/paymentSlice";
 import PaymentToCreate from "../types/PaymentToCreate";
+import ShipmentForm from "../components/ShipmentForm";
 
 // form stepper steps
 const steps = ["Shipping Address", "Payment Details"];
@@ -46,16 +43,13 @@ function Checkout() {
   // active step
   const [activeStep, setActiveStep] = useState(0);
 
-  //shipment info
-  const [address, setAddress] = useState<string | undefined>(currentUser && currentUser.address ? currentUser.address : undefined);
-  const userToUpdate: Partial<UserToCreate> = {};
-  const isShipmentFormValid =!!address;
-
   //payment info
   const [method, setMethod] = useState<"credit_card" | "bank_transfer" | "paypal">("credit_card");
   const methods = ["credit_card", "bank_transfer", "paypal"];
   const [bankName, setBankName] = useState<string | undefined>();
   const [accountNumber, setAccountNumber] = useState<string | undefined>();
+
+  const isPaymentFormValid =!!method && !!bankName && !!accountNumber;
 
   // handle next step in stepper
   const handleNext = () => {
@@ -63,24 +57,6 @@ function Checkout() {
   };
 
   // submit handler
-
-  const handleShipmentSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    userToUpdate.address = address as string;
-
-    dispatch(updateUserAsync({ 
-      accessToken: jwt as string,
-      userId: currentUser?._id as string,
-      userUpdates: userToUpdate
-    }))
-      .unwrap()
-      .then(() => {
-        handleNext()
-      })
-      .catch(() => {
-        navigate("/error")
-      })
-  };
 
   const handlePaymentSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -137,31 +113,7 @@ function Checkout() {
 
           <Box sx={{ paddingTop: 4 }}>
             {activeStep === 0 ? (
-              <Box>
-                <Typography variant="h5" gutterBottom>
-                  Your current address is:
-                </Typography>
-                <Box component="form" noValidate onSubmit={handleShipmentSubmit} sx={{ mt: 3 }}>
-                  <TextField
-                    fullWidth
-                    id="address"
-                    label="Address"
-                    name="address"
-                    value={address || ""}
-                    onChange={(e) => setAddress(e.target.value)}
-                    sx={{ zIndex: 0 }}
-                  />
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
-                    disabled={!isShipmentFormValid}
-                  >
-                    update shipment address
-                  </Button>
-                </Box>
-              </Box>
+              <ShipmentForm onItemChange={handleNext}/>
             ) : (
               <Box>
                 <Typography variant="h5" gutterBottom>
@@ -218,7 +170,7 @@ function Checkout() {
                     fullWidth
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
-                    disabled={!isShipmentFormValid}
+                    disabled={!isPaymentFormValid}
                   >
                     Proceed to payment
                   </Button>

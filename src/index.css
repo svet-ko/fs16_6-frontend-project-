@@ -20,6 +20,7 @@ code {
 .order-image {
   width: 45%;
   min-height: 150px;
+  max-height: 200px;
   max-width: 500px;
   object-fit: cover;
   border-radius: 0.3em;
