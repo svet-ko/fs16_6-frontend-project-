@@ -10,7 +10,7 @@ import { Button, ButtonGroup, Container, Typography } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {Elements} from '@stripe/react-stripe-js';
 import {loadStripe} from '@stripe/stripe-js';
 
@@ -59,6 +59,8 @@ const Cart = () => {
   const [errorText, setErrorText] = useState<string>("Something went wrong");
   const [successText, setSuccessText] = useState<string>("");
 
+  const navigate = useNavigate();
+
   const onAddItem = (product: Product) => {
     dispatch(addToCart(product));
   };
@@ -90,7 +92,6 @@ const Cart = () => {
     }))
     .unwrap()
     .then(() => {
-      console.log(currentOrder);
       dispatch(removeAllProductsFromCart());
       setIsInfoTooltipSuccessed(true);
       setSuccessText(`New order was created! Total price: ${currentOrder?.totalPrice}`);
@@ -158,9 +159,6 @@ const Cart = () => {
             buttonSize="large"
             handleButtonClick={onCompletePurchase}
           />
-          {/* <Elements stripe={stripePromise} options={options}>
-            <CheckoutForm />
-          </Elements> */}
           <TableContainer component={Paper} sx={{ mb: "1em" }}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
@@ -229,7 +227,10 @@ const Cart = () => {
       )}
       <InfoTooltip
         isOpen={isInfoTooltipOpen}
-        onClose={() => setIsInfoTooltipOpen(false)}
+        onClose={() => {
+          setIsInfoTooltipOpen(false);
+          navigate("/checkout");
+        }}
         isSuccessed={isInfoTooltipSuccessed}
         successText={successText}
         errorText={errorText}

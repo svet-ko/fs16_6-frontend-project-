@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -15,22 +15,18 @@ import useAppSelector from "../hooks/useAppSelector";
 
 const UpdatePasswordForm = () => {
   const dispatch = useAppDispatch();
-
   const [oldPassword, setOldPassword] = useState<string | undefined>();
   const [newPassword, setNewPassword] = useState<string | undefined>();
   const [duplicatePassword, setDuplicatePassword] = useState<string | undefined>();
-
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState<boolean>(false);
   const [isInfoTooltipSuccessed, setIsInfoTooltipSuccessed] =
     useState<boolean>(false);
   const [errorText, setErrorText] = useState<string>("Something went wrong");
-
   const { currentUser, loading, error } = useAppSelector(
     (state) => state.usersReducer
   );
-
+  
   const jwt = localStorage.getItem('token');
-
   const isFormValid =
     !!oldPassword && !!newPassword && !!duplicatePassword && newPassword===duplicatePassword;
 
@@ -38,7 +34,9 @@ const UpdatePasswordForm = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-      userToUpdate.password = newPassword as string;
+
+    userToUpdate.oldPassword = oldPassword as string;
+    userToUpdate.password = newPassword as string;
 
     dispatch(updateUserAsync({ 
       accessToken: jwt as string,
@@ -47,14 +45,14 @@ const UpdatePasswordForm = () => {
     }))
       .unwrap()
       .then(() => {
-        setIsInfoTooltipSuccessed(true);
+        setIsInfoTooltipSuccessed(true)
       })
       .catch((err) => {
         setErrorText(err);
         setIsInfoTooltipSuccessed(false);
       })
-      .finally(() => {
-        setIsInfoTooltipOpen(true);
+      .finally(()=>{
+        setIsInfoTooltipOpen(true)
       });
   };
 
@@ -128,7 +126,9 @@ const UpdatePasswordForm = () => {
       </Box>
       <InfoTooltip
         isOpen={isInfoTooltipOpen}
-        onClose={() => setIsInfoTooltipOpen(false)}
+        onClose={() => {
+          setIsInfoTooltipOpen(false);
+        }}
         isSuccessed={isInfoTooltipSuccessed}
         successText="User successfully updated"
         errorText={errorText}

@@ -2,7 +2,6 @@ import { rest } from "msw";
 import { setupServer } from "msw/node";
 
 import { BASE_URL } from "../../config/api";
-import Order from "../../types/User";
 import { jwtFixture } from "../../config/jwtFixture";
 import ordersData from "../data/ordersData";
 import usersData from "../data/usersData";

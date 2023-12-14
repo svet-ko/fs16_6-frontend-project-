@@ -9,6 +9,7 @@ import OrdersTable from "../components/OrdersTable";
 import UpdateUserForm from "../components/UpdateUserForm";
 import Error from "./Error";
 import UpdatePasswordForm from "../components/UpdatePasswordForm";
+import CreateProductForm from "../components/CreateProductForm";
 
 const ProfilePage = () => {
   const { currentUser, loading, error } = useAppSelector(
@@ -29,10 +30,10 @@ const ProfilePage = () => {
         minHeight: "100vh",
       }}
     >
-      {error && !loading && <Error message={error} />}
+      {error && !loading && !currentUser && <Error message={error} />}
       {loading && !error && <LoadBox />}
 
-      {!error && !loading && currentUser && (
+      {!loading && currentUser && (
         <>
           <Box
             sx={{
@@ -74,6 +75,9 @@ const ProfilePage = () => {
               >
                 My e-mail: {currentUser.email}
               </Typography>
+
+              {currentUser.role === "ADMIN" && (<CreateProductForm/>)}
+
               <ButtonGroup>
                 <Button
                   sx={{

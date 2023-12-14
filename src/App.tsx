@@ -21,9 +21,9 @@ import Home from './pages/Home';
 import SingleProduct from './pages/SingleProduct';
 import { fetchAllCategoriesAsync } from './redux/slices/categoriesSlice';
 import { ThemeProvider } from './ThemeProvider';
+import Checkout from './pages/Checkout';
 
 const App = () => {
-
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -87,6 +87,13 @@ const App = () => {
           element:  
           <CheckAuth>
             <Profile />
+          </CheckAuth>
+        },
+        {
+          path: "checkout",
+          element:  
+          <CheckAuth>
+            <Checkout />
           </CheckAuth>
         },
         {
