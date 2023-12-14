@@ -11,6 +11,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
+import {Elements} from '@stripe/react-stripe-js';
+import {loadStripe} from '@stripe/stripe-js';
 
 import useAppSelector from "../hooks/useAppSelector";
 import { AppState } from "../redux/store";
@@ -31,6 +33,12 @@ import InfoTooltip from "../components/InfoTooltip";
 import OrderToCreateItem from "../types/OrderToCreateItem";
 
 const Cart = () => {
+  const stripePromise = loadStripe('pk_test_51OMvRJH1G93FQav04RhOyBzdIZNbWtkN45BMKxY5etQ9guk4h7P5s9gRu79WL3osOx9UYoJY6ziSzhnenl21cBPw002A5C71on');
+  const options = {
+    // passing the client secret obtained from the server
+    clientSecret: '{{CLIENT_SECRET}}',
+  };
+
   const dispatch = useAppDispatch();
   const cart = useAppSelector((state: AppState) => state.cartReducer);
   const { currentUser } = useAppSelector(
@@ -150,6 +158,9 @@ const Cart = () => {
             buttonSize="large"
             handleButtonClick={onCompletePurchase}
           />
+          {/* <Elements stripe={stripePromise} options={options}>
+            <CheckoutForm />
+          </Elements> */}
           <TableContainer component={Paper} sx={{ mb: "1em" }}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>

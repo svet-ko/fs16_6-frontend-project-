@@ -26,7 +26,6 @@ import { addToCart } from "../redux/slices/cartSlice";
 import InfoTooltip from "../components/InfoTooltip";
 import UpdateProductForm from "../components/UpdateProductForm";
 import ImageSlider from "../components/ImageSlider";
-import CreateProductForm from "../components/CreateProductForm";
 
 const SingleProduct = () => {
   const { currentProduct, loading, error } = useAppSelector(
@@ -218,9 +217,6 @@ const SingleProduct = () => {
             )}
           </>
         )}
-        <Box>
-          <CreateProductForm />
-        </Box>
       </Box>
       <InfoTooltip
         isOpen={isInfoTooltipOpen}

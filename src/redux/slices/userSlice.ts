@@ -15,8 +15,8 @@ export interface UserReducerState {
 }
 
 export interface UserProfileRequest {
-  id: string,
-  accessToken: string
+  id: string;
+  accessToken: string;
 }
 
 export const initialState: UserReducerState = {
@@ -34,6 +34,27 @@ export const fetchAllUsersAsync = createAsyncThunk<
     return result.data;
   } catch (e) {
     const error = e as Error;
+    return rejectWithValue(error.message);
+  }
+});
+
+export const fetchUserByIdAsync = createAsyncThunk<
+  User,
+  {
+    accessToken: string;
+    userId: string;
+  },
+  { rejectValue: string }
+>("fetchUserByIdAsync", async ({ accessToken, userId }, { rejectWithValue }) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/users/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return response.data;
+  } catch (err) {
+    const error = err as AxiosError;
     return rejectWithValue(error.message);
   }
 });
@@ -79,7 +100,9 @@ export const loginUserWithGoogle = createAsyncThunk<
   { rejectValue: string }
 >("authUserWithGoogle", async (token, { rejectWithValue }) => {
   try {
-    const result = await axios.post(`${BASE_URL}/auth/login-google?id_token=${token}`);
+    const result = await axios.post(
+      `${BASE_URL}/auth/login-google?id_token=${token}`
+    );
     if (typeof result.data === "string") {
       throw new Error("User was not authenticated");
     }
@@ -88,7 +111,7 @@ export const loginUserWithGoogle = createAsyncThunk<
     const error = err as AxiosError;
     return rejectWithValue(error.message);
   }
-})
+});
 
 export const registerUserAsync = createAsyncThunk<
   User,
@@ -103,6 +126,38 @@ export const registerUserAsync = createAsyncThunk<
     return rejectWithValue(error.message);
   }
 });
+
+export const updateUserAsync = createAsyncThunk<
+  User,
+  {
+    userUpdates: Partial<UserToCreate>;
+    accessToken: string;
+    userId: string;
+  },
+  { rejectValue: string }
+>(
+  "updateUserAsync",
+  async (
+    { userUpdates, accessToken, userId },
+    { rejectWithValue, dispatch }
+  ) => {
+    try {
+      const response = await axios.put(
+        `${BASE_URL}/users/${userId}`,
+        userUpdates,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError;
+      return rejectWithValue(error.message);
+    }
+  }
+);
 
 const usersSlice = createSlice({
   name: "users",
@@ -176,6 +231,38 @@ const usersSlice = createSlice({
     });
 
     builder.addCase(loginUserWithGoogle.rejected, (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
+    });
+
+    builder.addCase(updateUserAsync.fulfilled, (state, action) => {
+      if (state.currentUser && state.currentUser.role === "CUSTOMER") {
+        state.currentUser = action.payload;
+      }
+      state.error = undefined;
+      state.loading = false;
+    });
+
+    builder.addCase(updateUserAsync.pending, (state, action) => {
+      state.loading = true;
+    });
+
+    builder.addCase(updateUserAsync.rejected, (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
+    });
+
+    builder.addCase(fetchUserByIdAsync.fulfilled, (state, action) => {
+      state.currentUser = action.payload;
+      state.loading = false;
+      state.error = undefined;
+    });
+
+    builder.addCase(fetchUserByIdAsync.pending, (state, action) => {
+      state.loading = true;
+    });
+
+    builder.addCase(fetchUserByIdAsync.rejected, (state, action) => {
       state.error = action.payload;
       state.loading = false;
     });

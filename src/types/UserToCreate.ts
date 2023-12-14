@@ -6,6 +6,7 @@ interface UserToCreate {
   name: string,
   role: Role,
   avatar: string,
+  address?: string
 }
 
 export default UserToCreate;

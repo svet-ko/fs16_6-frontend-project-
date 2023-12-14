@@ -1,17 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Box, Button, ButtonGroup, Container, Typography } from "@mui/material";
+
 import useAppSelector from "../hooks/useAppSelector";
-import { Box, Button, Container, Typography } from "@mui/material";
 import StyledImage from "../styles/components/StyledImage";
-import { Link } from "react-router-dom";
 import LoadBox from "../components/LoadBox";
-import CreateProductForm from "../components/CreateProductForm";
 import AdminDashboard from "../components/AdminDashboard";
 import OrdersTable from "../components/OrdersTable";
+import useAppDispatch from "../hooks/useDispatch";
+import { fetchUserByIdAsync } from "../redux/slices/userSlice";
+import UpdateUserForm from "../components/UpdateUserForm";
+import Error from "./Error";
 
 const ProfilePage = () => {
   const { currentUser, loading, error } = useAppSelector(
     (state) => state.usersReducer
   );
+
+  // const dispatch = useAppDispatch();
+  // const navigate = useNavigate();
+  // const jwt = localStorage.getItem("token");
+  const [isUpdateForm, setIsUpdateForm] = useState<boolean>(false);
+  const [isUpdatePassword, setIsUpdatePassword] = useState<boolean>(false);
+
+  // useEffect(() => {
+  //   getUser();
+  // }, []);
+
+  // const getUser = async () => {
+  //   dispatch(fetchUserByIdAsync({
+  //     accessToken: jwt as string,
+  //     userId: currentUser?._id as string
+  //   }))
+  //     .unwrap()
+  //     .then(() => {})
+  //     .catch((err) => {
+  //       navigate("error");
+  //     });
+  // };
 
   return (
     <Container
@@ -22,6 +48,7 @@ const ProfilePage = () => {
         minHeight: "100vh",
       }}
     >
+      {error && !loading && <Error message={error} />}
       {loading && !error && <LoadBox />}
 
       {!error && !loading && currentUser && (
@@ -38,7 +65,17 @@ const ProfilePage = () => {
               rowGap: "1em",
             }}
           >
-            <Box>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "left",
+                flexWrap: "wrap",
+                p: "2em",
+                mb: "2em",
+                rowGap: "1em",
+              }}
+            >
               <Typography
                 variant="h2"
                 component="h1"
@@ -56,6 +93,37 @@ const ProfilePage = () => {
               >
                 My e-mail: {currentUser.email}
               </Typography>
+              <ButtonGroup>
+                <Button
+                  sx={{
+                    borderColor: "primary.dark",
+                    color: "primary.dark",
+                  }}
+                  variant="outlined"
+                  onClick={() => setIsUpdateForm(true)}
+                >
+                  Update my profile
+                </Button>
+                <Button
+                  sx={{
+                    borderColor: "primary.dark",
+                    color: "primary.dark",
+                  }}
+                  variant="outlined"
+                  onClick={() => setIsUpdatePassword(true)}
+                >
+                  Update password
+                </Button>
+              </ButtonGroup>
+
+              {isUpdateForm && (
+                <>
+                  <UpdateUserForm userId={currentUser._id} />
+                  <Button onClick={() => setIsUpdateForm(false)}>
+                    Hide form
+                  </Button>
+                </>
+              )}
               {currentUser.role === "CUSTOMER" && (
                 <Box>
                   <Typography
@@ -63,9 +131,11 @@ const ProfilePage = () => {
                     color="primary.dark"
                     gutterBottom
                     fontSize={20}
-                  >Previous Orders:</Typography>
-                  <OrdersTable/>
-                </Box>  
+                  >
+                    Previous Orders:
+                  </Typography>
+                  <OrdersTable />
+                </Box>
               )}
             </Box>
           </Box>

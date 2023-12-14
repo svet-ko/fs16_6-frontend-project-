@@ -7,6 +7,7 @@ interface User {
   name: string,
   role: Role,
   avatar: string,
+  address?: string,
   creationAt?: string,
   updatedAt?: string
 }
