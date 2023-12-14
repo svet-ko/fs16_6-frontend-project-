@@ -4,6 +4,7 @@ import axios from "axios";
 import { BASE_URL } from "../../config/api";
 import OrderToCreateItem from "../../types/OrderToCreateItem";
 import Payment from "../../types/Payment";
+import PaymentToCreate from "../../types/PaymentToCreate";
 
 export interface PaymentsReducerState {
   payments: Payment[];
@@ -39,15 +40,14 @@ export const createPaymentAsync = createAsyncThunk<
   Payment,
   {
     accessToken: string,
-    order: OrderToCreateItem[],
-    userId: string
+    payment: PaymentToCreate,
   },
   { rejectValue: string }
->("createPaymentAsync", async ({accessToken, order, userId}, { rejectWithValue }) => {
+>("createPaymentAsync", async ({accessToken, payment}, { rejectWithValue }) => {
   try {
     const result = await axios.post(
-      `${BASE_URL}/orders/checkout/${userId}`,
-      order,
+      `${BASE_URL}/payments`,
+      payment,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
