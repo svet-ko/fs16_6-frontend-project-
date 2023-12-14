@@ -7,7 +7,8 @@ import {
   Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import AdbIcon from "@mui/icons-material/Adb";
+import CookieIcon from '@mui/icons-material/Cookie';
+//import AdbIcon from "@mui/icons-material/Adb";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -29,7 +30,7 @@ const NavToolBar = () => {
   };
   return (
     <>
-      <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+      <CookieIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
       <Typography
         variant="h6"
         noWrap
@@ -91,7 +92,7 @@ const NavToolBar = () => {
         </Menu>
       </Box>
 
-      <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+      <CookieIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
       <Typography
         variant="h5"
         noWrap

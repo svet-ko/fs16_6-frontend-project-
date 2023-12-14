@@ -37,6 +37,7 @@ code {
 
 .banner {
   max-width: 1000px;
+  max-height: 300px;
 }
 
 .popup {
