@@ -7,6 +7,10 @@ import categoriesData from "../data/categoriesData";
 import { BASE_URL } from "../../config/api";
 
 export const handlers = [
+  rest.get(`${BASE_URL}/products`, async (req, res, ctx) => {
+    return res(ctx.json(productsData));
+  }),
+
   rest.get(`${BASE_URL}/products/:id`, async (req, res, ctx) => {
     const { id } = req.params;
     const index = productsData.findIndex((p) => p._id === id);
@@ -63,8 +67,8 @@ export const handlers = [
 
   rest.put(`${BASE_URL}/products/:id`, async (req, res, ctx) => {
     const input: Partial<Product> = await req.json();
-    const { _id } = req.params;
-    const index = productsData.findIndex((p) => p._id === _id);
+    const { id } = req.params;
+    const index = productsData.findIndex((p) => p._id === id);
     try {
       if (index > -1) {
         return res(
