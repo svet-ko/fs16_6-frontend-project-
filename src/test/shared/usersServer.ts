@@ -17,10 +17,9 @@ export const handlers = [
       (user) => user.email === email && user.password === password
     );
     if (foundUser) {
-      const refreshToken = jwtFixture.refresh_token;
       const accessToken = jwtFixture.access_token + "_" + foundUser._id;
       return res(
-        ctx.json({ access_token: accessToken, refresh_token: refreshToken })
+        ctx.json({ token: accessToken, user: foundUser })
       );
     } else {
       ctx.status(401);
@@ -41,7 +40,7 @@ export const handlers = [
     }
   }),
 
-  rest.post(`${BASE_URL}/users`, async (req, res, ctx) => {
+  rest.post(`${BASE_URL}/auth/signup`, async (req, res, ctx) => {
     const user = await req.json();
     const expectedUser: User = {
       _id: usersData.length + 1 + '',
