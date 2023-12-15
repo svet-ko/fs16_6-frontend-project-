@@ -13,6 +13,7 @@ import { createStore } from "../../redux/store";
 import productsServer from "../shared/productsServer";
 import ProductToCreate from "../../types/ProductToCreate";
 import UpdationOfProductRequest from "../../types/UpdationOfProductRequest";
+import { jwtFixture } from "../../config/jwtFixture";
 
 let store = createStore();
 
@@ -84,7 +85,7 @@ describe("Test async thunk actions in productsReducer", () => {
   });
 
   test("Should delete an existing product", async () => {
-    const resultAction = await store.dispatch(deleteProductAsync({ accessToken: "token", productId: "1" }));
+    const resultAction = await store.dispatch(deleteProductAsync({ accessToken: jwtFixture.access_token, productId: "1" }));
     const loadingState = store.getState().usersReducer.loading;
     expect(loadingState).toBe(false);
     console.log(resultAction.payload);
@@ -92,7 +93,7 @@ describe("Test async thunk actions in productsReducer", () => {
   });
 
   test("Should not delete product which do not exist", async () => {
-    const resultAction = await store.dispatch(deleteProductAsync({ accessToken: "token", productId: "501"}));
+    const resultAction = await store.dispatch(deleteProductAsync({ accessToken: jwtFixture.access_token, productId: "501"}));
     const loadingState = store.getState().usersReducer.loading;
     expect(loadingState).toBe(false);
     expect(resultAction.payload).toBe("Product was not deleted");
@@ -124,7 +125,7 @@ describe("Test async thunk actions in productsReducer", () => {
       updatedAt: "2023-01-03T16:51:33.000Z",
     };
 
-    const resultAction = await store.dispatch(createProductAsync({ accessToken: "token", product: newProduct}));
+    const resultAction = await store.dispatch(createProductAsync({ accessToken: jwtFixture.access_token, product: newProduct}));
     const loadingState = store.getState().usersReducer.loading;
     expect(loadingState).toBe(false);
     expect(resultAction.payload).toEqual(expectedProduct);
@@ -150,7 +151,7 @@ describe("Test async thunk actions in productsReducer", () => {
       statusCode: 400,
     };
 
-    const resultAction = await store.dispatch(createProductAsync({ accessToken: "token", product: input}));
+    const resultAction = await store.dispatch(createProductAsync({ accessToken: jwtFixture.access_token, product: input}));
     const loadingState = store.getState().usersReducer.loading;
     expect(loadingState).toBe(false);
     expect(resultAction.payload).toEqual(expectedResponse);
@@ -158,7 +159,7 @@ describe("Test async thunk actions in productsReducer", () => {
 
   test("Should update product", async () => {
     const input: UpdationOfProductRequest = {
-      accessToken: "token",
+      accessToken: jwtFixture.access_token,
       id: "1",
       update: {
         price: 200,
@@ -188,7 +189,7 @@ describe("Test async thunk actions in productsReducer", () => {
 
   test("should not update product with wrong id", async () => {
     const input: UpdationOfProductRequest = {
-      accessToken: "token",
+      accessToken: jwtFixture.access_token,
       id: "150",
       update: {
         price: 200,
