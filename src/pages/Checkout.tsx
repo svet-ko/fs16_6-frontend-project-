@@ -27,6 +27,7 @@ import useAppSelector from "../hooks/useAppSelector";
 import { createPaymentAsync } from "../redux/slices/paymentSlice";
 import PaymentToCreate from "../types/PaymentToCreate";
 import ShipmentForm from "../components/ShipmentForm";
+import Method from "../types/Method";
 
 // form stepper steps
 const steps = ["Shipping Address", "Payment Details"];
@@ -39,24 +40,19 @@ function Checkout() {
     (state) => state.usersReducer
   );
   const { currentOrder } = useAppSelector((state: AppState) => state.ordersReducer); 
-
-  // active step
+  
   const [activeStep, setActiveStep] = useState(0);
 
-  //payment info
-  const [method, setMethod] = useState<"credit_card" | "bank_transfer" | "paypal">("credit_card");
+  const [method, setMethod] = useState<Method>("credit_card");
   const methods = ["credit_card", "bank_transfer", "paypal"];
   const [bankName, setBankName] = useState<string | undefined>();
   const [accountNumber, setAccountNumber] = useState<string | undefined>();
 
   const isPaymentFormValid =!!method && !!bankName && !!accountNumber;
 
-  // handle next step in stepper
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
-
-  // submit handler
 
   const handlePaymentSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -151,8 +147,8 @@ function Checkout() {
                         labelId="form-select-category-label"
                         value={method}
                         label="Methods"
-                        onChange={(e: SelectChangeEvent<"credit_card" | "bank_transfer" | "paypal">) => {
-                          const method = e.target.value as "credit_card" | "bank_transfer" | "paypal";
+                        onChange={(e: SelectChangeEvent<Method>) => {
+                          const method = e.target.value as Method;
                           setMethod(method)
                         }}
                       >
