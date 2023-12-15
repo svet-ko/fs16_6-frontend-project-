@@ -13,7 +13,7 @@ import {
 import Product from "../types/Product";
 import useAppDispatch from "../hooks/useDispatch";
 import { addToCart } from "../redux/slices/cartSlice";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { fetchAllProductsAsync } from "../redux/slices/productsSlice";
 
 type ProductCardProps = {
@@ -36,7 +36,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
       .then(() => {})
       .catch((err) => navigate("/error"));
   };
-  const isProductsPage = !!(window.location.pathname === "/products");
+
+  const location = useLocation();
+  const isProductsPage = !!(location.pathname === "/products");
   const linkToSingleProduct = isProductsPage
     ? `${product._id}`
     : `/products/${product._id}`;

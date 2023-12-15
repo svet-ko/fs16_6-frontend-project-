@@ -37,7 +37,7 @@ const CategoriesFormControl = ({
         value={selectValue}
         label="Categories"
         onChange={onItemChange}
-        disabled={!!loading && !!error}
+        disabled={loading && !!error}
       >
         {categories.map((category) => (
           <MenuItem key={category._id} value={category._id}>

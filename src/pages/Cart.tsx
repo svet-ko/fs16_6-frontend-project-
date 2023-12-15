@@ -11,8 +11,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import { Link, useNavigate } from "react-router-dom";
-import {Elements} from '@stripe/react-stripe-js';
-import {loadStripe} from '@stripe/stripe-js';
+import { useState } from "react";
 
 import useAppSelector from "../hooks/useAppSelector";
 import { AppState } from "../redux/store";
@@ -28,16 +27,10 @@ import Product from "../types/Product";
 import SnackBarCompletion from "../components/SnackBar";
 import countAmountOfItemsByProperty from "../selectors/countAmountOfItemsByProperty";
 import { createOrderAsync } from "../redux/slices/orderSlice";
-import { useState } from "react";
 import InfoTooltip from "../components/InfoTooltip";
 import OrderToCreateItem from "../types/OrderToCreateItem";
 
 const Cart = () => {
-  const stripePromise = loadStripe('pk_test_51OMvRJH1G93FQav04RhOyBzdIZNbWtkN45BMKxY5etQ9guk4h7P5s9gRu79WL3osOx9UYoJY6ziSzhnenl21cBPw002A5C71on');
-  const options = {
-    // passing the client secret obtained from the server
-    clientSecret: '{{CLIENT_SECRET}}',
-  };
 
   const dispatch = useAppDispatch();
   const cart = useAppSelector((state: AppState) => state.cartReducer);
