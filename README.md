@@ -55,8 +55,10 @@ Visit [this link](https://main--marvelous-torte-2b4ae0.netlify.app/).
 ## Getting started
 
 1. Clone this repo with `git clone https://github.com/svet-ko/fs16_6-frontend-project-` command.
-2. Install project dependencies using `npm ci` or `npm install` command.
-3. Run the app with `npm start`.
+2. Install project dependencies using `yarn install` command.
+3. Create .env.production and .env.development files and add there local and production links to your backend repo.
+    Use variable name from the .env.example
+3. Run the app with `yarn start`.
 
 Runs the app in the development mode.
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
