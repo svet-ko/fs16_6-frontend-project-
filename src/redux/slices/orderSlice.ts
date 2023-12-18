@@ -1,9 +1,8 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 import Order from "../../types/Order";
 import { BASE_URL } from "../../config/api";
-import OrderItem from "../../types/OrderItem";
 import OrderToCreateItem from "../../types/OrderToCreateItem";
 
 export interface OrdersReducerState {

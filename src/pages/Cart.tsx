@@ -38,7 +38,6 @@ const Cart = () => {
     (state) => state.usersReducer
   );
   const jwt = localStorage.getItem('token');
-  const { currentOrder } = useAppSelector((state: AppState) => state.ordersReducer);
 
   const productsInCartPrice = cart.reduce((accumulator, currentValue) => {
     return accumulator + currentValue.price * currentValue.quantity;
@@ -87,7 +86,7 @@ const Cart = () => {
     .then(() => {
       dispatch(removeAllProductsFromCart());
       setIsInfoTooltipSuccessed(true);
-      setSuccessText(`New order was created! Total price: ${currentOrder?.totalPrice}`);
+      setSuccessText(`New order was created!`);
     })
     .catch((err) => {
       setErrorText(err);
