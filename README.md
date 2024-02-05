@@ -25,6 +25,12 @@ This project requires implementation of TypeScript and SASS.
 - styled-components
 - Material UI
 
+##Architecture
+
+Features:
+
+![Feature_diagram](https://drive.google.com/uc?export=view&id=15TaZvyZgdZbWuRAlfqyAZ85hvgDEknbL)
+
 ## Project structure
 
 ```
