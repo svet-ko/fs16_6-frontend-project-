@@ -31,6 +31,10 @@ Features:
 
 ![Feature_diagram](https://drive.google.com/uc?export=view&id=15TaZvyZgdZbWuRAlfqyAZ85hvgDEknbL)
 
+Data flow diagram:
+
+![Feature_diagram](https://drive.google.com/uc?export=view&id=1oJ1mSLyMMDgrnLXo5JCUijWcBM0qYa2m)
+
 ## Project structure
 
 ```
