@@ -12,6 +12,7 @@ This project requires implementation of TypeScript and SASS.
 ## Table of content
 
 - [Technologies](#technologies)
+- [Architecture](#architecture)
 - [Project structure](#project-structure)
 - [Getting started](#getting-started)
 - [Deployment link](#deployment-link)
@@ -25,7 +26,7 @@ This project requires implementation of TypeScript and SASS.
 - styled-components
 - Material UI
 
-##Architecture
+## Architecture
 
 Features:
 
@@ -38,7 +39,6 @@ Data flow diagram:
 ## Project structure
 
 ```
-.
 ├── public
 └── src
     ├── components
